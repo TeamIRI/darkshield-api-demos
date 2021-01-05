@@ -68,9 +68,10 @@ def setup():
 
     file_mask_context = {
         "name": file_mask_context_name,
-        "maskContexts": [
+        "rules": [
           {
-            "name": mask_context_name
+            "name": mask_context_name,
+            "type": "maskContext"
           }
         ]
     }
