@@ -21,6 +21,8 @@ def setup():
       
     _download_model('en-ner-person.bin')
     _download_model('en-sent.bin')
+    _download_model('en-token.bin')
+    
     search_context = {
       "name": search_context_name,
       "matchers": [
@@ -38,7 +40,8 @@ def setup():
           "name": "NameMatcher",
           "type": "ner",
           "modelUrl": pathlib.Path("en-ner-person.bin").absolute().as_uri(),
-          "sentenceDetectorUrl": pathlib.Path("en-sent.bin").absolute().as_uri()
+          "sentenceDetectorUrl": pathlib.Path("en-sent.bin").absolute().as_uri(),
+          "tokenizerUrl": pathlib.Path("en-token.bin").absolute().as_uri()
         }
       ]
     }
@@ -100,7 +103,12 @@ def setup():
           "name": mask_context_name,
           "type": "maskContext"
         }
-      ]
+      ],
+      "configs": {
+        "json": {
+          "prettyPrint": True
+        }
+      }
     }
 
     def post(url, data):

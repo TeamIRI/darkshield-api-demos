@@ -1,0 +1,8 @@
+# This is a comment
+first_name	last_name	email	comment
+John	Doe	johndoe@gmail.com	"Hello John, you have received a message."
+# We can skip a line
+
+Jane	Doe	janedoe@yahoo.com	"Ms. Jane, please check your messages in ""janedoe@yahoo.com""."
+# We only have a 'first_name' and 'last_name' column
+Chris	Doe

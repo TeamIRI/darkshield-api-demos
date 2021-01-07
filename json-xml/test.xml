@@ -1,16 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<div>
-	<isActive>true</isActive>
-	<balance>$2,855.12</balance>
-	<picture>http://placehold.it/32x32</picture>
-	<age>28</age>
-	<eyeColor>brown</eyeColor>
+<div id="5d35ed837a0cf8f1691ebedc">
 	<name>Kathy Wynn</name>
 	<gender>female</gender>
-	<company>DUOFLEX</company>
-	<emai>kathy@duoflex.com</emai>
+	<email>kathy@duoflex.com</email>
 	<phone>+1 (843) 400-3871</phone>
-	<address>449 Bath Avenue, Sanborn, West Virginia, 7522</address>
 	<registered>2018-03-22T12:55:39 +04:00</registered>
 	<friends>
 		<friend id="0">
