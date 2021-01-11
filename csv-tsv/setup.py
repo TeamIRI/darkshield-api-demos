@@ -89,7 +89,7 @@ def setup():
             "name": search_context_ner_name,
             "type": "searchContext",
             "contentFilters": {
-              "tableColumns": [
+              "columns": [
                 {
                   "ignoreHeader": True,
                   "pattern": "comment"
@@ -99,7 +99,7 @@ def setup():
           },
           {
             "name": "NameMatcher",
-            "type": "tableColumn",
+            "type": "column",
             "ignoreHeader": True,
             "pattern": ".*name"
           }

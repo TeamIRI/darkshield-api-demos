@@ -7,9 +7,9 @@ hosted on *http://localhost:8080* and must have the *darkshield* and
 
 The example will search and mask:
 1. Emails (EmailsMatcher): regular expression pattern matcher with hashing rule. 
-2. Names (NamesMatcher): Using a table column matcher on any column ending with
+2. Names (NamesMatcher): Using a column matcher on any column ending with
 'name', and a *Named Entity Recognition (NER)* matcher to search through the
-*comment* field using a table column filter (all names masked using Format Preserving encryption)
+*comment* field using a column filter (all names masked using Format Preserving encryption)
 
 To execute, run *python main.py*.
 
