@@ -4,6 +4,12 @@ import logging
 import os
 import re
 import requests
+import sys
+
+# Append parent directory to PYTHON_PATH so we can import utils.py
+current_dir = os.path.dirname(os.path.realpath(__file__))
+parent_dir = os.path.dirname(current_dir)
+sys.path.append(parent_dir)
 
 from setup import setup, teardown, file_mask_context_name, file_search_context_name
 from streaming_form_data import StreamingFormDataParser

@@ -1,9 +1,6 @@
-import logging
-import os
 import pathlib
-import requests
+import utils
 
-host = 'http://localhost:8080/api/darkshield'
 search_context_name = "SearchContext"
 mask_context_name = "MaskContext"
 file_search_context_name = "FileSearchContext"
@@ -76,25 +73,14 @@ def setup():
         ]
     }
 
-    def post(url, data):
-        logging.info(f'POST: {url}')
-        response = requests.post(url, json=data)
-        if response.status_code >= 300:
-            raise Exception(f"Failed with status {response.status_code}:\n\n{response.json()}")
-
-    post(f"{host}/searchContext.create", search_context)
-    post(f"{host}/maskContext.create", mask_context)
-
-    post(f"{host}/files/fileSearchContext.create", file_search_context)
-    post(f"{host}/files/fileMaskContext.create", file_mask_context)
+    utils.create_context("searchContext", search_context)
+    utils.create_context("maskContext", mask_context)
+    utils.create_context("files/fileSearchContext", file_search_context)
+    utils.create_context("files/fileMaskContext", file_mask_context)
 
 
 def teardown():
-    def post(url, name):
-        logging.info(f'POST: {url}')
-        requests.post(url, json={'name': name})
-    
-    post(f"{host}/searchContext.destroy", search_context_name)
-    post(f"{host}/maskContext.destroy", mask_context_name)
-    post(f"{host}/files/fileSearchContext.destroy", file_search_context_name)
-    post(f"{host}/files/fileMaskContext.destroy", file_mask_context_name)
+    utils.destroy_context("searchContext", search_context_name)
+    utils.destroy_context("maskContext", mask_context_name)
+    utils.destroy_context("files/fileSearchContext", file_search_context_name)
+    utils.destroy_context("files/fileMaskContext", file_mask_context_name)
