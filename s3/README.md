@@ -31,8 +31,8 @@ for more information on how to configure this file.
 
 The masked files will be placed under the *masked* key in the original bucket.
 
-The *results.json* for each masked file will be placed in a local folder which 
-shares the name with the original file that was masked.
+The *results.json* for each masked file will be placed inside of the *results*
+folder.
 
 The setup script will also download the NER and sentence detection models from 
 the [OpenNLP website](http://opennlp.sourceforge.net/models-1.5/) if not present 
