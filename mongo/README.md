@@ -30,7 +30,7 @@ masked documents by running the following from the command line:
     use darkshield
     db.masked.find()
 
-The setup script will also download the NER and sentence detection models from the
-[OpenNLP website](http://opennlp.sourceforge.net/models-1.5/) if not present in the
-directory. If you are having trouble downloading the models, place the *en-ner-person.bin*
-and *en-sent.bin* files into this directory.
+The setup script will also download the NER and sentence detection models from 
+the [OpenNLP website](http://opennlp.sourceforge.net/models-1.5/) if not present 
+in the parent directory. If you are having trouble downloading the models, place 
+the *en-ner-person.bin* and *en-sent.bin* files into the parent directory.
