@@ -29,6 +29,10 @@ profile in your AWS credentials file in order to access the bucket. See the
 [boto3 quickstart guide](https://boto3.amazonaws.com/v1/documentation/api/latest/guide/quickstart.html#configuration)
 for more information on how to configure this file.
 
+To install the additional dependencies, execute *pip install -r requirements.txt* 
+(make sure your virtual environment is activated, or your dependencies will 
+be installed globally).
+
 The masked files will be placed under the *masked* key in the original bucket.
 
 The *results.json* for each masked file will be placed inside of the *results*
