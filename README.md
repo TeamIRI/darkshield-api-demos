@@ -13,4 +13,7 @@ To install the required dependencies, execute *pip install -r requirements.txt*
 (make sure your virtual environment is activated, or your dependencies will 
 be installed globally).
 
+Some demo projects also contain a *requirements.txt* file for additional 
+dependencies that need to be installed in order to run that particular demo.
+
 To execute the demos, execute *python main.py* from the directory of the demo.

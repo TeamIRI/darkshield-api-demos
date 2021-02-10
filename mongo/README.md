@@ -7,6 +7,10 @@ installed.
 
 You must have a Mongo database installed and hosted on *http://localhost:27017*.
 
+To install the additional dependencies, execute *pip install -r requirements.txt* 
+(make sure your virtual environment is activated, or your dependencies will 
+be installed globally).
+
 The script will create a *data* collection inside of the *darkshield* database if it
 doesn't already exist. The data inserted resides in *data.json*.
 
