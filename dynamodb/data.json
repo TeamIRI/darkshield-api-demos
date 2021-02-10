@@ -1,0 +1,38 @@
+[
+  {
+    "id": 0,
+    "name": "Kathy Wynn",
+    "gender": "female",
+    "email": "kathy@duoflex.com",
+    "phone": "+1 (843) 400-3871",
+    "registered": "2018-03-22T12:55:39 +04:00",
+    "friends": [
+      {
+        "id": 1,
+        "name": "Thomas Duffy"
+      },
+      {
+        "id": 2,
+        "name": "Jami Myers"
+      },
+      {
+        "id": 3,
+        "name": "Alissa Justice"
+      }
+    ],
+    "greeting": "Hello, Kathy Wynn! You have a new message in the following email: kathy@duoflex.com."
+  },
+  {
+    "id": 1,
+    "name": "Thomas Duffy",
+    "gender": "male",
+    "email": "thomas@gmail.com",
+    "registered": "2019-04-22T12:55:39 +04:00",
+    "friends": [
+      {
+        "id": 0,
+        "name": "Kathy Wynn"
+      }
+    ]
+  }
+]
