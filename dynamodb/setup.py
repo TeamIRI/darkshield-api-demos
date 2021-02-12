@@ -3,6 +3,8 @@ import logging
 import simplejson as json
 import utils
 
+from botocore import exceptions
+
 host = 'http://localhost:8080/api/darkshield'
 search_context_name = "SearchContext"
 mask_context_name = "MaskContext"
@@ -33,6 +35,18 @@ def create_table(dynamodb, table_name):
   table.wait_until_exists()
   logging.info(f'Succesfully created {table_name}')
   return table
+
+
+def delete_table(table):
+  try:
+    logging.info(f"Deleting '{table.name}' if it does not exist...")
+    table.delete()
+    table.wait_until_not_exists()
+  except exceptions.ClientError as e:
+    if e.response['Error']['Code'] == 'ResourceNotFoundException':
+      logging.info(f"'{table.name}' does not exist.")
+    else:
+      raise e
 
 
 def populate_test_data(table):

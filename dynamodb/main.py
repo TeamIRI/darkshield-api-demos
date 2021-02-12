@@ -16,54 +16,75 @@ current_dir = os.path.dirname(os.path.realpath(__file__))
 parent_dir = os.path.dirname(current_dir)
 sys.path.append(parent_dir)
 
-from setup import create_table, populate_test_data, setup, teardown, file_mask_context_name, file_search_context_name
+from setup import create_table, delete_table, populate_test_data, setup, teardown, file_mask_context_name, file_search_context_name
 from streaming_form_data import StreamingFormDataParser
 from streaming_form_data.targets import ValueTarget, FileTarget, NullTarget
 
 if __name__ == "__main__":
     logging.basicConfig(format='%(levelname)s: %(message)s', level=logging.INFO)
     parser = argparse.ArgumentParser(description='Demo for DynamoDB table search/masking.')
-    parser.add_argument('url', type=str, help='The DynamoDB url.')
-    parser.add_argument('-p', '--profile', metavar='name', type=str, 
-                        help='The name of AWS profile to use for the connection (otherwise the default is used).')
+    parser.add_argument('table', type=str, help="The source table name to use for the search. If it doesn't exist, it will be created.")
+    parser.add_argument('-d', '--delete-existing', action='store_true', help='Delete the source and target tables before running the demo.')
+    parser.add_argument('-p', '--profile', metavar='name', type=str, help='The name of AWS profile to use for the connection (otherwise the default is used).')
+    parser.add_argument('-t', '--target', metavar='name', type=str, help="The target table name (by default, an update is performed on the source table).")
+
+    exclusive_group = parser.add_mutually_exclusive_group()
+    exclusive_group.add_argument('-e', '--endpoint', metavar='name', type=str, help='Specify the dynamodb endpoint.')
+    exclusive_group.add_argument('-r', '--region', metavar='name', type=str, help='The region name (otherwise the default for the profile is used).')
     
     args = parser.parse_args()
-    endpoint_url = args.url
-    table_name = 'darkshield-test'
-    masked_table_name = f'{table_name}-masked'
-    if args.profile:
-        session = boto3.Session(profile_name=args.profile)
-    else:
-        session = boto3.Session()
+    table_name = args.table
+    target_table_name = args.target or table_name
 
-    dynamodb = session.resource('dynamodb', endpoint_url=endpoint_url)
+    session = boto3.Session(profile_name=args.profile)
+    if args.endpoint:
+        dynamodb = session.resource('dynamodb', endpoint_url=args.endpoint)
+    elif args.region:
+        dynamodb = session.resource('dynamodb', endpoint_url=f'https://dynamodb.{args.region}.amazonaws.com')
+    else:   
+        dynamodb = session.resource('dynamodb')
 
-    # Create test table and load test data if it doesn't already exist
+    table = dynamodb.Table(table_name)
+    target_table = dynamodb.Table(target_table_name)
+
+    if args.delete_existing:
+        delete_table(table)
+        if table_name != target_table_name:
+            delete_table(target_table)
+
+    scan_kwargs = { # Add any filters here.
+        'ConsistentRead': True # Slower, but less likely to miss an item that was added recently.
+    }
+
+    # Try to scan the source table, if it doesn't exist create one and populate it with test data. If it does exist
+    # and has no data, populate it with test data.
     try:
-        table = create_table(dynamodb, table_name)
-        populate_test_data(table)
-    except exceptions.ClientError as e:
-        if e.response['Error']['Code'] == 'ResourceInUseException':
-            logging.info(f'Using existing "{table_name}"" table.')
-            table = dynamodb.Table('darkshield-test')
-        else:
-            raise e
-
-    # Create or clear the masked table.
-    logging.info(f'Deleting {masked_table_name} if it does not exist...')
-    try:
-        masked_table = dynamodb.Table(masked_table_name)
-        masked_table.delete()
-        masked_table.wait_until_not_exists()
-        logging.info(f'Deleted {masked_table_name}.')
+        response = table.scan(**scan_kwargs)
+        items = response.get('Items', []) 
+        if not items:
+            logging.info(f"'{table_name}' is empty, populating with test data...")
+            populate_test_data(table)
+            response = table.scan(**scan_kwargs)
+            items = response.get('Items', [])  
     except exceptions.ClientError as e:
         if e.response['Error']['Code'] == 'ResourceNotFoundException':
-            logging.info(f'{masked_table_name} does not exist.')
+            logging.info(f"'{table_name}' does not exist, creating...")
+            table = create_table(dynamodb, table_name)
+            logging.info('Populating test data...')
+            populate_test_data(table)
+            response = table.scan(**scan_kwargs)
+            items = response.get('Items', [])  
         else:
             raise e
-    
-    masked_table = create_table(dynamodb, masked_table_name)
 
+    if table_name != target_table_name:
+        logging.info(f"Checking if '{target_table_name}' exists...")
+        try:
+            target_table.load()
+        except exceptions.ClientError as e:
+            if e.response['Error']['Code'] == 'ResourceNotFoundException':
+                logging.info(f"'{target_table_name}' does not exist, creating...")
+                target_table = create_table(dynamodb, target_table_name)
     try:
         setup()
         url = 'http://localhost:8080/api/darkshield/files/fileSearchContext.mask'
@@ -74,21 +95,13 @@ if __name__ == "__main__":
 
         os.makedirs('results', exist_ok=True)
 
-        scan_kwargs = { # Add any filters here.
-            'ConsistentRead': True # Slower, but less likely to miss an item that was added recently.
-        }
         done = False
-        start_key = None
         batch_index = 1
         # Scan over the entire table in paginated batches until the end is reached.
         # This code will read the table sequentially, however parallel processing is possible 
         # for faster scans, see 
         # https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/dynamodb.html#DynamoDB.Table.scan
         while not done:
-            if start_key:
-                scan_kwargs['ExclusiveStartKey'] = start_key
-            response = table.scan(**scan_kwargs)
-            items = response.get('Items', [])
             batch_name = f'batch{batch_index}'
             batch_index += 1
             files = {'file': (batch_name, json.dumps(items), 'application/json'), 'context': context}
@@ -109,11 +122,15 @@ if __name__ == "__main__":
             masked_batch = json.loads(masked_batch.value)
             # The batch writer will automatically handle buffering and sending items in batches.
             # In addition, the batch writer will also automatically handle any unprocessed items and resend them as needed.
-            with masked_table.batch_writer() as batch:
+            with target_table.batch_writer() as batch:
                 for item in masked_batch:
                     batch.put_item(Item=item)
             
             start_key = response.get('LastEvaluatedKey', None)
             done = start_key is None
+            scan_kwargs['ExclusiveStartKey'] = start_key
+            if not done:
+                response = table.scan(**scan_kwargs)
+                items = response.get('Items', [])
     finally:
         teardown()
