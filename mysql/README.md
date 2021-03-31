@@ -22,7 +22,7 @@ excluding the dashes, will be redacted with the '*' character.
 2. Names (NameMatcher): Found using a Named Entity Recognition (NER) model. Will encrypt the names with 
 format-preserving alphanumeric encryption.
 
-To execute, run *python main.py*.
+To execute, run *python main.py [host] [username] [password] [database] [table]*.
 
 
 The setup script will also download the NER and sentence detection models from the

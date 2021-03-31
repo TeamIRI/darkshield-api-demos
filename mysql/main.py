@@ -85,11 +85,9 @@ if __name__ == "__main__":
                                     print(e)
                                     pass
                                 mydb.commit()
-                                colNum+=1
                     except Exception as e:
                         print('error: ')
                         print(e)
-                        colNum+=1
                         pass
                 else:
                 # try to get a value to use as a reference for update statements. Hopefully a unique row id.
@@ -110,8 +108,7 @@ if __name__ == "__main__":
                             print(e)
                             pass
                         mydb.commit()
-                        colNum+=1
-           
+                colNum+=1
             count+=1
              # uncomment to end after certain number of rows
             #if count>=1:
