@@ -19,6 +19,16 @@ def setup():
             "pattern": r"\b(\d{3}[-]?\d{2}[-]?\d{4})\b"
           },
           {
+            "name": "EmailMatcher",
+            "type": "pattern",
+            "pattern": r"\b[\w._%+-]+@[\w.-]+\.[A-Za-z]{2,4}\b" 
+          },
+             {
+          "name": "PhoneMatcher",
+          "type": "pattern",
+          "pattern": r"\b(\+?1?([ .-]?)?)?(\(?([2-9]\d{2})\)?([ .-]?)?)([2-9]\d{2})([ .-]?)(\d{4})(?: #?[eE][xX][tT]\.? \d{2,6})?\b" 
+        },
+          {
           "name": "NameMatcher",
           "type": "ner",
           "modelUrl": model_url,
@@ -31,6 +41,12 @@ def setup():
     mask_context = {
         "name": mask_context_name,
         "rules": [
+         {
+            "name": "HashEmailRule",
+            "type": "cosort",
+            "expression": r"hash_sha2(${EMAIL})"
+          },
+          
           {
             "name": "FpeRule",
             "type": "cosort",
@@ -47,7 +63,13 @@ def setup():
             "name": "FpeRuleMatcher",
             "type": "name",
             "rule": "FpeRule",
-            "pattern": "NameMatcher"
+            "pattern": "NameMatcher|PhoneMatcher"
+          },
+           {
+            "name": "EmailRuleMatcher",
+            "type": "name",
+            "rule": "HashEmailRule",
+            "pattern": "EmailMatcher"
           },
           {
             "name": "SsnRuleMatcher",

@@ -49,14 +49,10 @@ if __name__ == "__main__":
             cursor.execute("SELECT * FROM {}".format(table))
             result=cursor.fetchall()
             logging.info("Getting data from database '{}' table '{}'.".format(database,table))
-            #myresult = cursor.fetchall()
             s=requests.Session()
             count=0
             field_names = [i[0] for i in cursor.description]
             data_types = [i[1] for i in cursor.description]
-            #print(field_names)
-            #print(data_types)
-           # exit(0)
             # loop through rows, then values
             for row in result:
                 # log progess every 25 rows
@@ -67,10 +63,7 @@ if __name__ == "__main__":
                 colNum=0
                 for value in row:
                     # if this is a blob type, handle differently
-                    # this covers tinyblob to longblob data types;
-                    # ensure this is a file and not floating text.
                     if data_types[colNum] == cx_Oracle.DB_TYPE_BLOB:
-                        #try:
                         value2=value.read()
                         files = {'file': io.BytesIO(value2), 'context': contextfile}
                         with s.post(urlfile, files=files, stream=True) as r:
@@ -93,7 +86,6 @@ if __name__ == "__main__":
                             firstval = value
                             firstnum =colNum
                         # unstructured text or basic values; handle using base DarkShield API
-                        print(value)
                         with s.post(url, json={"searchContextName": "SearchContext","maskContextName": "MaskContext","text": "{}".format(value)}) as r:
                             if r.status_code >= 300:
                                 raise Exception(f"Failed with status {r.status_code}:\n\n{r.json()}")
