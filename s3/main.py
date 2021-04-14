@@ -80,7 +80,7 @@ if __name__ == "__main__":
                 masked_file = ValueTarget()
                 parser.register('file', masked_file)
                 parser.register('results', FileTarget(f'{folder_name}/results.json'))
-                for chunk in r.iter_content():
+                for chunk in r.iter_content(4096):
                     parser.data_received(chunk)
 
                 key = f'masked/{file_name}'

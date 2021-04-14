@@ -39,7 +39,7 @@ if __name__ == "__main__":
                 parser = StreamingFormDataParser(headers=r.headers)
                 parser.register('file', FileTarget(f'{masked_folder}/{file_name}'))
                 parser.register('results', FileTarget(f'{masked_folder}/results.json'))
-                for chunk in r.iter_content():
+                for chunk in r.iter_content(4096):
                     parser.data_received(chunk)
     finally:
         teardown()

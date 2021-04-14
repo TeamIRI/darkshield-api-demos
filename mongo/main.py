@@ -54,7 +54,7 @@ if __name__ == "__main__":
                     output = ValueTarget()
                     parser.register('file', output)
                     parser.register('results', FileTarget(f'results/results{index}.json'))
-                    for chunk in r.iter_content():
+                    for chunk in r.iter_content(4096):
                         parser.data_received(chunk)
 
                 logging.info(f"Inserting masked document {index} into darkshield.masked...")

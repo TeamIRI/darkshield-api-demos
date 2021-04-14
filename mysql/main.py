@@ -92,6 +92,13 @@ if __name__ == "__main__":
                         with s.post(url, json={"searchContextName": "SearchContext","maskContextName": "MaskContext","text": "{}".format(value)}) as r:
                             if r.status_code >= 300:
                                 raise Exception(f"Failed with status {r.status_code}:\n\n{r.json()}")
+                            
+                            fileval=ValueTarget()
+                            parser = StreamingFormDataParser(headers=r.headers)
+                            parser.register('file', fileval)
+                            #parser.register('results', FileTarget(f'resultsblob.json'))
+                            for chunk in r.iter_content(4096):
+                                parser.data_received(chunk)
                             query = "UPDATE {} SET {} = %s WHERE {} = %s".format(table,field_names[colNum],field_names[firstNum])
                             args=(r.json()['maskedText'], firstval)
                             mycursor.execute(query,args)
