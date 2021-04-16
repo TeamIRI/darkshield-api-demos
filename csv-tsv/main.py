@@ -17,8 +17,9 @@ from streaming_form_data.targets import ValueTarget, FileTarget, NullTarget
 
 if __name__ == "__main__":
     logging.basicConfig(format='%(levelname)s: %(message)s', level=logging.INFO)
+    session=requests.Session()
     try:
-        setup()
+        setup(session)
         url = 'http://localhost:8080/api/darkshield/files/fileSearchContext.mask'
         context = json.dumps({
             "fileSearchContextName": file_search_context_name,
@@ -31,7 +32,7 @@ if __name__ == "__main__":
             files = {'file': open(file_name, 'rb'), 'context': context}
             os.makedirs(masked_folder, exist_ok=True)
             logging.info(f"POST: sending '{file_name}' to {url}")
-            with requests.post(url, files=files, stream=True) as r:
+            with session.post(url, files=files, stream=True) as r:
                 if r.status_code >= 300:
                     raise Exception(f"Failed with status {r.status_code}:\n\n{r.json()}")
 
@@ -42,4 +43,4 @@ if __name__ == "__main__":
                 for chunk in r.iter_content(4096):
                     parser.data_received(chunk)
     finally:
-        teardown()
+        teardown(session)

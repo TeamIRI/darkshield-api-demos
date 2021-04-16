@@ -6,10 +6,10 @@ mask_context_name = "MaskContext"
 file_search_context_name = "FileSearchContext"
 file_mask_context_name = "FileMaskContext"
 
-def setup():    
-    model_url = utils.download_model('en-ner-person.bin')
-    sent_url = utils.download_model('en-sent.bin')
-    token_url = utils.download_model('en-token.bin')
+def setup(session):    
+    model_url = utils.download_model('en-ner-person.bin',session)
+    sent_url = utils.download_model('en-sent.bin',session)
+    token_url = utils.download_model('en-token.bin',session)
     search_context = {
         "name": search_context_name,
         "matchers": [
@@ -100,14 +100,14 @@ def setup():
         ]
     }
 
-    utils.create_context("searchContext", search_context)
-    utils.create_context("maskContext", mask_context)
-    utils.create_context("files/fileSearchContext", file_search_context)
-    utils.create_context("files/fileMaskContext", file_mask_context)
+    utils.create_context("searchContext", search_context,session)
+    utils.create_context("maskContext", mask_context,session)
+    utils.create_context("files/fileSearchContext", file_search_context,session)
+    utils.create_context("files/fileMaskContext", file_mask_context,session)
 
 
-def teardown():
-    utils.destroy_context("searchContext", search_context_name)
-    utils.destroy_context("maskContext", mask_context_name)
-    utils.destroy_context("files/fileSearchContext", file_search_context_name)
-    utils.destroy_context("files/fileMaskContext", file_mask_context_name)
+def teardown(session):
+    utils.destroy_context("searchContext", search_context_name,session)
+    utils.destroy_context("maskContext", mask_context_name,session)
+    utils.destroy_context("files/fileSearchContext", file_search_context_name,session)
+    utils.destroy_context("files/fileMaskContext", file_mask_context_name,session)

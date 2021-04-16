@@ -1,0 +1,2 @@
+Hello, this line contains an email: 'johndoe@gmail.com'
+Hello, this line contains an SSN: '123-45-6789'

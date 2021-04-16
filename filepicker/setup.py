@@ -1,4 +1,3 @@
-import pathlib
 import utils
 
 search_context_name = "SearchContext"
@@ -16,9 +15,9 @@ def setup(session):
             "pattern": r"\b(\d{3}[-]?\d{2}[-]?\d{4})\b"
           },
           {
-            "name": "NameMatcher",
-            "type": "set",
-            "url": pathlib.Path('names.set').absolute().as_uri()
+            "name": "EmailMatcher",
+            "type": "pattern",
+            "pattern": r"\b[\w._%+-]+@[\w.-]+\.[A-Za-z]{2,4}\b" 
           },
        ]
     }
@@ -27,9 +26,9 @@ def setup(session):
         "name": mask_context_name,
         "rules": [
           {
-            "name": "FpeRule",
+            "name": "HashEmailRule",
             "type": "cosort",
-            "expression": r"enc_fp_aes256_alphanum(${NAME})"
+            "expression": r"hash_sha2(${EMAIL})"
           },
           {
             "name": "RedactSsnRule",
@@ -39,10 +38,10 @@ def setup(session):
         ],
         "ruleMatchers": [
           {
-            "name": "FpeRuleMatcher",
+            "name": "EmailRuleMatcher",
             "type": "name",
-            "rule": "FpeRule",
-            "pattern": "NameMatcher"
+            "rule": "HashEmailRule",
+            "pattern": "EmailMatcher"
           },
           {
             "name": "SsnRuleMatcher",
@@ -79,7 +78,7 @@ def setup(session):
     utils.create_context("files/fileMaskContext", file_mask_context,session)
 
 
-def teardown(session):
+def teardown():   
     utils.destroy_context("searchContext", search_context_name,session)
     utils.destroy_context("maskContext", mask_context_name,session)
     utils.destroy_context("files/fileSearchContext", file_search_context_name,session)

@@ -24,6 +24,7 @@ if __name__ == "__main__":
             print("Please provide all arguments.")
             exit(0)
         logging.basicConfig(format='%(levelname)s: %(message)s', level=logging.INFO)
+        s=requests.Session()
         url = 'http://localhost:8080/api/darkshield/searchContext.mask'
         urlfile = 'http://localhost:8080/api/darkshield/files/fileSearchContext.mask'
         contextfile = json.dumps({
@@ -31,7 +32,7 @@ if __name__ == "__main__":
                 "fileMaskContextName": file_mask_context_name
             })
         try:
-            setup()
+            setup(s)
             host=sys.argv[1]
             user=sys.argv[2]
             password=sys.argv[3]
@@ -48,7 +49,6 @@ if __name__ == "__main__":
             mycursor.execute("SELECT * FROM {}".format(table))
             logging.info("Getting data from database '{}' table '{}'.".format(database,table))
             myresult = mycursor.fetchall()
-            s=requests.Session()
             count=0
             field_names = [i[0] for i in mycursor.description]
             data_types = [i[1] for i in mycursor.description]
@@ -110,4 +110,4 @@ if __name__ == "__main__":
                  #   return 1
             logging.info("Completed masking {} rows of table '{}'.".format(count,table))
         finally:
-            teardown()
+            teardown(s)

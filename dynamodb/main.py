@@ -22,6 +22,7 @@ from streaming_form_data.targets import ValueTarget, FileTarget, NullTarget
 
 if __name__ == "__main__":
     logging.basicConfig(format='%(levelname)s: %(message)s', level=logging.INFO)
+    session1=requests.Session()
     parser = argparse.ArgumentParser(description='Demo for DynamoDB table search/masking.')
     parser.add_argument('table', type=str, help="The source table name to use for the search. If it doesn't exist, it will be created.")
     parser.add_argument('-d', '--delete-existing', action='store_true', help='Delete the source and target tables before running the demo.')
@@ -86,7 +87,7 @@ if __name__ == "__main__":
                 logging.info(f"'{target_table_name}' does not exist, creating...")
                 target_table = create_table(dynamodb, target_table_name)
     try:
-        setup()
+        setup(session1)
         url = 'http://localhost:8080/api/darkshield/files/fileSearchContext.mask'
         context = json.dumps({
             "fileSearchContextName": file_search_context_name,
@@ -106,7 +107,7 @@ if __name__ == "__main__":
             batch_index += 1
             files = {'file': (batch_name, json.dumps(items), 'application/json'), 'context': context}
             logging.info(f"POST: sending '{batch_name}' to {url}")
-            with requests.post(url, files=files, stream=True) as r:
+            with session1.post(url, files=files, stream=True) as r:
                 if r.status_code >= 300:
                     raise Exception(f"Failed {batch_name} with status {r.status_code}:\n\n{r.json()}")
 
@@ -133,4 +134,4 @@ if __name__ == "__main__":
                 response = table.scan(**scan_kwargs)
                 items = response.get('Items', [])
     finally:
-        teardown()
+        teardown(session1)

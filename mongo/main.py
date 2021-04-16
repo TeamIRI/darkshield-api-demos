@@ -18,6 +18,7 @@ from streaming_form_data.targets import ValueTarget, FileTarget
 
 if __name__ == "__main__":
     logging.basicConfig(format='%(levelname)s: %(message)s', level=logging.INFO)
+    session=requests.Session()
     url = 'http://localhost:8080/api/darkshield/files/fileSearchContext.mask'
     context = json.dumps({
         "fileSearchContextName": "FileSearchContext",
@@ -25,7 +26,7 @@ if __name__ == "__main__":
     })
     try:
         with pymongo.MongoClient("localhost", 27017) as client:
-            setup()
+            setup(session)
             db = client.darkshield
             coll = db.data
             if coll.estimated_document_count() == 0:
@@ -45,7 +46,7 @@ if __name__ == "__main__":
                 files = {'file': ('document.json', json.dumps(document), 'application/json'), 
                         'context': context}
                 logging.info(f"POST: sending document {index} to {url}")
-                with requests.post(url, files=files, stream=True) as r:
+                with session.post(url, files=files, stream=True) as r:
                     if r.status_code >= 300:
                         raise Exception(f"Failed with status {r.status_code}:\n\n{r.json()}")
 
@@ -60,4 +61,4 @@ if __name__ == "__main__":
                 logging.info(f"Inserting masked document {index} into darkshield.masked...")
                 out_coll.insert_one(json.loads(output.value))
     finally:
-        teardown()
+        teardown(session)

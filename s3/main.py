@@ -19,6 +19,7 @@ from streaming_form_data.targets import ValueTarget, FileTarget, NullTarget
 
 if __name__ == "__main__":
     logging.basicConfig(format='%(levelname)s: %(message)s', level=logging.INFO)
+    session=requests.Session()
     parser = argparse.ArgumentParser(description='Demo for S3 bucket search/masking.')
     parser.add_argument('bucket_name_or_url', type=str, help="The name of the bucket, or the s3 url of the object (starting with 's3://').")
     parser.add_argument('-p', '--profile', metavar='name', type=str, 
@@ -67,7 +68,7 @@ if __name__ == "__main__":
             f = obj.get()['Body'].read()
             files = {'file': (file_name, io.BytesIO(f), content_type), 'context': context}
             logging.info(f"POST: sending '{file_name}' to {url}")
-            with requests.post(url, files=files, stream=True) as r:
+            with session.post(url, files=files, stream=True) as r:
                 if r.status_code >= 300:
                     raise Exception(f"Failed with status {r.status_code}:\n\n{r.json()}")
 
