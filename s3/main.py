@@ -13,6 +13,7 @@ current_dir = os.path.dirname(os.path.realpath(__file__))
 parent_dir = os.path.dirname(current_dir)
 sys.path.append(parent_dir)
 
+from requests_toolbelt import MultipartEncoder
 from setup import setup, teardown, file_mask_context_name, file_search_context_name
 from streaming_form_data import StreamingFormDataParser
 from streaming_form_data.targets import ValueTarget, FileTarget, NullTarget
@@ -65,9 +66,13 @@ if __name__ == "__main__":
             # For larger files, a streaming solution should be used so that the file isn't loaded
             # fully in memory before being sent to the API.
             f = obj.get()['Body'].read()
-            files = {'file': (file_name, io.BytesIO(f), content_type), 'context': context}
+            encoder = MultipartEncoder(fields={
+                'context': ('context', context, 'application/json'),
+                'file': (file_name, f, 'text/plain')
+            })
             logging.info(f"POST: sending '{file_name}' to {url}")
-            with requests.post(url, files=files, stream=True) as r:
+            with requests.post(url, data=encoder, stream=True,
+                               headers={'Content-Type': encoder.content_type}) as r:
                 if r.status_code >= 300:
                     raise Exception(f"Failed with status {r.status_code}:\n\n{r.json()}")
 
