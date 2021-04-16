@@ -78,7 +78,7 @@ def setup(session):
     utils.create_context("files/fileMaskContext", file_mask_context,session)
 
 
-def teardown():   
+def teardown(session):   
     utils.destroy_context("searchContext", search_context_name,session)
     utils.destroy_context("maskContext", mask_context_name,session)
     utils.destroy_context("files/fileSearchContext", file_search_context_name,session)
