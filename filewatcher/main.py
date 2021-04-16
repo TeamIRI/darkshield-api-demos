@@ -7,6 +7,7 @@ import requests
 import ntpath
 import sys
 import time
+import argparse
 from watchdog.observers import Observer
 from watchdog.events import FileSystemEventHandler
 # Append parent directory to PYTHON_PATH so we can import utils.py
@@ -24,6 +25,8 @@ context = json.dumps({
         })
 url = 'http://localhost:8080/api/darkshield/files/fileSearchContext.mask'
 s=requests.Session()
+recursive=False
+directory="./"
 
 def mask(filename):
      basename=ntpath.basename(filename)
@@ -41,23 +44,22 @@ def mask(filename):
             parser.register('results', FileTarget(f'{masked_folder}/masked_{basename}_results.json'))
             for chunk in r.iter_content(4096):
                 parser.data_received(chunk)
-class OnMyWatch:
-    # Set the directory on watch
-    watchDirectory = os.getenv('USERPROFILE')+"\\Downloads"
+class DirectoryWatch:
   
     def __init__(self):
         self.observer = Observer()
   
-    def run(self):
+    def run(self,watchDirectory):
         event_handler = Handler()
-        self.observer.schedule(event_handler, self.watchDirectory, recursive = True)
+        self.observer.schedule(event_handler, watchDirectory, recursive = recursive)
         self.observer.start()
         try:
             while True:
                 time.sleep(5)
         except:
             self.observer.stop()
-            print("Observer Stopped")
+            logging.info("Observer Stopped")
+            exit(1)
   
         self.observer.join()
   
@@ -66,20 +68,29 @@ class Handler(FileSystemEventHandler):
     @staticmethod
     def on_any_event(event):
         if event.is_directory:
-            print("directory, no action taken.")
             return None
         elif event.event_type == 'created' or event.event_type == 'modified':
             # Event is created, you can process it now
-            print("Watchdog received {} event - {}.".format(event.event_type,event.src_path))
+            logging.info("Watchdog received {} event - {}.".format(event.event_type,event.src_path))
             time.sleep(1)
             mask(event.src_path)
   
 
 if __name__ == "__main__":
     logging.basicConfig(format='%(levelname)s: %(message)s', level=logging.INFO)
+    parser = argparse.ArgumentParser(description='File watcher for newly modified and created file search/masking.')
+    parser.add_argument('directory', type=str, help="The directory to use for the search. If it doesn't exist, it will be created.")
+    parser.add_argument('-r', '--recursive', action='store_true', help='Search directory recursively.')
+    
+    args = parser.parse_args()
+    if args.directory:
+        directory=args.directory
+    if args.recursive:
+        recursive=True
+        
     try:
         setup(s)
-        watch = OnMyWatch()
-        watch.run()
+        watch = DirectoryWatch()
+        watch.run(directory)
     finally:
         teardown(s)

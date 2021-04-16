@@ -1,0 +1,2 @@
+requests==2.25.1
+streaming_form_data==1.8.1

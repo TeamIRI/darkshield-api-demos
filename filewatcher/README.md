@@ -9,6 +9,10 @@ The example will search and mask the email and social security number (SSN)
 found inside of text file using regular expression pattern matches. The email
 will be hashed while the SSN will have the first 5 digits redacted.
 
+To install the additional dependencies, execute *pip install -r requirements.txt* 
+(make sure your virtual environment is activated, or your dependencies will 
+be installed globally).
+
 To execute, run *python main.py*, or *pythonw main.py* to run in the background.
 
 The results will be placed inside of the *masked* directory.
