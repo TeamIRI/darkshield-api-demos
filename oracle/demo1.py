@@ -20,7 +20,7 @@ from streaming_form_data.targets import ValueTarget, FileTarget,NullTarget
 if __name__ == "__main__":
 # args: [host] [username] [password] [database] [table]
         if len(sys.argv) < 7:
-            print("Usage: python main.py [host] [username] [password] [dsn] [database] [table]")
+            print("Usage: python {} [host] [username] [password] [dsn] [database] [table]".format(sys.argv[0]))
             print("Please provide all arguments.")
             exit(0)
         logging.basicConfig(format='%(levelname)s: %(message)s', level=logging.INFO)

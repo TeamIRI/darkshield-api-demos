@@ -26,6 +26,7 @@ if __name__ == "__main__":
             "fileSearchContextName": file_search_context_name,
             "fileMaskContextName": file_mask_context_name
         })
+        os.makedirs('masked', exist_ok=True)
         while True:
             filename = askopenfilename()
             if not filename:
@@ -34,7 +35,6 @@ if __name__ == "__main__":
             process_files = [(filename, 'masked')]
             for file_name, masked_folder in process_files:
                 files = {'file': open(file_name, 'rb'), 'context': context}
-                os.makedirs(masked_folder, exist_ok=True)
                 logging.info(f"POST: sending '{file_name}' to {url}")
                 with s.post(url, files=files, stream=True) as r:
                     if r.status_code >= 300:
