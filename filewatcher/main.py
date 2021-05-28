@@ -36,7 +36,8 @@ def mask(filename):
         logging.info(f"POST: sending '{file_name}' to {url}")
         with s.post(url, files=files, stream=True) as r:
             if r.status_code >= 300:
-                raise Exception(f"Failed with status {r.status_code}:\n\n{r.json()}")
+                logging.info(f"Failed with status {r.status_code}:\n\n{r.json()}")
+                break
             logging.info(f"Extracting 'masked_{basename}' and 'masked_{basename}_results.json' into {masked_folder}.")
             parser = StreamingFormDataParser(headers=r.headers)
             parser.register('file', FileTarget(f'{masked_folder}/masked_{basename}'))
