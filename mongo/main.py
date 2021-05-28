@@ -12,6 +12,7 @@ current_dir = os.path.dirname(os.path.realpath(__file__))
 parent_dir = os.path.dirname(current_dir)
 sys.path.append(parent_dir)
 
+from bson import json_util
 from setup import setup, teardown
 from streaming_form_data import StreamingFormDataParser
 from streaming_form_data.targets import ValueTarget, FileTarget
@@ -32,7 +33,7 @@ if __name__ == "__main__":
             if coll.estimated_document_count() == 0:
                 logging.info("darkshield.data is empty. Loading 'data.json'...")
                 with open('data.json') as f:
-                    data = json.loads(f.read())
+                    data = json_util.loads(f.read())
                     coll.insert_one(data)
             out_coll = db.masked
             logging.info('Dropping darkshield.masked collection...')
@@ -43,7 +44,7 @@ if __name__ == "__main__":
             os.makedirs('results', exist_ok=True)
 
             for index, document in enumerate(data, 1):
-                files = {'file': ('document.json', json.dumps(document), 'application/json'), 
+                files = {'file': ('document.json', json_util.dumps(document), 'application/json'),
                         'context': context}
                 logging.info(f"POST: sending document {index} to {url}")
                 with session.post(url, files=files, stream=True) as r:
@@ -59,6 +60,6 @@ if __name__ == "__main__":
                         parser.data_received(chunk)
 
                 logging.info(f"Inserting masked document {index} into darkshield.masked...")
-                out_coll.insert_one(json.loads(output.value))
+                out_coll.insert_one(json_util.loads(output.value))
     finally:
         teardown(session)
