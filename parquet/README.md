@@ -1,11 +1,11 @@
 # DarkShield Files API: Parquet Search/Masking
 
-This example demonstrates the use of the *darkshield-files* API to search and mask Parquet files. 
+This example demonstrates the use of the *darkshield-files* API to search and mask Parquet files.
 
-This example requries DarkShield API version 1.2.0 or higher.
+This example requires DarkShield API version 1.2.0 or higher.
 
-To run, the *plankton* web services API must be hosted on 
-*http://localhost:8080* and must have the *darkshield* and *darkshield-files* plugins 
+To run, the *plankton* web services API must be hosted on
+*http://localhost:8080* and must have the *darkshield* and *darkshield-files* plugins
 installed.
 
 The example will find and mask the following:
@@ -21,7 +21,7 @@ To execute, run *python main.py*.
 
 The results will be placed inside of the *parquet-masked* directory.
 
-The setup script will also download the NER and sentence detection models from the
-[OpenNLP website](http://opennlp.sourceforge.net/models-1.5/) if not present in the
-directory. If you are having trouble downloading the models, place the *en-ner-person.bin*
-and *en-sent.bin* files into this directory.
+The setup script will also download the NER and sentence detection models from
+the [OpenNLP website](http://opennlp.sourceforge.net/models-1.5/) if not present
+in the parent directory. If you are having trouble downloading the models, place
+the *en-ner-person.bin* and *en-sent.bin* files into the parent directory.
