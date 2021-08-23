@@ -18,7 +18,7 @@ function.
 5. Phone Numbers (PhoneMatcher): Found using a regular expression and masked using
 format-preserving encryption.
 6. Social Security Numbers (SsnMatcher): Found using a regular expression pattern and
-masked using format-preserving encryption.
+masked by redacting the first 5 digits.
 
 Note that the *balance* column inside of *Bank Report.xlsx* will be masked as a
 string instead of a formatted currency (internally represented in Excel as a floating-

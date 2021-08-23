@@ -1,7 +1,6 @@
 import logging
 import os
 import pathlib
-import requests
 
 host = 'http://localhost:8080/api/darkshield'
 
@@ -31,5 +30,5 @@ def download_model(name,session):
             with open(model_path, 'wb') as f:
                 f.write(r.content)
                 logging.info(f'Downloaded {name}')
-    
+
     return model_path.as_uri()
