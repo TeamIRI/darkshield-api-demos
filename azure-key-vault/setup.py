@@ -1,5 +1,4 @@
 import os
-import cmd
 import pathlib
 from azure.identity import InteractiveBrowserCredential
 from azure.keyvault.secrets import SecretClient
@@ -98,7 +97,7 @@ def setup(session):
             {
                 "name": "FpeRule",
                 "type": "cosort",
-                "expression": "enc_fp_aes256_alphanum($\{INPUT\}, \"" + getSecret(keyVaultName, secretName) + "\")"
+                "expression": "enc_fp_aes256_alphanum(${{INPUT}}, \"{}\")".format(getSecret(keyVaultName, secretName))
             }
         ],
         "ruleMatchers": [
