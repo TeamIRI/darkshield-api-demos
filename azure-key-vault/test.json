@@ -1,0 +1,23 @@
+{
+    "_id": "5d35ed837a0cf8f1691ebedc",
+    "name": "Kathy Wynn",
+    "gender": "female",
+    "email": "kathy@duoflex.com",
+    "phone": "+1 (843) 400-3871",
+    "registered": "2018-03-22T12:55:39 +04:00",
+    "friends": [
+      {
+        "id": 0,
+        "name": "Thomas Duffy"
+      },
+      {
+        "id": 1,
+        "name": "Jami Myers"
+      },
+      {
+        "id": 2,
+        "name": "Alissa Justice"
+      }
+    ],
+    "greeting": "Hello, Kathy Wynn! You have a new message in the following email: kathy@duoflex.com."
+}
