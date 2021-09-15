@@ -1,9 +1,7 @@
-import io
 import json
 import logging
 import os
 import pymongo
-import re
 import requests
 import sys
 
@@ -19,7 +17,7 @@ from streaming_form_data.targets import ValueTarget, FileTarget
 
 if __name__ == "__main__":
     logging.basicConfig(format='%(levelname)s: %(message)s', level=logging.INFO)
-    session=requests.Session()
+    session = requests.Session()
     url = 'http://localhost:8080/api/darkshield/files/fileSearchContext.mask'
     context = json.dumps({
         "fileSearchContextName": "FileSearchContext",
@@ -45,7 +43,7 @@ if __name__ == "__main__":
 
             for index, document in enumerate(data, 1):
                 files = {'file': ('document.json', json_util.dumps(document), 'application/json'),
-                        'context': context}
+                         'context': context}
                 logging.info(f"POST: sending document {index} to {url}")
                 with session.post(url, files=files, stream=True) as r:
                     if r.status_code >= 300:

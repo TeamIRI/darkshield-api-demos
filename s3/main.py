@@ -1,10 +1,8 @@
 import argparse
 import boto3
-import io
 import json
 import logging
 import os
-import re
 import requests
 import sys
 
@@ -16,11 +14,11 @@ sys.path.append(parent_dir)
 from requests_toolbelt import MultipartEncoder
 from setup import setup, teardown, file_mask_context_name, file_search_context_name
 from streaming_form_data import StreamingFormDataParser
-from streaming_form_data.targets import ValueTarget, FileTarget, NullTarget
+from streaming_form_data.targets import ValueTarget, FileTarget
 
 if __name__ == "__main__":
     logging.basicConfig(format='%(levelname)s: %(message)s', level=logging.INFO)
-    session=requests.Session()
+    request_session = requests.Session()
     parser = argparse.ArgumentParser(description='Demo for S3 bucket search/masking.')
     parser.add_argument('bucket_name_or_url', type=str, help="The name of the bucket, or the s3 url of the object (starting with 's3://').")
     parser.add_argument('-p', '--profile', metavar='name', type=str, 
@@ -44,7 +42,7 @@ if __name__ == "__main__":
     
     bucket = s3.Bucket(bucket_name)
     try:
-        setup()
+        setup(request_session)
         url = 'http://localhost:8080/api/darkshield/files/fileSearchContext.mask'
         context = json.dumps({
             "fileSearchContextName": file_search_context_name,
@@ -59,7 +57,7 @@ if __name__ == "__main__":
         
         for obj in objects:
             file_name = obj.key
-            obj.load() # Load the metadata for this object.
+            obj.load()  # Load the metadata for this object.
             content_type = obj.meta.data.get('ContentType', 'application/octet-stream')
             # Skip prefix folders or files that were already masked.
             if content_type.startswith('application/x-directory') or file_name.startswith('masked'):
@@ -72,8 +70,8 @@ if __name__ == "__main__":
                 'file': (file_name, f, 'text/plain')
             })
             logging.info(f"POST: sending '{file_name}' to {url}")
-            with session.post(url, data=encoder, stream=True,
-                               headers={'Content-Type': encoder.content_type}) as r:
+            with request_session.post(url, data=encoder, stream=True,
+                                      headers={'Content-Type': encoder.content_type}) as r:
                 if r.status_code >= 300:
                     raise Exception(f"Failed with status {r.status_code}:\n\n{r.json()}")
 

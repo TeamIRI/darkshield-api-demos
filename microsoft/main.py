@@ -1,8 +1,6 @@
-import io
 import json
 import logging
 import os
-import re
 import requests
 import sys
 
@@ -18,7 +16,7 @@ from streaming_form_data.targets import ValueTarget, FileTarget, NullTarget
 
 if __name__ == "__main__":
     logging.basicConfig(format='%(levelname)s: %(message)s', level=logging.INFO)
-    session=requests.Session()
+    session = requests.Session()
     try:
         setup(session)
         url = 'http://localhost:8080/api/darkshield/files/fileSearchContext.mask'

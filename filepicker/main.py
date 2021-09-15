@@ -1,8 +1,6 @@
-import io
 import json
 import logging
 import os
-import re
 import requests
 import ntpath
 import sys
@@ -14,11 +12,11 @@ sys.path.append(parent_dir)
 
 from setup import setup, teardown, file_mask_context_name, file_search_context_name
 from streaming_form_data import StreamingFormDataParser
-from streaming_form_data.targets import ValueTarget, FileTarget, NullTarget
+from streaming_form_data.targets import FileTarget
 
 if __name__ == "__main__":
     logging.basicConfig(format='%(levelname)s: %(message)s', level=logging.INFO)
-    s=requests.Session()
+    s = requests.Session()
     try:
         setup(s)
         url = 'http://localhost:8080/api/darkshield/files/fileSearchContext.mask'
@@ -31,7 +29,7 @@ if __name__ == "__main__":
             filename = askopenfilename()
             if not filename:
                 break
-            basename=ntpath.basename(filename)
+            basename = ntpath.basename(filename)
             process_files = [(filename, 'masked')]
             for file_name, masked_folder in process_files:
                 files = {'file': open(file_name, 'rb'), 'context': context}

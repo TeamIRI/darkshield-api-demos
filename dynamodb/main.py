@@ -1,10 +1,7 @@
 import argparse
 import boto3
-import io
-import json
 import logging
 import os
-import re
 import requests
 import simplejson as json
 import sys
@@ -18,11 +15,11 @@ sys.path.append(parent_dir)
 
 from setup import create_table, delete_table, populate_test_data, setup, teardown, file_mask_context_name, file_search_context_name
 from streaming_form_data import StreamingFormDataParser
-from streaming_form_data.targets import ValueTarget, FileTarget, NullTarget
+from streaming_form_data.targets import ValueTarget, FileTarget
 
 if __name__ == "__main__":
     logging.basicConfig(format='%(levelname)s: %(message)s', level=logging.INFO)
-    session1=requests.Session()
+    session1 = requests.Session()
     parser = argparse.ArgumentParser(description='Demo for DynamoDB table search/masking.')
     parser.add_argument('table', type=str, help="The source table name to use for the search. If it doesn't exist, it will be created.")
     parser.add_argument('-d', '--delete-existing', action='store_true', help='Delete the source and target tables before running the demo.')
@@ -53,8 +50,8 @@ if __name__ == "__main__":
         if table_name != target_table_name:
             delete_table(target_table)
 
-    scan_kwargs = { # Add any filters here.
-        'ConsistentRead': True # Slower, but less likely to miss an item that was added recently.
+    scan_kwargs = {  # Add any filters here.
+        'ConsistentRead': True  # Slower, but less likely to miss an item that was added recently.
     }
 
     # Try to scan the source table, if it doesn't exist create one and populate it with test data. If it does exist

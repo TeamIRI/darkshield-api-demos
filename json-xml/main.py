@@ -1,8 +1,6 @@
-import io
 import json
 import logging
 import os
-import re
 import requests
 import sys
 
@@ -18,7 +16,7 @@ from streaming_form_data.targets import ValueTarget, FileTarget, NullTarget
 
 if __name__ == "__main__":
     logging.basicConfig(format='%(levelname)s: %(message)s', level=logging.INFO)
-    session=requests.Session()
+    session = requests.Session()
     try:
         setup(session)
         url = 'http://localhost:8080/api/darkshield/files/fileSearchContext.mask'
@@ -37,7 +35,7 @@ if __name__ == "__main__":
                 })
                 logging.info(f"POST: sending '{file_name}' to {url}")
                 with session.post(url, data=encoder, stream=True,
-                                   headers={'Content-Type': encoder.content_type}) as r:
+                                  headers={'Content-Type': encoder.content_type}) as r:
                     if r.status_code >= 300:
                         raise Exception(f"Failed with status {r.status_code}:\n\n{r.json()}")
                     logging.info(f"Extracting '{file_name}' and 'results.json' into {masked_folder}.")

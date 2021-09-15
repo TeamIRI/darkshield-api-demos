@@ -1,8 +1,6 @@
-import io
 import json
 import logging
 import os
-import re
 import requests
 import ntpath
 import sys
@@ -17,21 +15,22 @@ sys.path.append(parent_dir)
 
 from setup import setup, teardown, file_mask_context_name, file_search_context_name
 from streaming_form_data import StreamingFormDataParser
-from streaming_form_data.targets import ValueTarget, FileTarget, NullTarget
+from streaming_form_data.targets import FileTarget
 
 context = json.dumps({
             "fileSearchContextName": file_search_context_name,
             "fileMaskContextName": file_mask_context_name
         })
 url = 'http://localhost:8080/api/darkshield/files/fileSearchContext.mask'
-s=requests.Session()
-recursive=False
-directory="./"
+s = requests.Session()
+recursive = False
+directory = "./"
+
 
 def mask(filename):
-     basename=ntpath.basename(filename)
-     process_files = [(filename, 'masked')]
-     for file_name, masked_folder in process_files:
+    basename = ntpath.basename(filename)
+    process_files = [(filename, 'masked')]
+    for file_name, masked_folder in process_files:
         files = {'file': open(file_name, 'rb'), 'context': context}
         logging.info(f"POST: sending '{file_name}' to {url}")
         with s.post(url, files=files, stream=True) as r:
@@ -44,14 +43,16 @@ def mask(filename):
             parser.register('results', FileTarget(f'{masked_folder}/masked_{basename}_results.json'))
             for chunk in r.iter_content(4096):
                 parser.data_received(chunk)
+
+
 class DirectoryWatch:
   
     def __init__(self):
         self.observer = Observer()
   
-    def run(self,watchDirectory):
+    def run(self, watchDirectory):
         event_handler = Handler()
-        self.observer.schedule(event_handler, watchDirectory, recursive = recursive)
+        self.observer.schedule(event_handler, watchDirectory, recursive=recursive)
         self.observer.start()
         try:
             while True:
@@ -62,7 +63,8 @@ class DirectoryWatch:
             exit(1)
   
         self.observer.join()
-  
+
+
 class Handler(FileSystemEventHandler):
   
     @staticmethod
@@ -71,7 +73,7 @@ class Handler(FileSystemEventHandler):
             return None
         elif event.event_type == 'created' or event.event_type == 'modified':
             # Event is created, you can process it now
-            logging.info("Watchdog received {} event - {}.".format(event.event_type,event.src_path))
+            logging.info("Watchdog received {} event - {}.".format(event.event_type, event.src_path))
             time.sleep(1)
             mask(event.src_path)
   
@@ -84,9 +86,9 @@ if __name__ == "__main__":
     
     args = parser.parse_args()
     if args.directory:
-        directory=args.directory
+        directory = args.directory
     if args.recursive:
-        recursive=True
+        recursive = True
         
     try:
         setup(s)
