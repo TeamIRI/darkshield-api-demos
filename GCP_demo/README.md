@@ -6,7 +6,7 @@ The setup script will also download the NER and sentence detection models from t
 
 The program will take in a bucket name and iterate over all blobs found there, sending each file to the API. You can include a prefix (e.g. ‘folder_name/’) so only files and folders under a certain prefix will be searched and masked.  A single file can also be specified by writing the full file path in place of a prefix.
 
-The original and masked files are loaded fully in memory, for larger files that cannot be fit into memory the code needs to be modified to allow for a streaming solution (see comments in main.py for more information).
+The original and masked files are loaded fully in memory, for larger files that cannot be fit into memory the code needs to be modified to allow for a streaming solution.
 
 The masked files will be placed in a bucket called masked_bucket. If a bucket called masked_bucket does not already exist one will be created.
 
@@ -16,6 +16,6 @@ The example will find and mask the following:
     Countries(CountryMatcher): Found using a list of entries called a "set file".
     Social Security Numbers(SsnMatcher): Found using a regular expression and masked using format-preserving encryption.
     Emails (EmailMatcher): Found using a regular expression and masked using a hashing function.
-    Names (NameMatcher): Found using a Named Entity Recognition (NER) model AND using format-specific json/xml paths (all names can be found in the 'name' key/tag, regardless of nesting).
+    Names (NameMatcher): Found using a Named Entity Recognition (NER) model AND using format-specific json/xml paths (all names can be found in the 'name' key/tag, regardless of       nesting).
 
-To execute, run python main.py bucket_name folder_name_or_file_path (folder_name_or_file_path is optional). To access a bucket in Google Cloud Storage the script will use a credentials json file that was generated when you created your service account. Follow the instructions in the Setting the environment variable section so your application’s code can access the authentication credentials.
+To execute, run python main.py bucket_name folder_name_or_file_path (folder_name_or_file_path is optional). To access a bucket in Google Cloud Storage the script will use a credentials json file that was generated when you created your service account. Follow the instructions in the Setting the environment variable section (https://cloud.google.com/docs/authentication/getting-started) so your application’s code can access the authentication credentials.
