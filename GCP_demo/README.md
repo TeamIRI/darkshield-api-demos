@@ -14,12 +14,12 @@ The results.json for each masked file will be placed inside the results folder.
 
 The example will find and mask the following:
 
-    Countries(CountryMatcher): Found using a list of entries called a "set file".
+Countries(CountryMatcher): Found using a list of entries called a "set file".
     
-    Social Security Numbers(SsnMatcher): Found using a regular expression and masked using format-preserving encryption.
+Social Security Numbers(SsnMatcher): Found using a regular expression and masked using format-preserving encryption.
     
-    Emails (EmailMatcher): Found using a regular expression and masked using a hashing function.
+Emails (EmailMatcher): Found using a regular expression and masked using a hashing function.
     
-    Names (NameMatcher): Found using a Named Entity Recognition (NER) model AND using format-specific json/xml paths (all names can be found in the 'name' key/tag, regardless of       nesting).
+Names (NameMatcher): Found using a Named Entity Recognition (NER) model AND using format-specific json/xml paths (all names can be found in the 'name' key/tag, regardless of nesting).
 
 To execute, run python main.py bucket_name folder_name_or_file_path (folder_name_or_file_path is optional). To access a bucket in Google Cloud Storage the script will use a credentials json file that was generated when you created your service account. Follow the instructions in the Setting the environment variable section (https://cloud.google.com/docs/authentication/getting-started) so your application’s code can access the authentication credentials.
