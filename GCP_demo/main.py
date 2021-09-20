@@ -47,10 +47,6 @@ if __name__ == "__main__":
         masked_bucket = client.create_bucket(masked_bucket, location="us")
         
 
-    masked_folder_prefix = folder_prefix + 'masked_' + folder_prefix
-    for blob in masked_bucket.list_blobs(prefix=masked_folder_prefix):
-        blob.delete()
-
     try:
         setup(session)
         url = 'http://localhost:8080/api/darkshield/files/fileSearchContext.mask'
@@ -60,8 +56,8 @@ if __name__ == "__main__":
         })
         
         for blob in bucket.list_blobs(prefix=folder_prefix):
-            #if(folder_prefix == '' ):
-            #    folder_prefix = 'root/'
+            # For larger files, a streaming solution should be used so that the file isn't loaded
+            # fully in memory before being sent to the API.
             if(not blob.name.endswith("/")):
                 content = blob.download_as_bytes()
                 process_files = [(blob.name, blob.content_type)]
