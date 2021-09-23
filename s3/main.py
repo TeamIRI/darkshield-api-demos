@@ -92,4 +92,4 @@ if __name__ == "__main__":
                 value = masked_file.value    
                 bucket.put_object(Key=key, Body=masked_file.value)
     finally:
-        teardown()
+        teardown(request_session)
