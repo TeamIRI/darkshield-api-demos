@@ -37,12 +37,16 @@ def setup(session):
             {
             "name": "FirstNameMatcher",
             "type": "set",
-            "url": pathlib.Path('first_names.set').absolute().as_uri()
+            "url": pathlib.Path('first_names.set').absolute().as_uri(),
+            "ignoreCase": True,
+            "matchWholeWords": True
             },
             {
             "name": "LastNameMatcher",
             "type": "set",
-            "url": pathlib.Path('last_names.set').absolute().as_uri()
+            "url": pathlib.Path('last_names.set').absolute().as_uri(),
+            "ignoreCase": True,
+            "matchWholeWords": True
             },
             {
                 "name": "NERMatcher",

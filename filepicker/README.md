@@ -12,9 +12,9 @@ The example will find and mask all of the following common sensitive data types 
 3.  Emails (EmailMatcher): Found using a regular expression.
 4.  IP Addresses (IpAddressMatcher): Found using a regular expression.
 5.  First Names (FirstNameMatcher): Found using a set of entries called a 'set file'. 
-    The entries include 1000 common first names.
+    The entries include 2000 common first names. Configuration set to only accept full matches, and ignore case differences.
 6.  Last Names (LastNameMatcher): Found using a set of entries called a 'set file'.
-    The entries include 1000 common last names.
+    The entries include 1000 common last names. Configuration set to only accept full matches, and ignore case differences.
 7.  Names in context (NERMatcher): Uses a pre-trained NER model to find names in the context of a sentence.
 8.  Phone Numbers (PhoneMatcher): Found using a regular expression.
 9.  Social Security Numbers (SsnMatcher): Found using a regular expression.
