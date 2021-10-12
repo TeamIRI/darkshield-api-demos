@@ -41,8 +41,9 @@ if __name__ == "__main__":
         database = sys.argv[5]
         table = sys.argv[6]
         output_table = sys.argv[7]
+        print(table)
         # get all the data from specified table
-        cursor.execute("SELECT * FROM {}".format(table))
+        cursor.execute("SELECT * FROM {}.{}".format(database,table))
         result = cursor.fetchall()
         logging.info("Getting data from database '{}' table '{}'.".format(database, table))
         count = 0
@@ -90,7 +91,7 @@ if __name__ == "__main__":
                         # parser.register('results', FileTarget("resultsblob{}_{}.json".format(count,colNum)))
                         for chunk in r.iter_content(chunk_size=4096):
                             parser.data_received(chunk)
-                        query = "UPDATE {} SET {} = :1 WHERE {} = :2".format(table, field_names[colNum],
+                        query = "UPDATE {}.{} SET {} = :1 WHERE {} = :2".format(database, table, field_names[colNum],
                                                                              field_names[firstNum])
                         if len(fileval.value) > 0:
                             rowmaskedvalues.append(fileval.value)
@@ -118,8 +119,8 @@ if __name__ == "__main__":
             count += 1
             if count % 2000 == 0:
                 cursor.executemany("""
-        insert into {} {} 
-        values ({})""".format(output_table, field_names_string, paramstring1), batchmaskedvalues)
+        insert into {}.{} {} 
+        values ({})""".format(database, output_table, field_names_string, paramstring1), batchmaskedvalues)
                 connection.commit()
                 batchvalues = []
                 batchmaskedvalues = []
@@ -131,8 +132,8 @@ if __name__ == "__main__":
         logging.info("Sending final batch.")
         countt = 0
         cursor.executemany("""
-        insert into {} {} 
-        values ({})""".format(output_table, field_names_string, paramstring1), batchmaskedvalues)
+        insert into {}.{} {} 
+        values ({})""".format(database, output_table, field_names_string, paramstring1), batchmaskedvalues)
         connection.commit()
         logging.info("Completed masking {} rows of table '{}'.".format(count, table))
     finally:

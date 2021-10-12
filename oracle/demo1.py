@@ -40,7 +40,7 @@ if __name__ == "__main__":
         database = sys.argv[5]
         table = sys.argv[6]
         # get all the data from specified table
-        cursor.execute("SELECT * FROM {}".format(table))
+        cursor.execute("SELECT * FROM {}.{}".format(database, table))
         result = cursor.fetchall()
         logging.info("Getting data from database '{}' table '{}'.".format(database, table))
         count = 0
@@ -68,7 +68,7 @@ if __name__ == "__main__":
                         # parser.register('results', FileTarget("resultsblob{}_{}.json".format(count,colNum)))
                         for chunk in r.iter_content():
                             parser.data_received(chunk)
-                        query = "UPDATE {} SET {} = :1 WHERE {} = :2".format(table, field_names[colNum],
+                        query = "UPDATE {}.{} SET {} = :1 WHERE {} = :2".format(database, table, field_names[colNum],
                                                                              field_names[firstNum])
                         if len(fileval.value) > 0:
                             args = (fileval.value, firstval)
@@ -84,7 +84,7 @@ if __name__ == "__main__":
                                            "text": "{}".format(value)}) as r:
                         if r.status_code >= 300:
                             raise Exception(f"Failed with status {r.status_code}:\n\n{r.json()}")
-                        query = "UPDATE {} SET {} = :1 WHERE {} = :2".format(table, field_names[colNum],
+                        query = "UPDATE {}.{} SET {} = :1 WHERE {} = :2".format(database, table, field_names[colNum],
                                                                              field_names[firstNum])
                         args = (r.json()['maskedText'], firstval)
                         cursor.execute(query, args)
