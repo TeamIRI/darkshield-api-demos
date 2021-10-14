@@ -1,0 +1,31 @@
+{
+    "_identification": "1d25dd827a0cf8f3791ebeac",
+    "index": 0,
+    "isActive": false,
+    "balance": "$7,921.34",
+    "picture": "http://placehold.it/32x32",
+    "age": 21,
+    "eyeColor": "blue",
+    "name": "John Doe",
+    "gender": "male",
+    "company": "DUOFLEX",
+    "email": "johndoe@duoflex.com",
+    "phone": "+1 (843) 400-3872",
+    "address": "649 Bath Avenue, Sanborn, West Virginia, 7522",
+    "registered": "2020-03-22T12:56:38 +04:00",
+    "friends": [
+      {
+        "identification": 0,
+        "name": "Jane Doe"
+      },
+      {
+        "identification": 1,
+        "name": "Bob Smith"
+      },
+      {
+        "identification": 2,
+        "name": "Alissa Thomas"
+      }
+    ],
+    "greeting": "Good morning, John Doe! You have a new message."
+}

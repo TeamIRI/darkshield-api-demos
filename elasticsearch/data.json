@@ -1,0 +1,31 @@
+{
+    "_identification": "5d35ed837a0cf8f1691ebedc",
+    "index": 0,
+    "isActive": true,
+    "balance": "$2,855.12",
+    "picture": "http://placehold.it/32x32",
+    "age": 28,
+    "eyeColor": "brown",
+    "name": "Kathy Wynn",
+    "gender": "female",
+    "company": "DUOFLEX",
+    "email": "kathy@duoflex.com",
+    "phone": "+1 (843) 400-3871",
+    "address": "449 Bath Avenue, Sanborn, West Virginia, 7522",
+    "registered": "2018-03-22T12:55:39 +04:00",
+    "friends": [
+      {
+        "identification": 0,
+        "name": "Thomas Duffy"
+      },
+      {
+        "identification": 1,
+        "name": "Jami Myers"
+      },
+      {
+        "identification": 2,
+        "name": "Alissa Justice"
+      }
+    ],
+    "greeting": "Good morning, Kathy Wynn! You have a new message."
+}
