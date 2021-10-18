@@ -24,7 +24,7 @@ def setup(session):
             {
                 "name": "DateMatcher",
                 "type": "pattern",
-                "pattern": r"\b([0]\d|[1][012])[-/.]?([012]\d|[3][01])[-/.]?(\d{4})\b"
+                "pattern": r"\b(\d{4})[-/.]?(0?[1-9]|1[0-2])[-/.]?([012]\d|[3][01])\b"
             },
             {
                 "name": "EmailMatcher",
@@ -100,6 +100,11 @@ def setup(session):
             "expression": r"replace_chars(${SSN},'*',1,3,'*',5,2)"
           },
           {
+            "name": "BlurDateRule",
+            "type": "cosort",
+            "expression": r'change_dt(${INPUT}, 10, "DAY")'
+          },
+          {
           "name": "FpeRule",
           "type": "cosort",
           "expression": r"enc_fp_aes256_alphanum(${INPUT})"
@@ -110,7 +115,7 @@ def setup(session):
                 "name": "FpeRuleMatcher",
                 "type": "name",
                 "rule": "FpeRule",
-                "pattern": ".*"
+                "pattern": r".*"
           }
         ]
     }
