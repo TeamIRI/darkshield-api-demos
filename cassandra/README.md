@@ -18,5 +18,6 @@ To install the additional dependency for the Casssandra Python driver, execute *
 be installed globally).
 
 To execute, run *python main.py*.
-Masked and original versions of the blob (which is a PDF documentin this case) will be written to the *masked* folder,
+Masked and original versions of the blob (which is a PDF document in this case) will be written to the *masked* folder,
 along with the JSON results returned as a part of the response from the DarkShield Files API.
+
