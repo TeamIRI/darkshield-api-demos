@@ -36,7 +36,7 @@ def setup(session):
             "name": "FpeRuleMatcher",
             "type": "name",
             "rule": "FpeRule",
-            "pattern": "NameMatcher"
+            "pattern": "NameMatcher|ColumnMatcher"
           }
         ]
     }
@@ -49,17 +49,17 @@ def setup(session):
             "type": "searchContext"
           },
           {
-            "name": "NameMatcher",
+            "name": "ColumnMatcher",
             "type": "column",
             "pattern": "PID|3"
           },
           {
-            "name": "NameMatcher",
+            "name": "ColumnMatcher",
             "type": "column",
             "pattern": "NK1|5"
           },
           {
-            "name": "NameMatcher",
+            "name": "ColumnMatcher",
             "type": "column",
             "pattern": "NK1|2"
           }
