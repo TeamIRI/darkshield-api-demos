@@ -92,7 +92,7 @@ if __name__ == "__main__":
             rowvalues = []
             rowmaskedvalues = []
             for column_count, column in enumerate(row):
-                if isinstance(data_types[column_count], bytearray):
+                if isinstance(column, bytes):
                     files = {'file': io.BytesIO(column), 'context': contextfile}
                     with s.post(urlfile, files=files, stream=True) as r:
                         if r.status_code >= 300:
