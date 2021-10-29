@@ -12,14 +12,20 @@ To install the additional dependencies, execute *pip install -r requirements.txt
 be installed globally).
 
 There are two demos present in this folder.
+
 The first demo (sql_server_all.py) should be run if there are blob columns to mask.
+
 The usage is as follows:
+
 sql_server_all.py [-h] [-H HOSTNAME] [-P PORT] -u USERNAME -p PASSWORD -d DATABASE -t TABLE -T TARGET -s SCHEMA [-q QUERY] [-b BATCHSIZE]
+
 The hostname and port arguments are optional, and default to *localhost* and *1433*, respectively. A username, password, database name, table name, target table name, and schema should be specified.
-Additionally, a query can be specified to select certain columns and/or rows. The default query used is *SELECT **. The batchsize specifies after how many rows to insert the masked results into the 
-target table and clear the data values held in memory.
+
+Additionally, a query can be specified to select certain columns and/or rows. The default query used is SELECT *. The batchsize specifies after how many rows to insert the masked results into the target table and clear the data values held in memory.
+
 The second demo (sql_server_text.py) can handle textual columns more rapidly, but the columns must not contain any blobs. A column separator and row separator must also be specified that is not present in any of the values.
-The usage is: 
+The usage is:
+
 sql_server_text.py [-h] [-H HOSTNAME] [-P PORT] -u USERNAME -p PASSWORD -d DATABASE -t TABLE -T TARGET -s SCHEMA [-q QUERY] [-a ROWSEP] [-b COLSEP] [-S STARTROW] [-E ENDROW]
 
 The example will find and mask the following:
