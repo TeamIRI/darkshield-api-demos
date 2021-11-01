@@ -91,12 +91,7 @@ def setup(session):
           "name": mask_context_name,
           "type": "maskContext"
         }
-      ],
-      "configs": {
-        "json": {
-          "prettyPrint": True
-        }
-      }
+      ]
     }
 
     utils.create_context("searchContext", search_context,session)
