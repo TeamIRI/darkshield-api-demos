@@ -93,6 +93,7 @@ if __name__ == "__main__":
             )
             """
         conn = None
+        logging.info("Connecting to database...")
         try:
             conn = psycopg2.connect(
                 host=hostname,
@@ -106,6 +107,7 @@ if __name__ == "__main__":
                 conn.rollback()
             else:
                 raise Exception("Could not connect to Postgres database.")
+        logging.info(f"Creating sample_json and sample_json_masked tables in {database}...")
         sql_execute("DROP TABLE sample_json", cur, conn)
         sql_execute("DROP TABLE sample_json_masked", cur, conn)
         sql_execute(create_sample_table_command, cur, conn)
@@ -113,14 +115,17 @@ if __name__ == "__main__":
         sql = """INSERT INTO sample_json(message_contents)
                  VALUES(%s);"""
         json_values = []
+        logging.info(f"Generating sample JSON messages...")
         for _ in range(random.randint(10, 100)):
             json_value = [gen_json()]
             json_values.append(json_value)
         cur.executemany(sql, json_values)
         conn.commit()
+        logging.info(f"Retrieving sample JSON messages from sample_json table...")
         cur.execute("SELECT message_id, message_contents FROM sample_json")
         batchmaskedvalues = []
         row = cur.fetchone()
+        logging.info(f"Sending JSON messages to DarkShield-Files API...")
         while row is not None:
             rowvalues = []
             encoder = MultipartEncoder(fields={
@@ -141,6 +146,7 @@ if __name__ == "__main__":
                     rowvalues.append(fileval.value.decode())
                     batchmaskedvalues.append(rowvalues)
             row = cur.fetchone()
+        logging.info(f"Inserting all masked JSON messages in sample_json_masked table...")
         cur.executemany("""
                         INSERT INTO sample_json_masked 
                         VALUES(%s, %s)""",
@@ -148,5 +154,6 @@ if __name__ == "__main__":
         if conn is not None:
             conn.commit()
             conn.close()
+            logging.info(f"Completed masking JSON in PostgreSQL table.")
     finally:
         teardown(session)
