@@ -83,6 +83,7 @@ if __name__ == "__main__":
         "fileMaskContextName": file_mask_context_name
     })
     data = cursor.fetchall()
+    logging.info(f"{datetime.datetime.now()}")
     try:
         setup(s)
         logging.info(f"{datetime.datetime.now()}")

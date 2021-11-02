@@ -1,4 +1,4 @@
-# DarkShield Files API: SQL Server Search/Masking
+# DarkShield Files and DarkShield Base API: SQL Server Search/Masking
 
 This example demonstrates the use of the *darkshield* and *darkshield-files* API to search and mask SQL Server database values. To run, the *plankton* web services API must be hosted on 
 *http://localhost:8080* and must have the *darkshield* and *darkshield-files* plugins 
@@ -11,13 +11,13 @@ To install the additional dependencies, execute *pip install -r requirements.txt
 (make sure your virtual environment is activated, or your dependencies will 
 be installed globally).
 
-There are two demos present in this folder.
+There are three demos present in this folder.
 
-The first demo (sql_server_all.py) should be run if there are blob columns to mask.
+The first demo (sql_server_blob.py) should be run if there are blob columns to mask.
 
 The usage is as follows:
 
-sql_server_all.py [-h] [-H HOSTNAME] [-P PORT] -u USERNAME -p PASSWORD -d DATABASE -t TABLE -T TARGET -s SCHEMA [-q QUERY] [-b BATCHSIZE]
+sql_server_blob.py [-h] [-H HOSTNAME] [-P PORT] -u USERNAME -p PASSWORD -d DATABASE -t TABLE -T TARGET -s SCHEMA [-q QUERY] [-b BATCHSIZE]
 
 The hostname and port arguments are optional, and default to *localhost* and *1433*, respectively. A username, password, database name, table name, target table name, and schema should be specified.
 
@@ -28,12 +28,22 @@ The usage is:
 
 sql_server_text.py [-h] [-H HOSTNAME] [-P PORT] -u USERNAME -p PASSWORD -d DATABASE -t TABLE -T TARGET -s SCHEMA [-q QUERY] [-a ROWSEP] [-b COLSEP] [-S STARTROW] [-E ENDROW]
 
-The example will find and mask the following:
+The third demo (sql_server_mixed.py) has the advantages of handling textual columns more rapidly by combining into one request, but allows for blobs as well. However, if there are a lot of blobs,
+there will not be much of a speed difference between this demo and the *sql_server_blob* demo.
+
+The usage is as follows:
+sql_server_mixed.py [-h] [-H HOSTNAME] [-P PORT] -u USERNAME -p PASSWORD -d DATABASE -t TABLE -T TARGET -s
+                           SCHEMA [-q QUERY] [-a ROWSEP] [-b COLSEP] [-S STARTROW] [-E ENDROW] [-B BATCHSIZE]
+
+
+These examples will find and mask the following:
 
 1. Social Security Numbers (SsnMatcher): Found using a regular expression. The first 5 digits of the Social Security Number,
 excluding the dashes, will be redacted with the '*' character.
 2. Names (NameMatcher): Found using a Named Entity Recognition (NER) model. Will encrypt the names with 
 format-preserving alphanumeric encryption.
+
+This can be configured by modifying the *setup.py* file.
 
 The setup script will also download the NER and sentence detection models from the
 [OpenNLP website](http://opennlp.sourceforge.net/models-1.5/) if not present in the
