@@ -11,11 +11,12 @@ Prerequisites:
 
 import argparse
 import datetime
-import logging
 import json
-import requests
-import sys
+import logging
 import os
+import sys
+
+import requests
 
 # Append parent directory to PYTHON_PATH so we can import utils.py
 current_dir = os.path.dirname(os.path.realpath(__file__))
@@ -26,13 +27,13 @@ from setup import setup, teardown, file_mask_context_name, file_search_context_n
 
 from google.cloud import bigtable
 from google.cloud.bigtable import column_family
-
+from utils import base_url
 
 def main(project_id, instance_id, table_id):
     logging.basicConfig(format='%(levelname)s: %(message)s', level=logging.INFO)
     s = requests.Session()
-    url = 'http://localhost:8080/api/darkshield/searchContext.mask'
-    urlfile = 'http://localhost:8080/api/darkshield/files/fileSearchContext.mask'
+    url = f'{base_url}/searchContext.mask'
+    urlfile = f'{base_url}/files/fileSearchContext.mask'
     contextfile = json.dumps({
         "fileSearchContextName": file_search_context_name,
         "fileMaskContextName": file_mask_context_name
@@ -71,7 +72,8 @@ def main(project_id, instance_id, table_id):
             cell = row.cells[column_family_id][column][0]
             cell_value = cell.value.decode('utf-8')
             logging.info('Read value \'{}\' from table...'.format(cell_value))
-            with s.post(url, json={"searchContextName": "SearchContext", "maskContextName": "MaskContext", "text": "{}".format(cell_value)}) as r:
+            with s.post(url, json={"searchContextName": "SearchContext", "maskContextName": "MaskContext",
+                                   "text": "{}".format(cell_value)}) as r:
                 if r.status_code >= 300:
                     raise Exception(f"Failed with status {r.status_code}:\n\n{r.json()}")
                 logging.info('Putting masked response text \'{}\' into table...'.format(r.json()['maskedText']))

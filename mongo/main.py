@@ -1,9 +1,10 @@
 import json
 import logging
 import os
+import sys
+
 import pymongo
 import requests
-import sys
 
 # Append parent directory to PYTHON_PATH so we can import utils.py
 current_dir = os.path.dirname(os.path.realpath(__file__))
@@ -14,11 +15,12 @@ from bson import json_util
 from setup import setup, teardown
 from streaming_form_data import StreamingFormDataParser
 from streaming_form_data.targets import ValueTarget, FileTarget
+from utils import base_url
 
 if __name__ == "__main__":
     logging.basicConfig(format='%(levelname)s: %(message)s', level=logging.INFO)
     session = requests.Session()
-    url = 'http://localhost:8080/api/darkshield/files/fileSearchContext.mask'
+    url = f'{base_url}/files/fileSearchContext.mask'
     context = json.dumps({
         "fileSearchContextName": "FileSearchContext",
         "fileMaskContextName": "FileMaskContext"

@@ -1,21 +1,24 @@
-from datetime import datetime
-from elasticsearch import Elasticsearch
 import json
 import logging
 import os
-import requests
 import sys
+
+import requests
+
+from elasticsearch import Elasticsearch
+
 current_dir = os.path.dirname(os.path.realpath(__file__))
 parent_dir = os.path.dirname(current_dir)
 sys.path.append(parent_dir)
 from setup import setup, teardown
 from streaming_form_data import StreamingFormDataParser
 from streaming_form_data.targets import ValueTarget, FileTarget
+from utils import base_url
 
 if __name__ == "__main__":
     logging.basicConfig(format='%(levelname)s: %(message)s', level=logging.INFO)
     session = requests.Session()
-    url = 'http://localhost:8080/api/darkshield/files/fileSearchContext.mask'
+    url = f'{base_url}/files/fileSearchContext.mask'
     context = json.dumps({
         "fileSearchContextName": "FileSearchContext",
         "fileMaskContextName": "FileMaskContext"
@@ -53,7 +56,7 @@ if __name__ == "__main__":
                 for chunk in r.iter_content(4096):
                     parser.data_received(chunk)
             logging.info('Sending masked result to test-index-masked.')
-            res = es.index(index="test-index-masked", id=count+1, document=json.loads(output.value))
+            res = es.index(index="test-index-masked", id=count + 1, document=json.loads(output.value))
         es.indices.refresh(index="test-index-masked")
         logging.info('Searching test-index-masked to display masked results...')
         res = es.search(index="test-index-masked", query={"match_all": {}})

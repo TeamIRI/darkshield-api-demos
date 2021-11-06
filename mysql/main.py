@@ -2,9 +2,10 @@ import io
 import json
 import logging
 import os
+import sys
+
 import mysql.connector
 import requests
-import sys
 
 # Append parent directory to PYTHON_PATH so we can import utils.py
 current_dir = os.path.dirname(os.path.realpath(__file__))
@@ -14,6 +15,7 @@ sys.path.append(parent_dir)
 from setup import setup, teardown, file_mask_context_name, file_search_context_name
 from streaming_form_data import StreamingFormDataParser
 from streaming_form_data.targets import ValueTarget
+from utils import base_url
 
 if __name__ == "__main__":
     # args: [host] [username] [password] [database] [table]
@@ -23,12 +25,12 @@ if __name__ == "__main__":
         exit(0)
     logging.basicConfig(format='%(levelname)s: %(message)s', level=logging.INFO)
     s = requests.Session()
-    url = 'http://localhost:8080/api/darkshield/searchContext.mask'
-    urlfile = 'http://localhost:8080/api/darkshield/files/fileSearchContext.mask'
+    url = f'{base_url}/searchContext.mask'
+    urlfile = f'{base_url}/files/fileSearchContext.mask'
     contextfile = json.dumps({
-            "fileSearchContextName": file_search_context_name,
-            "fileMaskContextName": file_mask_context_name
-        })
+        "fileSearchContextName": file_search_context_name,
+        "fileMaskContextName": file_mask_context_name
+    })
     try:
         setup(s)
         host = sys.argv[1]
@@ -54,7 +56,7 @@ if __name__ == "__main__":
         for row in myresult:
             # log progess every 25 rows
             if count % 25 == 0:
-                logging.info("Masking row {} of table '{}'.".format(count+1, table))
+                logging.info("Masking row {} of table '{}'.".format(count + 1, table))
             firstval = ''
             firstNum = 0
             colNum = 0
@@ -86,7 +88,7 @@ if __name__ == "__main__":
                         firstnum = colNum
                     # unstructured text or basic values; handle using base DarkShield API
                     with s.post(url, json={"searchContextName": "SearchContext", "maskContextName":
-                                "MaskContext", "text": "{}".format(value)}) as r:
+                        "MaskContext", "text": "{}".format(value)}) as r:
                         if r.status_code >= 300:
                             raise Exception(f"Failed with status {r.status_code}:\n\n{r.json()}")
                         query = "UPDATE {} SET {} = %s WHERE {} = %s".format(table, field_names[colNum],

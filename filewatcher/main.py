@@ -1,13 +1,15 @@
+import argparse
 import json
 import logging
-import os
-import requests
 import ntpath
+import os
 import sys
 import time
-import argparse
-from watchdog.observers import Observer
+
+import requests
 from watchdog.events import FileSystemEventHandler
+from watchdog.observers import Observer
+
 # Append parent directory to PYTHON_PATH so we can import utils.py
 current_dir = os.path.dirname(os.path.realpath(__file__))
 parent_dir = os.path.dirname(current_dir)
@@ -16,12 +18,13 @@ sys.path.append(parent_dir)
 from setup import setup, teardown, file_mask_context_name, file_search_context_name
 from streaming_form_data import StreamingFormDataParser
 from streaming_form_data.targets import FileTarget
+from utils import base_url
 
 context = json.dumps({
-            "fileSearchContextName": file_search_context_name,
-            "fileMaskContextName": file_mask_context_name
-        })
-url = 'http://localhost:8080/api/darkshield/files/fileSearchContext.mask'
+    "fileSearchContextName": file_search_context_name,
+    "fileMaskContextName": file_mask_context_name
+})
+url = f'{base_url}/files/fileSearchContext.mask'
 s = requests.Session()
 recursive = False
 directory = "./"
@@ -46,10 +49,10 @@ def mask(filename):
 
 
 class DirectoryWatch:
-  
+
     def __init__(self):
         self.observer = Observer()
-  
+
     def run(self, watchDirectory):
         event_handler = Handler()
         self.observer.schedule(event_handler, watchDirectory, recursive=recursive)
@@ -61,12 +64,12 @@ class DirectoryWatch:
             self.observer.stop()
             logging.info("Observer Stopped")
             exit(1)
-  
+
         self.observer.join()
 
 
 class Handler(FileSystemEventHandler):
-  
+
     @staticmethod
     def on_any_event(event):
         if event.is_directory:
@@ -76,20 +79,21 @@ class Handler(FileSystemEventHandler):
             logging.info("Watchdog received {} event - {}.".format(event.event_type, event.src_path))
             time.sleep(1)
             mask(event.src_path)
-  
+
 
 if __name__ == "__main__":
     logging.basicConfig(format='%(levelname)s: %(message)s', level=logging.INFO)
     parser = argparse.ArgumentParser(description='File watcher for newly modified and created file search/masking.')
-    parser.add_argument('directory', type=str, help="The directory to use for the search. If it doesn't exist, it will be created.")
+    parser.add_argument('directory', type=str,
+                        help="The directory to use for the search. If it doesn't exist, it will be created.")
     parser.add_argument('-r', '--recursive', action='store_true', help='Search directory recursively.')
-    
+
     args = parser.parse_args()
     if args.directory:
         directory = args.directory
     if args.recursive:
         recursive = True
-        
+
     try:
         setup(s)
         os.makedirs('masked', exist_ok=True)

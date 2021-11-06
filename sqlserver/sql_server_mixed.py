@@ -1,13 +1,13 @@
-import pyodbc
 import argparse
-import logging
-import requests
-import json
-import sys
-import os
 import datetime
 import io
-import time
+import json
+import logging
+import os
+import sys
+
+import pyodbc
+import requests
 
 # Append parent directory to PYTHON_PATH so we can import utils.py
 current_dir = os.path.dirname(os.path.realpath(__file__))
@@ -17,6 +17,7 @@ sys.path.append(parent_dir)
 from setup import setup, teardown, file_mask_context_name, file_search_context_name
 from streaming_form_data import StreamingFormDataParser
 from streaming_form_data.targets import ValueTarget
+from utils import base_url
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Demo for SQL Server search/masking. This demonstrates an '
@@ -113,8 +114,8 @@ if __name__ == "__main__":
         logging.info(
             f'Searching and masking {args.schema}.{args.table}... Output will be sent to {args.schema}.{args.target}.')
     s = requests.Session()
-    url = 'http://localhost:8080/api/darkshield/searchContext.mask'
-    urlfile = 'http://localhost:8080/api/darkshield/files/fileSearchContext.mask'
+    url = f'{base_url}/searchContext.mask'
+    urlfile = f'{base_url}/files/fileSearchContext.mask'
     contextfile = json.dumps({
         "fileSearchContextName": file_search_context_name,
         "fileMaskContextName": file_mask_context_name
@@ -149,7 +150,8 @@ if __name__ == "__main__":
                         ) as r:
                 if r.status_code >= 300:
                     raise Exception(f"Failed with status {r.status_code}:\n\n{r.json()}")
-                batchmaskedvalues = batchmaskedvalues + [line.split(args.colsep) for line in r.json()['maskedText'].split(args.rowsep)]
+                batchmaskedvalues = batchmaskedvalues + [line.split(args.colsep) for line in
+                                                         r.json()['maskedText'].split(args.rowsep)]
             for row_count, row in enumerate(blob_rows):
                 for col_count, col in enumerate(row):
                     files = {'file': io.BytesIO(col), 'context': contextfile}

@@ -1,14 +1,17 @@
 import json
 import logging
 import os
-import cassandra
-import requests
 import sys
 import uuid
+
+import requests
 from cassandra.cluster import Cluster
 from cassandra.cqlengine import columns
-from cassandra.cqlengine.models import Model
 from cassandra.cqlengine.management import sync_table
+from cassandra.cqlengine.models import Model
+from utils import base_url
+
+import cassandra
 
 # Append parent directory to PYTHON_PATH so we can import utils.py
 current_dir = os.path.dirname(os.path.realpath(__file__))
@@ -18,6 +21,7 @@ sys.path.append(parent_dir)
 from setup import setup, teardown
 from streaming_form_data import StreamingFormDataParser
 from streaming_form_data.targets import ValueTarget, FileTarget
+
 
 # This demo will setup Search and Mask Contexts for the DarkShield API, connect to Cassandra
 # at the default localhost, port 9042, create a 'test' keyspace if it does not already exist,
@@ -36,8 +40,8 @@ class Person(Model):
 if __name__ == "__main__":
     logging.basicConfig(format='%(levelname)s: %(message)s', level=logging.INFO)
     session = requests.Session()
-    url_file = 'http://localhost:8080/api/darkshield/files/fileSearchContext.mask'
-    url_base = 'http://localhost:8080/api/darkshield/searchContext.mask'
+    url_file = f'{base_url}/files/fileSearchContext.mask'
+    url_base = f'{base_url}/searchContext.mask'
     context = json.dumps({
         "fileSearchContextName": "FileSearchContext",
         "fileMaskContextName": "FileMaskContext"

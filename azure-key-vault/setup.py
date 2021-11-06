@@ -1,12 +1,11 @@
 import os
 import pathlib
+
 from azure.identity import InteractiveBrowserCredential
 from azure.keyvault.secrets import SecretClient
-from azure.identity import DefaultAzureCredential
 
 import utils
 
-host = 'http://localhost:8080/api/darkshield'
 search_context_name = "SearchContext"
 mask_context_name = "MaskContext"
 file_search_context_name = "FileSearchContext"
@@ -19,6 +18,7 @@ def getSecret(keyVaultName, secretName):
     client = SecretClient(vault_url=KVUri, credential=credential)
     retrieved_secret = client.get_secret(secretName)
     return retrieved_secret.value
+
 
 def setup(session):
     model_url = utils.download_model('en-ner-person.bin', session)
@@ -50,7 +50,7 @@ def setup(session):
                 "type": "pattern",
                 "pattern": r"\b((25[0-5]|2[0-4]\d|[01]?\d\d?)\.){3}(25[0-5]|2[0-4]\d|[01]?\d\d?)\b"
             },
-              {
+            {
                 "name": "NameMatcher",
                 "type": "ner",
                 "modelUrl": model_url,

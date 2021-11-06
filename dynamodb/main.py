@@ -1,11 +1,11 @@
 import argparse
-import boto3
 import logging
 import os
-import requests
-import simplejson as json
 import sys
 
+import boto3
+import requests
+import simplejson as json
 from botocore import exceptions
 
 # Append parent directory to PYTHON_PATH so we can import utils.py
@@ -13,23 +13,30 @@ current_dir = os.path.dirname(os.path.realpath(__file__))
 parent_dir = os.path.dirname(current_dir)
 sys.path.append(parent_dir)
 
-from setup import create_table, delete_table, populate_test_data, setup, teardown, file_mask_context_name, file_search_context_name
+from setup import create_table, delete_table, populate_test_data, setup, teardown, file_mask_context_name, \
+    file_search_context_name
 from streaming_form_data import StreamingFormDataParser
 from streaming_form_data.targets import ValueTarget, FileTarget
+from utils import base_url
 
 if __name__ == "__main__":
     logging.basicConfig(format='%(levelname)s: %(message)s', level=logging.INFO)
     session1 = requests.Session()
     parser = argparse.ArgumentParser(description='Demo for DynamoDB table search/masking.')
-    parser.add_argument('table', type=str, help="The source table name to use for the search. If it doesn't exist, it will be created.")
-    parser.add_argument('-d', '--delete-existing', action='store_true', help='Delete the source and target tables before running the demo.')
-    parser.add_argument('-p', '--profile', metavar='name', type=str, help='The name of AWS profile to use for the connection (otherwise the default is used).')
-    parser.add_argument('-t', '--target', metavar='name', type=str, help="The target table name (by default, an update is performed on the source table).")
+    parser.add_argument('table', type=str,
+                        help="The source table name to use for the search. If it doesn't exist, it will be created.")
+    parser.add_argument('-d', '--delete-existing', action='store_true',
+                        help='Delete the source and target tables before running the demo.')
+    parser.add_argument('-p', '--profile', metavar='name', type=str,
+                        help='The name of AWS profile to use for the connection (otherwise the default is used).')
+    parser.add_argument('-t', '--target', metavar='name', type=str,
+                        help="The target table name (by default, an update is performed on the source table).")
 
     exclusive_group = parser.add_mutually_exclusive_group()
     exclusive_group.add_argument('-e', '--endpoint', metavar='name', type=str, help='Specify the dynamodb endpoint.')
-    exclusive_group.add_argument('-r', '--region', metavar='name', type=str, help='The region name (otherwise the default for the profile is used).')
-    
+    exclusive_group.add_argument('-r', '--region', metavar='name', type=str,
+                                 help='The region name (otherwise the default for the profile is used).')
+
     args = parser.parse_args()
     table_name = args.table
     target_table_name = args.target or table_name
@@ -39,7 +46,7 @@ if __name__ == "__main__":
         dynamodb = session.resource('dynamodb', endpoint_url=args.endpoint)
     elif args.region:
         dynamodb = session.resource('dynamodb', endpoint_url=f'https://dynamodb.{args.region}.amazonaws.com')
-    else:   
+    else:
         dynamodb = session.resource('dynamodb')
 
     table = dynamodb.Table(table_name)
@@ -58,12 +65,12 @@ if __name__ == "__main__":
     # and has no data, populate it with test data.
     try:
         response = table.scan(**scan_kwargs)
-        items = response.get('Items', []) 
+        items = response.get('Items', [])
         if not items:
             logging.info(f"'{table_name}' is empty, populating with test data...")
             populate_test_data(table)
             response = table.scan(**scan_kwargs)
-            items = response.get('Items', [])  
+            items = response.get('Items', [])
     except exceptions.ClientError as e:
         if e.response['Error']['Code'] == 'ResourceNotFoundException':
             logging.info(f"'{table_name}' does not exist, creating...")
@@ -71,7 +78,7 @@ if __name__ == "__main__":
             logging.info('Populating test data...')
             populate_test_data(table)
             response = table.scan(**scan_kwargs)
-            items = response.get('Items', [])  
+            items = response.get('Items', [])
         else:
             raise e
 
@@ -85,7 +92,7 @@ if __name__ == "__main__":
                 target_table = create_table(dynamodb, target_table_name)
     try:
         setup(session1)
-        url = 'http://localhost:8080/api/darkshield/files/fileSearchContext.mask'
+        url = f'{base_url}/files/fileSearchContext.mask'
         context = json.dumps({
             "fileSearchContextName": file_search_context_name,
             "fileMaskContextName": file_mask_context_name
@@ -123,7 +130,7 @@ if __name__ == "__main__":
             with target_table.batch_writer() as batch:
                 for item in masked_batch:
                     batch.put_item(Item=item)
-            
+
             start_key = response.get('LastEvaluatedKey', None)
             done = start_key is None
             scan_kwargs['ExclusiveStartKey'] = start_key

@@ -1,10 +1,12 @@
 import json
 import logging
-import os
-import requests
 import ntpath
+import os
 import sys
 from tkinter.filedialog import askopenfilename
+
+import requests
+
 # Append parent directory to PYTHON_PATH so we can import utils.py
 current_dir = os.path.dirname(os.path.realpath(__file__))
 parent_dir = os.path.dirname(current_dir)
@@ -13,13 +15,14 @@ sys.path.append(parent_dir)
 from setup import setup, teardown, file_mask_context_name, file_search_context_name
 from streaming_form_data import StreamingFormDataParser
 from streaming_form_data.targets import FileTarget
+from utils import base_url
 
 if __name__ == "__main__":
     logging.basicConfig(format='%(levelname)s: %(message)s', level=logging.INFO)
     s = requests.Session()
     try:
         setup(s)
-        url = 'http://localhost:8080/api/darkshield/files/fileSearchContext.mask'
+        url = f'{base_url}/files/fileSearchContext.mask'
         context = json.dumps({
             "fileSearchContextName": file_search_context_name,
             "fileMaskContextName": file_mask_context_name
@@ -39,7 +42,8 @@ if __name__ == "__main__":
                         logging.info(f"Failed with status {r.status_code}:\n\n{r.json()}")
                         break
 
-                    logging.info(f"Extracting 'masked_{basename}' and 'masked_{basename}_results.json' into {masked_folder}.")
+                    logging.info(
+                        f"Extracting 'masked_{basename}' and 'masked_{basename}_results.json' into {masked_folder}.")
                     parser = StreamingFormDataParser(headers=r.headers)
                     parser.register('file', FileTarget(f'{masked_folder}/masked_{basename}'))
                     parser.register('results', FileTarget(f'{masked_folder}/masked_{basename}_results.json'))

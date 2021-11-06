@@ -1,24 +1,26 @@
 import logging
-import os
 import pathlib
 
-host = 'http://localhost:8080/api/darkshield'
+from server_config import hostname, port, is_https
+
+base_url = f'http{"s" if is_https else ""}://{hostname}:{port}/api/darkshield'
+
 
 def create_context(context, data, session):
-    url = f'{host}/{context}.create'
+    url = f'{base_url}/{context}.create'
     logging.info(f'POST: {url}')
     with session.post(url, json=data) as r:
         if r.status_code >= 300:
             raise Exception(f"Failed with status {r.status_code}:\n\n{r.json()}")
 
 
-def destroy_context(context, name,session):
-    url = f'{host}/{context}.destroy'
+def destroy_context(context, name, session):
+    url = f'{base_url}/{context}.destroy'
     logging.info(f'POST: {url}')
     session.post(url, json={'name': name})
 
 
-def download_model(name,session):
+def download_model(name, session):
     current_dir = pathlib.Path(__file__).parent.absolute()
     model_path = current_dir.joinpath(name)
     logging.info(f'Checking if {model_path} exists')

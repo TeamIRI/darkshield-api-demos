@@ -1,12 +1,13 @@
-import pyodbc
 import argparse
-import logging
-import requests
-import json
-import sys
-import os
-import io
 import datetime
+import io
+import json
+import logging
+import os
+import sys
+
+import pyodbc
+import requests
 
 # Append parent directory to PYTHON_PATH so we can import utils.py
 current_dir = os.path.dirname(os.path.realpath(__file__))
@@ -16,7 +17,7 @@ sys.path.append(parent_dir)
 from setup import setup, teardown, file_mask_context_name, file_search_context_name
 from streaming_form_data import StreamingFormDataParser
 from streaming_form_data.targets import ValueTarget
-
+from utils import base_url
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Demo for SQL Server search/masking.')
@@ -67,17 +68,19 @@ if __name__ == "__main__":
     batchmaskedvalues = []
     # create new table with the same structure based on the source table.
     try:
-        cursor.execute("SELECT * INTO {}.{} FROM {}.{} WHERE 1 <> 1".format(args.schema, args.target, args.schema, args.table))
+        cursor.execute(
+            "SELECT * INTO {}.{} FROM {}.{} WHERE 1 <> 1".format(args.schema, args.target, args.schema, args.table))
     except pyodbc.ProgrammingError:
         logging.warning(f"{args.target} already exists. Column layout will not be changed..")
     logging.info(f"Truncating {args.target}...")
     cursor.execute('TRUNCATE TABLE {}.{}'.format(args.schema, args.target))
     logging.info(f"Getting table info...")
     cursor.execute('{} FROM {}.{}'.format(args.query, args.schema, args.table))
-    logging.info(f'Searching and masking {args.schema}.{args.table}... Output will be sent to {args.schema}.{args.target}.')
+    logging.info(
+        f'Searching and masking {args.schema}.{args.table}... Output will be sent to {args.schema}.{args.target}.')
     s = requests.Session()
-    url = 'http://localhost:8080/api/darkshield/searchContext.mask'
-    urlfile = 'http://localhost:8080/api/darkshield/files/fileSearchContext.mask'
+    url = f'{base_url}/searchContext.mask'
+    urlfile = f'{base_url}/files/fileSearchContext.mask'
     contextfile = json.dumps({
         "fileSearchContextName": file_search_context_name,
         "fileMaskContextName": file_mask_context_name

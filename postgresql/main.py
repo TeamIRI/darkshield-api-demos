@@ -1,13 +1,13 @@
 import json
 import logging
 import os
-from faker import Faker
 import random
+import sys
 from random import randint
 
-import requests
-import sys
 import psycopg2
+import requests
+from faker import Faker
 
 # Append parent directory to PYTHON_PATH so we can import utils.py
 current_dir = os.path.dirname(os.path.realpath(__file__))
@@ -18,16 +18,20 @@ from requests_toolbelt import MultipartEncoder
 from setup import setup, teardown, file_mask_context_name, file_search_context_name
 from streaming_form_data import StreamingFormDataParser
 from streaming_form_data.targets import ValueTarget
+from utils import base_url
 
 fake = Faker('en_US')
 
 florida_cities = ['Jacksonville', 'Miami', 'Tampa', 'Orlando', 'St. Petersburg', 'Hialeah', 'Port St. Lucie',
-                  'Tallahassee', 'Cape Coral', 'Fort Lauderdale', 'Gainesville', 'Lakeland', 'Pensacola', 'Sarasota', 'Fort Myers', 'Melbourne',
-                  'Daytona Beach', 'Ocala', 'Panama City', 'Bradenton', 'Naples', 'Punta Gorda', 'Plant City', 'Largo', 'Clearwater',
+                  'Tallahassee', 'Cape Coral', 'Fort Lauderdale', 'Gainesville', 'Lakeland', 'Pensacola', 'Sarasota',
+                  'Fort Myers', 'Melbourne',
+                  'Daytona Beach', 'Ocala', 'Panama City', 'Bradenton', 'Naples', 'Punta Gorda', 'Plant City', 'Largo',
+                  'Clearwater',
                   'Hollywood', 'Pembroke Pines', 'West Palm Beach', 'Davie', 'Deltona', 'North Port', 'Tarpon Springs',
                   'Titusville', 'Cocoa Beach', 'Palm Bay', 'Venice', 'Rockledge', 'St. Augustine']
 
 area_codes = ['239', '305', '321', '352', '386', '407', '561', '727', '772', '813', '850', '904', '941', '954']
+
 
 def sql_execute(command, cur, conn):
     try:
@@ -52,6 +56,7 @@ def gen_phone_number():
             phone_number += str(random.randint(0, 9))
     return phone_number
 
+
 def gen_json():
     first_name = fake.first_name()
     last_name = fake.last_name()
@@ -68,7 +73,7 @@ if __name__ == "__main__":
     session = requests.Session()
     try:
         setup(session)
-        url = 'http://localhost:8080/api/darkshield/files/fileSearchContext.mask'
+        url = f'{base_url}/files/fileSearchContext.mask'
         context = json.dumps({
             "fileSearchContextName": file_search_context_name,
             "fileMaskContextName": file_mask_context_name

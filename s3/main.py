@@ -1,10 +1,11 @@
 import argparse
-import boto3
 import json
 import logging
 import os
-import requests
 import sys
+
+import boto3
+import requests
 
 # Append parent directory to PYTHON_PATH so we can import utils.py
 current_dir = os.path.dirname(os.path.realpath(__file__))
@@ -15,13 +16,15 @@ from requests_toolbelt import MultipartEncoder
 from setup import setup, teardown, file_mask_context_name, file_search_context_name
 from streaming_form_data import StreamingFormDataParser
 from streaming_form_data.targets import ValueTarget, FileTarget
+from utils import base_url
 
 if __name__ == "__main__":
     logging.basicConfig(format='%(levelname)s: %(message)s', level=logging.INFO)
     request_session = requests.Session()
     parser = argparse.ArgumentParser(description='Demo for S3 bucket search/masking.')
-    parser.add_argument('bucket_name_or_url', type=str, help="The name of the bucket, or the s3 url of the object (starting with 's3://').")
-    parser.add_argument('-p', '--profile', metavar='name', type=str, 
+    parser.add_argument('bucket_name_or_url', type=str,
+                        help="The name of the bucket, or the s3 url of the object (starting with 's3://').")
+    parser.add_argument('-p', '--profile', metavar='name', type=str,
                         help='The name of AWS profile to use for the connection (otherwise the default is used).')
 
     args = parser.parse_args()
@@ -39,11 +42,11 @@ if __name__ == "__main__":
             bucket_name, prefix = split
         else:
             bucket_name = split[0]
-    
+
     bucket = s3.Bucket(bucket_name)
     try:
         setup(request_session)
-        url = 'http://localhost:8080/api/darkshield/files/fileSearchContext.mask'
+        url = f'{base_url}/files/fileSearchContext.mask'
         context = json.dumps({
             "fileSearchContextName": file_search_context_name,
             "fileMaskContextName": file_mask_context_name
@@ -54,7 +57,7 @@ if __name__ == "__main__":
         else:
             logging.info('Extracting all objects from bucket...')
             objects = bucket.objects.all()
-        
+
         for obj in objects:
             file_name = obj.key
             obj.load()  # Load the metadata for this object.
@@ -89,7 +92,7 @@ if __name__ == "__main__":
 
                 key = f'masked/{file_name}'
                 logging.info(f"Putting masked file in '{key}'.")
-                value = masked_file.value    
+                value = masked_file.value
                 bucket.put_object(Key=key, Body=masked_file.value)
     finally:
         teardown(request_session)
