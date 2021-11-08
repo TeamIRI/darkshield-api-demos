@@ -17,3 +17,6 @@ Some demo projects also contain a *requirements.txt* file for additional
 dependencies that need to be installed in order to run that particular demo.
 
 To execute the demos, execute *python main.py* from the directory of the demo.
+
+The host and port that the DarkShield API server is hosted on may be specified in the *server_config.py* file.
+Additionally, whether the server is using HTTPS or not may be specified.
