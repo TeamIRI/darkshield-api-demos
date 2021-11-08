@@ -7,8 +7,11 @@ The demo will read from one container and write the masked results to another co
 The example will find and mask the following:
 
 Emails (EmailMatcher): Found using a regular expression and masked using a hashing function.
+
 SSN Numbers (SSNMatcher): Found using a regular expression and masked using partial redaction.
+
 Names (NameMatcher): Found using a Named Entity Recognition (NER) model AND using JSON paths (all names can be found in the 'name' key/tag, regardless of nesting).
+
 To execute, run python main.py.
 
 The setup script will also download the NER and sentence detection models from the OpenNLP website if not present in the directory. If you are having trouble downloading the models, place the en-ner-person.bin and en-sent.bin files into this directory.
