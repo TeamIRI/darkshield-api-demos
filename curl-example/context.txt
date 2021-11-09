@@ -1,0 +1,4 @@
+{
+"fileSearchContextName": "EmailMatcherContext",
+"fileMaskContextName": "HashEmailsContext"
+}
