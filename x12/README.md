@@ -1,4 +1,4 @@
-# DarkShield Files API: Text Search/Masking
+# DarkShield Files API: X12 Search/Masking
 
 This example demonstrates the use of the *darkshield-files* API to search and 
 mask text files. To run, the *plankton* web services API must be hosted on 

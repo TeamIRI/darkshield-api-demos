@@ -1,4 +1,6 @@
-This example demonstrates the use of the darkshield-files API to search and mask files located in a bucket on Google Cloud Storage. To run, the plankton web services API must be hosted on http://localhost:8080 and must have the darkshield and darkshield-files plugins installed.
+# DarkShield Files API: GCP Buckets
+
+This example demonstrates the use of the darkshield-files API to search and mask files located in a bucket on Google Cloud Storage. To run, the plankton web services API must be hosted on <http://localhost:8080> and must have the darkshield and darkshield-files plugins installed.
 
 To install the additional dependencies, execute pip install -r requirements.txt (make sure your virtual environment is activated, or your dependencies will be installed globally). Furthermore, a service account must be created in Google Cloud.
 
@@ -15,11 +17,11 @@ The results.json for each masked file will be placed inside the results folder.
 The example will find and mask the following:
 
 Countries(CountryMatcher): Found using a list of entries called a "set file".
-    
+
 Social Security Numbers(SsnMatcher): Found using a regular expression and masked using format-preserving encryption.
-    
+
 Emails (EmailMatcher): Found using a regular expression and masked using a hashing function.
-    
+
 Names (NameMatcher): Found using a Named Entity Recognition (NER) model AND using format-specific json/xml paths (all names can be found in the 'name' key/tag, regardless of nesting).
 
-To execute, run python main.py masked_bucket_name bucket_name folder_name_or_file_path (folder_name_or_file_path is optional). To access a bucket in Google Cloud Storage the script will use a credentials json file that was generated when you created your service account. Follow the instructions in the Setting the environment variable section (https://cloud.google.com/docs/authentication/getting-started) so your application’s code can access the authentication credentials.
+To execute, run python main.py masked_bucket_name bucket_name folder_name_or_file_path (folder_name_or_file_path is optional). To access a bucket in Google Cloud Storage the script will use a credentials json file that was generated when you created your service account. Follow the instructions in the Setting the environment variable section (<https://cloud.google.com/docs/authentication/getting-started>) so your application’s code can access the authentication credentials.

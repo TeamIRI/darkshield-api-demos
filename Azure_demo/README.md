@@ -1,6 +1,8 @@
-This example demonstrates the use of the darkshield-files API to search and mask files located in a container on Azure Blob Storage. To run, the plankton web services API must be hosted on http://localhost:8080 and must have the darkshield and darkshield-files plugins installed.
+# DarkShield Files API: Azure Containers
 
-To install the additional dependencies, execute pip install -r requirements.txt (make sure your virtual environment is activated, or your dependencies will be installed globally). Furthermore, you must have an Azure subscription (https://azure.microsoft.com/en-us/free/) and an Azure Blob storage account (https://docs.microsoft.com/en-us/azure/storage/common/storage-account-overview). 
+This example demonstrates the use of the darkshield-files API to search and mask files located in a container on Azure Blob Storage. To run, the plankton web services API must be hosted on <http://localhost:8080> and must have the darkshield and darkshield-files plugins installed.
+
+To install the additional dependencies, execute pip install -r requirements.txt (make sure your virtual environment is activated, or your dependencies will be installed globally). Furthermore, you must have an Azure subscription (<https://azure.microsoft.com/en-us/free/>) and an Azure Blob storage account (<https://docs.microsoft.com/en-us/azure/storage/common/storage-account-overview>).
 
 The setup script will also download the NER and sentence detection models from the OpenNLP website if not present in the parent directory. If you are having trouble downloading the models, place the en-ner-person.bin, en-sent.bin, and en-token.bin files into the parent directory.
 
@@ -22,4 +24,4 @@ Emails (EmailMatcher): Found using a regular expression and masked using a hashi
 
 Names (NameMatcher): Found using a Named Entity Recognition (NER) model AND using format-specific json/xml paths (all names can be found in the 'name' key/tag, regardless of nesting).
 
-To execute, run python main.py masked_container_name container_name folder_name_or_file_path (folder_name_or_file_path is optional). To access a container in Azure Blob Storage you will need to initialize a client instance with a storage connection string. The connection string to your storage account can be found in the Azure Portal under the "Access Keys" section. Alternatively, you can use the DefaultAzureCredential. See 4a: Use blob storage with authentication (https://docs.microsoft.com/en-us/azure/developer/python/azure-sdk-example-storage-use?tabs=cmd).
+To execute, run python main.py masked_container_name container_name folder_name_or_file_path (folder_name_or_file_path is optional). To access a container in Azure Blob Storage you will need to initialize a client instance with a storage connection string. The connection string to your storage account can be found in the Azure Portal under the "Access Keys" section. Alternatively, you can use the DefaultAzureCredential. See 4a: Use blob storage with authentication (<https://docs.microsoft.com/en-us/azure/developer/python/azure-sdk-example-storage-use?tabs=cmd>).
