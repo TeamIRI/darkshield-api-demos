@@ -38,36 +38,30 @@ def setup(session):
       "rules": [
         {
           "name": "HashRule",
-          "type": "cosort",
           "expression": "hash_sha2($\{INPUT\})"
         },
         {
           "name": "RedactSsnRule",
-          "type": "cosort",
           "expression": r"replace_chars(${SSN},'*',1,3,'*',5,2)"
         },
         {
           "name": "FpeRule",
-          "type": "cosort",
           "expression": "enc_fp_aes256_alphanum($\{INPUT\})"
         }
       ],
       "ruleMatchers": [
         {
           "name": "FpeRuleMatcher",
-          "type": "name",
           "rule": "FpeRule",
           "pattern": "NameMatcher"
         },
         {
           "name": "SsnRuleMatcher",
-          "type": "name",
           "rule": "RedactSsnRule",
           "pattern": "SSNMatcher"
         },
         {
           "name": "HashRuleMatcher",
-          "type": "name",
           "rule": "HashRule",
           "pattern": "EmailMatcher"
         }
