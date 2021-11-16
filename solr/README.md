@@ -25,13 +25,18 @@ file format-specific matchers and configuration options.
 To execute, run *python main.py*.
 
 Some optional arguments may be specified as follows:
-  -h, --help            show help message and exit
-  --collection_name COLLECTION_NAME
-                        The collection to search and mask.
-  --host HOST           The host of Solr.
-  --port PORT           The port of Solr.
-  --query QUERY         The search query to use.
-  --rows ROWS           The number of rows to limit query results to.
+
+  *-h, --help* &nbsp;&nbsp;&nbsp;&nbsp; Show help message and exit
+  
+  *--collection_name* &nbsp;&nbsp;&nbsp;&nbsp; The collection to search and mask.
+  
+  *--host* &nbsp;&nbsp;&nbsp;&nbsp; The host of Solr.
+  
+  *--port* &nbsp;&nbsp;&nbsp;&nbsp; The port of Solr.
+  
+  *--query* &nbsp;&nbsp;&nbsp;&nbsp; The search query to use.
+  
+  *--rows* &nbsp;&nbsp;&nbsp;&nbsp; The number of rows to limit query results to.
   
 The setup script will also download the NER and sentence detection models from 
 the [OpenNLP website](http://opennlp.sourceforge.net/models-1.5/) if not present 
