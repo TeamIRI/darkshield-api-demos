@@ -39,24 +39,20 @@ def setup(session):
         "rules": [
             {
                 "name": "HashEmailRule",
-                "type": "cosort",
                 "expression": r"hash_sha2(${EMAIL})"
             },
             {
                 "name": "RedactSsnRule",
-                "type": "cosort",
                 "expression": r"replace_chars(${SSN},'*',1,3,'*',5,2)"
             },
             {
                 "name": "FpeRule",
-                "type": "cosort",
                 "expression": r"enc_fp_aes256_alphanum(${INPUT})"
             }
         ],
         "ruleMatchers": [
             {
                 "name": "FpeRuleMatcher",
-                "type": "name",
                 "rule": "FpeRule",
                 "pattern": ".*"
             }
