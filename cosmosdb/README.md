@@ -1,6 +1,6 @@
 # DarkShield Files API: CosmosDB Searching/Masking
 
-This example demonstrates the use of the darkshield-files API to search and mask JSON data in a CosmosDB database. To run, the plankton web services API must be hosted on <http://localhost:8959> and must have the darkshield and darkshield-files plugins installed.
+This example demonstrates the use of the darkshield-files API to search and mask JSON data in a CosmosDB database. To run, the plankton web services API must be hosted on <the location specified in server_config.py (by default http://localhost:8959)> and must have the darkshield and darkshield-files plugins installed.
 
 Additionally, an accessible instance of CosmosDB must be running. Credentials to access CosmosDB can be configured in the credentials.json file. URL of the CosmosDB resource, CosmosDB authorization key, name of container being searched, and name of container being written to.
 

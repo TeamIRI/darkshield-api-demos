@@ -15,7 +15,7 @@ be able to redact this text.
 
 The output will be placed into a separate directory.
 To run, the *plankton* web services API must be hosted on 
-*http://localhost:8959* and must have the *darkshield* and *darkshield-files* 
+the location specified in server_config.py (by default *http://localhost:8959*) and must have the *darkshield* and *darkshield-files* 
 plugins installed.
 
 The example will search and mask the following:

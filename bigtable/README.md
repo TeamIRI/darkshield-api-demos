@@ -2,7 +2,7 @@
 
 This example demonstrates the use of the *darkshield* API to search and 
 mask cells in Bigtable. To run, the *plankton* web services API must be hosted on 
-*http://localhost:8959* and must have the *darkshield* and *darkshield-files* 
+the location specified in server_config.py (by default *http://localhost:8959*) and must have the *darkshield* and *darkshield-files* 
 plugins installed.
 
 The example will find and mask all of the following common sensitive data types with format-preserving encryption.

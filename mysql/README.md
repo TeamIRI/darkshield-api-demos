@@ -1,7 +1,7 @@
 # DarkShield Files API: MySQL Search/Masking
 
 This example demonstrates the use of the *darkshield-files* API to search and mask MySQL database values. To run, the *plankton* web services API must be hosted on 
-*http://localhost:8959* and must have the *darkshield* and *darkshield-files* plugins 
+the location specified in server_config.py (by default *http://localhost:8959*) and must have the *darkshield* and *darkshield-files* plugins 
 installed.
 
 You must have a MySQL database installed and hosted on *http://localhost:3306*. The Python MySQL connector must be 
