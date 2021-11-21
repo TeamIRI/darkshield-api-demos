@@ -1,6 +1,6 @@
 # DarkShield Files API: GCP Buckets
 
-This example demonstrates the use of the darkshield-files API to search and mask files located in a bucket on Google Cloud Storage. To run, the plankton web services API must be hosted on <http://localhost:8080> and must have the darkshield and darkshield-files plugins installed.
+This example demonstrates the use of the darkshield-files API to search and mask files located in a bucket on Google Cloud Storage. To run, the plankton web services API must be hosted on <http://localhost:8959> and must have the darkshield and darkshield-files plugins installed.
 
 To install the additional dependencies, execute pip install -r requirements.txt (make sure your virtual environment is activated, or your dependencies will be installed globally). Furthermore, a service account must be created in Google Cloud.
 

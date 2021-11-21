@@ -2,7 +2,7 @@
 
 This example demonstrates the use of the *darkshield-files* API to search and
 mask Word (*.doc* and *.docx*) and Excel (*.xls* and *.xlsx*) documents. To run
-the demo, the *plankton* web services API must be hosted on *http://localhost:8080*
+the demo, the *plankton* web services API must be hosted on *http://localhost:8959*
 and must have the *darkshield* and *darkshield-files* plugins installed.
 
 The example will find and mask the following:
