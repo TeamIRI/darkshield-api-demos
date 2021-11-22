@@ -8,8 +8,9 @@ This demonstration will require:
 
 1. A collection to read from and collection that will receive the masked json results. 
 2. An index must be created for each collection (e.g. CREATE PRIMARY INDEX ON bucket.scope.collection).
-3. Credentials for a user's account with access to the previously mentioned buckets
-.
+3. Credentials for a user's account with access to the previously mentioned buckets.
+
+
 The example will find and mask the following:
 
 1. Phone Numbers (PhoneMatcher): Found using a regular expression, masked with format-preserving AES256 encryption.
