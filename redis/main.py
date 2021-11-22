@@ -86,8 +86,7 @@ if __name__ == "__main__":
                     if r.status_code >= 300:
                         raise Exception(f"Failed with status {r.status_code}:\n\n{r.json()}")
                     parser = StreamingFormDataParser(headers=r.headers)
-                    print(file_name)
-                    print(results_name)
+                 
                     parser.register('file', FileTarget(f'{masked_folder}/{file_name}'))
                     parser.register('results', FileTarget(f'{masked_folder}/{results_name}'))
                     i=i+1
