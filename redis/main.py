@@ -68,7 +68,7 @@ if __name__ == "__main__":
         i=1
         for key in list_str:
             dict_value = red.hgetall(key)
-            new_data = {}
+            #new_data = {}
             json_value = json.dumps(dict_value, indent=True)
             name = "item"+str(i)+".json"
             results_name = "results"+str(i)+".json"
@@ -94,7 +94,7 @@ if __name__ == "__main__":
                     for chunk in r.iter_content(4096):
                         parser.data_received(chunk)
 
-
+                    #Update redisdb with new data from masking operation
 
                     #my_bytes_value = ValueTarget()
                     #parser.register('file', my_bytes_value)                          
