@@ -20,8 +20,9 @@ def setup(session):
             {
                 "name": "NameMatcher",
                 "type": "set",
-                "url": pathlib.Path('entries.set').absolute().as_uri()
-            },
+                "url": pathlib.Path('entries.set').absolute().as_uri(),
+                "matchWholeWords": "false"
+            }
         ]
     }
 
@@ -62,7 +63,12 @@ def setup(session):
                 "name": search_context_name,
                 "type": "searchContext"
             }
-        ]
+        ],
+        "configs": {
+        "image": {
+        "tessDataPath": str(pathlib.Path('ocr_model').absolute())
+        }
+      }
     }
 
     file_mask_context = {

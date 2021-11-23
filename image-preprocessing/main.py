@@ -83,7 +83,7 @@ def revert_deskew(cv_image):
 def deskew(cv_image, args):
     global original_angle
     angle = get_skew_angle(cv_image)
-    if angle < args.skew_angle:
+    if abs(angle) % 90 < args.skew_angle:
         original_angle = 0
         return cv_image
     original_angle = angle
