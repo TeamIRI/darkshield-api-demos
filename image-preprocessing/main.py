@@ -187,10 +187,8 @@ if __name__ == "__main__":
         })
         if args.directory:
             filenames = absolute_file_paths(args.directory)
-            logging.info(filenames)
             for filename in filenames:
                 if is_image_extension(filename):
-                    logging.info(filename)
                     send_file_to_darkshield_api(filename, args)
         elif args.file:
             if is_image_extension(args.file):
