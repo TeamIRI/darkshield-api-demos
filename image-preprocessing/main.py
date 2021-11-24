@@ -8,6 +8,7 @@ import argparse
 import requests
 import pathlib
 import math
+import numpy as np
 #    Image preprocessing for the DarkShield-Files API:
 # Program to pre-process images through rescaling and deskewing pipelines, send to the DarkShield-Files API,
 # and then postprocess to revert preprocessing changes. Other pipelines could be added to this framework
@@ -31,6 +32,72 @@ original_angle = 0
 
 def is_image_extension(file_name):
     return file_name.lower().endswith(('.png', '.jpg', '.jpeg', '.tif', '.tiff'))
+
+
+def adaptive_thresholding(cv_image, threshold, args):
+    if not args.binarization:
+        return cv_image
+    # first, calculate if adaptive thresholding should be used, since Tesseract already uses Otsu's binarization internally.
+    gray = cv2.cvtColor(cv_image, cv2.COLOR_BGR2GRAY)
+    blurred = cv2.GaussianBlur(gray, (25, 25), 0)
+    no_text = gray * ((gray/blurred) > 0.99)                     # select background only
+    no_text[no_text < 10] = no_text[no_text > 20].mean()           # convert black pixels to mean value
+    no_bright = no_text.copy()
+    no_bright[no_bright > 220] = no_bright[no_bright < 220].mean()  # disregard bright pixels
+    std = no_bright.std()
+    # bright = (no_text > 220).sum()
+    if std < 25:
+        return cv_image  # return original
+    # if no_text.mean() >= 200 or bright <= 8000:
+     #   return cv_image  # return original
+    # Convert image to grayscale
+    gray = cv2.cvtColor(cv_image, cv2.COLOR_BGR2GRAY)
+    
+    # Original image size
+    orignrows, origncols = gray.shape
+    
+    # Windows size
+    M = int(np.floor(orignrows/16) + 1)
+    N = int(np.floor(origncols/16) + 1)
+    
+    # Image border padding related to windows size
+    Mextend = round(M/2)-1
+    Nextend = round(N/2)-1
+    
+    # Padding image
+    aux = cv2.copyMakeBorder(gray, top=Mextend, bottom=Mextend, left=Nextend,
+                          right=Nextend, borderType=cv2.BORDER_REFLECT)
+    
+    windows = np.zeros((M, N), np.int32)
+    
+    # Image integral calculation
+    imageIntegral = cv2.integral(aux, windows, -1)
+    
+    # Integral image size
+    nrows, ncols = imageIntegral.shape
+    
+    # Memory allocation for cumulative region image
+    result = np.zeros((orignrows, origncols))
+    
+    # Image cumulative pixels in windows size calculation
+    for i in range(nrows-M):
+        for j in range(ncols-N):
+        
+            result[i, j] = imageIntegral[i+M, j+N] - imageIntegral[i, j+N] + imageIntegral[i, j] - imageIntegral[i+M, j]
+     
+    # Output binary image memory allocation    
+    binar = np.ones((orignrows, origncols), dtype=np.bool)
+    
+    # Gray image weighted by windows size
+    graymult = (gray).astype('float64')*M*N
+    
+    # Output image binarization
+    binar[graymult <= result*(100.0 - threshold)/100.0] = False
+    
+    # binary image to UINT8 conversion
+    binar = (255*binar).astype(np.uint8)
+    
+    return binar
 
 
 # Rotate the image around its center
@@ -119,7 +186,7 @@ def post_process(img_name, args):
 
 def pre_process(img_name, args):
     logging.info(f"Preprocessing {img_name}...")
-    image = resize(Image.fromarray(cv2.cvtColor(deskew(cv2.imread(img_name), args), cv2.COLOR_BGR2RGB)), args)
+    image = resize(Image.fromarray(cv2.cvtColor(adaptive_thresholding(deskew(cv2.imread(img_name), args), args.threshold, args), cv2.COLOR_BGR2RGB)), args)
     parts = pathlib.Path(img_name).parts
     final_path = ""
     for i, part in enumerate(parts):
@@ -176,6 +243,10 @@ if __name__ == "__main__":
     parser.add_argument('-a', '--skew-angle', type=int,
                         help='Only images that are skewed by the angle specified or greater will be run through '
                              'deskewing processing. (default 5)', default=5)
+    parser.add_argument('-t', '--threshold', type=int,
+                        help='Threshold for adaptive thresholding (default 25)', default=25)
+    parser.add_argument('-b', '--binarization', type=bool,
+                        help='Whether adaptive thresholding binarization should be used at all.', default=False)
     args = parser.parse_args()
 
     try:
