@@ -1,7 +1,8 @@
 # DarkShield Files API: Redis
 
 This example demonstrates the use of the *darkshield-files* API to search and 
-mask items in a Redis database. For this demo I used a locally run Redis server.
+mask items in a Redis database. 
+For this demo I used a locally run Redis server.
 To run, the *plankton* web services API must have the  *darkshield* and *darkshield-files* plugins installed.
 
 To install the additional dependencies, execute *pip install -r requirements.txt* 
