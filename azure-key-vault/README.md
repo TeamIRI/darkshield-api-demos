@@ -1,5 +1,5 @@
 # DarkShield Files API: JSON and XML Search/Masking using Passphrase obtained from Azure Key Vault.
-Demo 1 (main.py):
+## Demo 1 (main.py):
 This example demonstrates the use of the *darkshield-files* API to search and mask json
 and xml files, interacting with Azure Key Vault to obtain the encryption passphrase. To run, the *plankton* web services API must be hosted on 
 the location specified in server_config.py (by default *http://localhost:8959*) and must have the *darkshield* and *darkshield-files* plugins 
@@ -32,13 +32,18 @@ The setup script will also download the NER and sentence detection models from t
 directory. If you are having trouble downloading the models, place the *en-ner-person.bin*
 and *en-sent.bin* files into this directory.
 
-Demo 2 (Encrypt_Decrypt.py):
+## Demo 2 (Encrypt_Decrypt.py):
 This example demonstrates the use of the *darkshield-files* API to encrypt all values in a JSON file converted from an HL7 message that have a key 
-of 'firstName' or 'lastName' using an encryption passphrase obtained from Azure Key Vault. The resulting masked file is then sent 
+of 'firstName' or 'lastName' using an encryption passphrase obtained from Azure Key Vault.
+
+The resulting masked file is then sent 
 back to the DarkShield API for decryption using a separate context that is set up for decryption and matches on the same JSON keys. 
+
 The passphrase for decryption is obtained from Azure Key Vault as well. The passphrase used for decryption must match the one used for 
 encryption in order to get the correct decrypted result. The passphrase is obtained from Azure Key Vault using the key vault name 
-and the secret name. In this demo, no argument for version of the secret is specified, so the secret obtained is the latest.
+and the secret name. 
+
+In this demo, no argument for version of the secret is specified, so the secret obtained is the latest.
 
 To execute, run *python Encrypt_Decrypt.py*.
 
