@@ -1,0 +1,799 @@
+{
+    "message_type": "ADT",
+    "content": {
+        "MSH": {
+            "fieldSeparator": "|",
+            "sendingApplication": {
+                "namespaceId": "DATICA"
+            },
+            "sendingFacility": {
+                "namespaceId": "DATICA HOSPITAL",
+                "universalIdType": "12345"
+            },
+            "receivingApplication": {
+                "namespaceId": "EXTERNAL EMR"
+            },
+            "receivingFacility": {
+                "namespaceId": "EXTERNAL CLINIC"
+            },
+            "dateTimeOfMessage": "20171222",
+            "messageType": {
+                "messageType": "ADT",
+                "triggerEvent": "A03"
+            },
+            "messageControlID": "8687285",
+            "processingID": {
+                "processingID": "D"
+            },
+            "versionID": "2.3"
+        },
+        "EVN": [
+            {
+                "eventType": "ADT",
+                "recordedDateTime": "20171222",
+                "plannedEventDateTime": "20171222",
+                "eventReasonCode": "02",
+                "operatorId": {
+                    "id": "RUIZ",
+                    "lastName": "LOGAN",
+                    "firstName": "Otun"
+                },
+                "eventOccurred": "20171222"
+            }
+        ],
+        "PID": [
+            {
+                "setId": "1",
+                "externalId": {
+                    "id": "88119573"
+                },
+                "internalId": [
+                    {
+                        "id": "76067705"
+                    }
+                ],
+                "alternateId": [
+                    {
+                        "id": "96114672"
+                    }
+                ],
+                "patientName": [
+                    {
+                        "lastName": "LYNN",
+                        "firstName": "ALICE"
+                    }
+                ],
+                "mothersMaidenName": {
+                    "lastName": "PUGH"
+                },
+                "dateTimeBirth": "19200617",
+                "sex": "F",
+                "alias": [
+                    {
+                        "lastName": "BUSTER"
+                    }
+                ],
+                "race": "I",
+                "address": [
+                    {
+                        "streetAddress": "1634 ELM WAY",
+                        "city": "MADISON",
+                        "stateOrProvince": "LA",
+                        "zip": "92207"
+                    }
+                ],
+                "countyCode": "92207",
+                "homePhone": [
+                    {
+                        "number": "8962616593"
+                    }
+                ],
+                "businessPhone": [
+                    {
+                        "number": "8256780577"
+                    }
+                ],
+                "primaryLanguage": {
+                    "id": "IT"
+                },
+                "maritalStatus": "L",
+                "religion": "EPI",
+                "patientAccountNumber": {
+                    "id": "425950"
+                },
+                "ssn": "911628379",
+                "driversLicenseNumber": {
+                    "licenseNumber": "S284905187292773"
+                },
+                "ethnicGroup": "U",
+                "birthPlace": "MADISON",
+                "multipleBirthIndicator": "N",
+                "birthOrder": "4",
+                "citizenship": [
+                    "US"
+                ],
+                "nationality": {
+                    "id": "US",
+                    "text": "UNITED STATES OF AMERICA"
+                },
+                "deathIndicator": "N",
+                "PD1": [
+                    {
+                        "livingDependency": [
+                            "M"
+                        ],
+                        "livingArrangement": "A",
+                        "patientPrimaryFacility": [
+                            {
+                                "organizationName": "DATICA CLINIC",
+                                "idNumber": "23456",
+                                "assigningAuthority": {
+                                    "namespaceId": "DATICA HEALTHCARE"
+                                }
+                            }
+                        ],
+                        "primaryCareProvider": [
+                            {
+                                "id": "49960944",
+                                "lastName": "PUGH",
+                                "firstName": "LORI",
+                                "middleInitOrName": "C",
+                                "prefix": "NP"
+                            }
+                        ],
+                        "studentIndicator": "F",
+                        "livingWillCode": "N",
+                        "organDonorCode": "F",
+                        "separateBill": "N",
+                        "publicityIndicator": {
+                            "id": "N"
+                        },
+                        "protectionIndicator": "Y"
+                    }
+                ]
+            }
+        ],
+        "NK1": [
+            {
+                "id": "1",
+                "name": [
+                    {
+                        "lastName": "PATTERSON",
+                        "firstName": "AMANDA"
+                    }
+                ],
+                "relationship": {
+                    "id": "CHD"
+                },
+                "address": [
+                    {
+                        "streetAddress": "9464 ELM CT",
+                        "city": "MADISON",
+                        "stateOrProvince": "NH",
+                        "zip": "97814"
+                    }
+                ],
+                "phone": [
+                    {
+                        "number": "8873067775"
+                    }
+                ],
+                "businessPhone": [
+                    {
+                        "number": "8744115665"
+                    }
+                ],
+                "contactRole": {
+                    "id": "N"
+                },
+                "startDate": "20121022",
+                "nextOfKinAssociatedPartiesJobTitle": "PAINTER",
+                "maritalStatus": "D",
+                "sex": "F",
+                "dateTimeofBirth": "19380521",
+                "livingDependency": [
+                    "U"
+                ],
+                "ambulatoryStatus": [
+                    "B6"
+                ],
+                "citizenship": [
+                    "US"
+                ],
+                "primaryLanguage": {
+                    "id": "VI"
+                },
+                "livingArrangement": "U",
+                "publicityIndicator": {
+                    "id": "U"
+                },
+                "protectionIndicator": "Y",
+                "studentIndicator": "F",
+                "religion": "PRC",
+                "mothersMaidenName": {
+                    "lastName": "SCHAEFER"
+                },
+                "nationality": {
+                    "id": "US"
+                },
+                "ethnicGroup": "U",
+                "nextOfKinAssociatedPartysIdentifiers": [
+                    {
+                        "id": "4154292"
+                    }
+                ],
+                "jobStatus": "T",
+                "race": "H",
+                "contactPersonSocialSecurityNumber": "975190526"
+            }
+        ],
+        "PV1": [
+            {
+                "setId": "1",
+                "patientClass": "O",
+                "assignedPatientLocation": {
+                    "pointOfCare": "XXPOC",
+                    "room": "47",
+                    "bed": "0",
+                    "facility": {
+                        "nameSpaceId": "DATICA HOSPITAL A"
+                    }
+                },
+                "admissionType": "R",
+                "preadmitNumber": {
+                    "id": "783405"
+                },
+                "priorPatientLocation": {
+                    "pointOfCare": "XXPOC",
+                    "room": "307",
+                    "bed": "3",
+                    "facility": {
+                        "nameSpaceId": "DATICA HOSPITAL B"
+                    }
+                },
+                "attendingDoctor": [
+                    {
+                        "id": "10533215",
+                        "lastName": "RANDOLPH",
+                        "firstName": "MICHAEL",
+                        "middleInitOrName": "O",
+                        "prefix": "PA"
+                    }
+                ],
+                "referringDoctor": [
+                    {
+                        "id": "95778261",
+                        "lastName": "GLOVER",
+                        "firstName": "JOSHUA",
+                        "middleInitOrName": "J",
+                        "prefix": "PA"
+                    }
+                ],
+                "consultingDoctor": [
+                    {
+                        "id": "36439158",
+                        "lastName": "SAWYER",
+                        "firstName": "WILLIE",
+                        "middleInitOrName": "C",
+                        "prefix": "PA"
+                    }
+                ],
+                "hospitalService": "URO",
+                "temporaryLocation": {
+                    "pointOfCare": "XXPOC",
+                    "room": "115",
+                    "bed": "0",
+                    "facility": {
+                        "nameSpaceId": "DATICA HOSPITAL A"
+                    }
+                },
+                "preadmitTestIndicator": "N",
+                "admitSource": "9",
+                "ambulatoryStatus": [
+                    "B5"
+                ],
+                "admittingDoctor": [
+                    {
+                        "id": "90407477",
+                        "lastName": "STEVENSON",
+                        "firstName": "PAUL",
+                        "middleInitOrName": "B",
+                        "prefix": "CRNA"
+                    }
+                ],
+                "patientType": "U",
+                "visitNumber": {
+                    "id": "668479"
+                },
+                "financialClass": {
+                    "financialClass": "A23"
+                },
+                "chargePriceIndicator": "R",
+                "courtesyCode": "N",
+                "creditRating": "G",
+                "contractCode": [
+                    "44"
+                ],
+                "contractEffectiveDate": [
+                    "20150111"
+                ],
+                "contractAmount": [
+                    "407.88"
+                ],
+                "contractPeriod": [
+                    "2"
+                ],
+                "interestCode": "C",
+                "transferToBadDebtCode": "B",
+                "PV2": [
+                    {
+                        "priorPendingLocation": {
+                            "pointOfCare": "XXPOC",
+                            "room": "408",
+                            "bed": "1",
+                            "facility": {
+                                "nameSpaceId": "DATICA HOSPITAL D"
+                            }
+                        },
+                        "accommodationCode": {
+                            "id": "ZD"
+                        },
+                        "admitReason": {
+                            "id": "I49.9",
+                            "text": "CARDIAC ARRYTHMIA, UNSPECIFIED",
+                            "codingSystem": "ICD-10"
+                        },
+                        "patientValuables": [
+                            "CELLPHONE"
+                        ],
+                        "patientValuablesLocation": "FRONTDESK A",
+                        "visitUserCode": "TE"
+                    }
+                ]
+            }
+        ],
+        "DB1": [
+            {
+                "setID": "1",
+                "disabledPersonCode": "GT",
+                "disabledPersonIdentifier": [
+                    {
+                        "id": "118648",
+                        "assigningAuthority": {}
+                    }
+                ],
+                "disabledIndicator": "Y",
+                "disabilityStartDate": "20160119",
+                "disabilityEndDate": "20170818",
+                "disabilityReturnToWorkDate": "20180515"
+            }
+        ],
+        "OBX": [
+            {
+                "setId": "1",
+                "valueType": "NM",
+                "identifier": {
+                    "id": "649999",
+                    "text": "NEUTROPHILS",
+                    "codingSystem": "L",
+                    "altId": "770-8",
+                    "altText": "NEUTROPHILS/100 LEUKOCYTES",
+                    "altCodingSystem": "LN"
+                },
+                "observationValue": [
+                    "61"
+                ],
+                "units": {
+                    "id": "%"
+                },
+                "natureOfAbnormal": [
+                    "N"
+                ],
+                "observeResultStatus": "F",
+                "effectiveDateLastNormalValue": "20161209",
+                "observationDateTime": "20161214",
+                "producersId": {
+                    "id": "CB",
+                    "text": "PATHOLOGY LAB X"
+                }
+            }
+        ],
+        "AL1": [
+            {
+                "setId": "1",
+                "allergyType": "DA",
+                "allergyCodeMnemonicDescription": {
+                    "id": "F342475279",
+                    "text": "UMECLIDINIUM",
+                    "altId": "FROM ANORO ELLIPTA"
+                },
+                "allergySeverity": "MI",
+                "allergyReaction": "HIVES",
+                "identificationDate": "20140527"
+            }
+        ],
+        "DG1": [
+            {
+                "setId": "1",
+                "diagnosisCode": {
+                    "id": "G43.11",
+                    "text": "MIGRANE WITH AURA,INTRACTABLE",
+                    "codingSystem": "ICD-10"
+                },
+                "diagnosisDateTime": "20160210",
+                "diagnosisType": "F"
+            }
+        ],
+        "DRG": [
+            {
+                "PR1": [
+                    {
+                        "setId": "1",
+                        "procedureCode": {
+                            "id": "97813",
+                            "text": "ACUPUNCTURE WITHOUT ELECTRIC STIMULATION",
+                            "codingSystem": "CPT"
+                        },
+                        "procedureDateTime": "20160122",
+                        "procedureMinutes": "D",
+                        "ROL": [
+                            {
+                                "roleInstanceID": {
+                                    "id": "1"
+                                },
+                                "actionCode": "AD",
+                                "role": {
+                                    "id": "AD"
+                                },
+                                "rolePerson": {
+                                    "id": "13026593",
+                                    "lastName": "HOWARD",
+                                    "firstName": "JUDITH",
+                                    "middleInitOrName": "X",
+                                    "prefix": "NP"
+                                }
+                            }
+                        ]
+                    }
+                ]
+            }
+        ],
+        "GT1": [
+            {
+                "setId": "1",
+                "guarantorNumber": [
+                    {
+                        "id": "4154292"
+                    }
+                ],
+                "guarantorName": [
+                    {
+                        "lastName": "PATTERSON",
+                        "firstName": "AMANDA",
+                        "middleInitOrName": "V"
+                    }
+                ],
+                "guarantorAddress": [
+                    {
+                        "streetAddress": "9464 ELM CT",
+                        "city": "MADISON",
+                        "stateOrProvince": "NH",
+                        "zip": "97814"
+                    }
+                ],
+                "guarantorPhNumHome": [
+                    {
+                        "number": "8873067775"
+                    }
+                ],
+                "guarantorPhNumBusiness": [
+                    {
+                        "number": "8744115665"
+                    }
+                ],
+                "guarantorDatetimeOfBirth": "19380521",
+                "guarantorSex": "F",
+                "guarantorSSN": "975190526",
+                "guarantorDateBegin": "20110502",
+                "guarantorPriority": "1",
+                "guarantorEmployeeIDNumber": [
+                    {
+                        "id": "366641"
+                    }
+                ],
+                "guarantorEmploymentStatus": "T",
+                "guarantorBillingHoldFlag": "Y",
+                "guarantorDeathFlag": "N",
+                "guarantorEmployerIDNumber": [
+                    {
+                        "id": "8538861409"
+                    }
+                ],
+                "guarantorMaritalStatusCode": "D",
+                "primaryLanguage": {
+                    "id": "VI"
+                },
+                "livingArrangement": "R",
+                "protectionIndicator": "Y",
+                "studentIndicator": "F",
+                "religion": "PRC",
+                "mothersMaidenName": {
+                    "lastName": "SCHAEFER"
+                },
+                "nationality": {
+                    "id": "USA"
+                },
+                "ethnicGroup": "U",
+                "jobTitle": "PAINTER",
+                "jobStatus": "T",
+                "guarantorRace": "H"
+            }
+        ],
+        "IN1": [
+            {
+                "setId": "1",
+                "planId": {
+                    "id": "V81681327"
+                },
+                "companyId": [
+                    {
+                        "id": "33507358"
+                    }
+                ],
+                "companyName": [
+                    {
+                        "organizationName": "DATICA INSURANCE CO"
+                    }
+                ],
+                "companyAddress": [
+                    {
+                        "streetAddress": "8939 ASH LN",
+                        "city": "MADISON",
+                        "stateOrProvince": "HI",
+                        "zip": "92089"
+                    }
+                ],
+                "companyPhoneNumber": [
+                    {
+                        "number": "8216165045"
+                    }
+                ],
+                "groupNumber": "447350",
+                "groupName": [
+                    {
+                        "organizationName": "INSURANCE GROUP P"
+                    }
+                ],
+                "groupEmpId": [
+                    {
+                        "id": "384584968"
+                    }
+                ],
+                "groupEmpName": [
+                    {
+                        "organizationName": "VANDELAY INDUSTRIES"
+                    }
+                ],
+                "planEffectiveDate": "20160421",
+                "planExpirationDate": "20190916",
+                "authorizationInformation": {
+                    "authorizationNumber": "A45314398063"
+                },
+                "planType": "HDHP",
+                "insuredName": [
+                    {
+                        "lastName": "LYNN",
+                        "firstName": "ALICE",
+                        "middleInitOrName": "C"
+                    }
+                ],
+                "insuredRelationshipToPatient": "SELF",
+                "insuredDob": "19200617",
+                "insuredAddress": [
+                    {
+                        "streetAddress": "1634 ELM WAY",
+                        "city": "MADISON",
+                        "stateOrProvince": "LA",
+                        "zip": "92207"
+                    }
+                ],
+                "assignmentOfBenefits": "M",
+                "coordinationOfBenefits": "CO",
+                "coordinationOfBenefitsPriority": "1",
+                "noticeOfAdmissionFlag": "N",
+                "reportOfEligibilityFlag": "N",
+                "releaseInformationCode": "Y",
+                "verificationDateTime": "20160611",
+                "typeOfAgreementCode": "U",
+                "policyNumber": "M429676190",
+                "policyDeductible": {
+                    "price": {
+                        "quantity": "500"
+                    }
+                },
+                "insuredEmploymentStatus": {
+                    "id": "O"
+                },
+                "insuredSex": "F",
+                "insuredEmployerAddress": [
+                    {
+                        "streetAddress": "7064 WALNUT CT",
+                        "city": "MADISON",
+                        "stateOrProvince": "UT",
+                        "zip": "98688"
+                    }
+                ],
+                "priorInsurancePlanId": "Z13722863",
+                "coverageType": "P",
+                "insuredIdNumber": [
+                    {
+                        "id": "88119573"
+                    }
+                ],
+                "IN2": [
+                    {
+                        "insuredEmployeeId": [
+                            {
+                                "id": "1204314"
+                            }
+                        ],
+                        "insuredSSN": "911628379",
+                        "insuredEmployerName": [
+                            {
+                                "id": "VANDELAY INDUSTRIES"
+                            }
+                        ],
+                        "mailClaimParty": [
+                            "G"
+                        ],
+                        "babyCoverage": "N",
+                        "combineBabyBill": "N",
+                        "payorId": [
+                            {
+                                "id": "33507358"
+                            }
+                        ],
+                        "payorSubscriberId": [
+                            {
+                                "id": "M429676190"
+                            }
+                        ],
+                        "eligibilitySource": "1",
+                        "dailyDeductible": {
+                            "delayDays": "3",
+                            "amount": "500",
+                            "numberOfDays": "47"
+                        },
+                        "livingDependency": "U",
+                        "ambulatoryStatus": "B5",
+                        "citizenship": "US",
+                        "primaryLanguage": {
+                            "id": "IT"
+                        },
+                        "livingArrangement": "A",
+                        "publicityIndicator": {
+                            "id": "N"
+                        },
+                        "protectionIndicator": "Y",
+                        "studentIndicator": "F",
+                        "religion": "EPI",
+                        "motherMaidenName": {
+                            "lastName": "PUGH"
+                        },
+                        "nationality": {
+                            "id": "USA"
+                        },
+                        "ethnicGroup": "U",
+                        "maritalStatus": [
+                            "L"
+                        ],
+                        "insuredEmploymentStartDate": "20151022",
+                        "jobTitle": "CEO",
+                        "jobStatus": "O",
+                        "patientMemberNumber": [
+                            {
+                                "id": "M429676190"
+                            }
+                        ],
+                        "guarantorRelationshipToInsured": "SEL",
+                        "insuredHomePhone": [
+                            {
+                                "number": "8962616593"
+                            }
+                        ],
+                        "insuredEmployerPhone": [
+                            {
+                                "number": "8256780577"
+                            }
+                        ],
+                        "suspendFlag": "Y",
+                        "copayLimitFlag": "Y",
+                        "stoplossLimitFlag": "N",
+                        "race": "I",
+                        "hcfaPatientRelationshipToInsured": {
+                            "id": "SEL"
+                        }
+                    }
+                ],
+                "IN3": [
+                    {
+                        "setID": "1",
+                        "certificationNumber": {
+                            "id": "503699672888"
+                        },
+                        "certifiedBy": [
+                            {
+                                "id": "UNDEFINED"
+                            }
+                        ],
+                        "certificationRequired": "N",
+                        "certificationDateTime": "20160502",
+                        "operator": [
+                            {
+                                "id": "91122397",
+                                "lastName": "ROSS",
+                                "firstName": "CHERYL",
+                                "middleInitOrName": "F",
+                                "prefix": "NP"
+                            }
+                        ],
+                        "certificationBeginDate": "20160502",
+                        "physicianReviewer": [
+                            {
+                                "id": "25023467",
+                                "lastName": "HARPER",
+                                "firstName": "MADISON",
+                                "middleInitOrName": "A",
+                                "prefix": "NP"
+                            }
+                        ],
+                        "certificationContact": "91122397",
+                        "certificationContactPhoneNumber": [
+                            {
+                                "number": "8163693236"
+                            }
+                        ],
+                        "certificationAgency": {
+                            "id": "DATICA CERTIFICATION GROUP"
+                        },
+                        "certificationAgencyPhoneNumber": [
+                            {
+                                "number": "8744711078"
+                            }
+                        ],
+                        "preCertificationReqWindow": [
+                            {
+                                "preCertificationPatientType": "IPE"
+                            }
+                        ],
+                        "caseManager": "28916586",
+                        "secondOpinionPhysician": [
+                            {
+                                "id": "16660129",
+                                "lastName": "WELCH",
+                                "firstName": "MICHAEL",
+                                "middleInitOrName": "X",
+                                "prefix": "RN"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ],
+        "ACC": [
+            {
+                "accidentDateTime": "20161015",
+                "accidentCode": {
+                    "id": "V89.2",
+                    "text": "PERSON INJURED IN UNSPECIFIED MOTOR-VEHICLE ACCIDENT, TRAFFIC",
+                    "codingSystem": "ICD-10"
+                },
+                "accidentLocation": "N",
+                "autoAccidentState": {
+                    "id": "NE"
+                },
+                "accidentDeathIndicator": "N"
+            }
+        ]
+    }
+}
