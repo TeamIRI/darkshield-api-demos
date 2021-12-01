@@ -23,7 +23,9 @@ that utilizes the 'secret' obtained from the Key Vault as the encryption passphr
 10. Vehicle Identification Numbers (VINMatcher): Found using a regular expression and validated with a JavaScript validator script.
 
 
-To execute, run *python main.py*.
+To execute, run *python main.py*. Optionally, the version of the secret to obtain from Azure Key Vault that is used 
+as the encryption passphrase may be specified as an argument with a *-v* flag. If no version for the secret is specified,
+the latest version will be used.
 
 The results will be placed inside of the *json-masked-key-vault* and *xml-masked-key-vault* directories.
 
@@ -45,6 +47,8 @@ and the secret name.
 
 In this demo, no argument for version of the secret is specified, so the secret obtained is the latest.
 
-To execute, run *python Encrypt_Decrypt.py*.
+To execute, run *python Encrypt_Decrypt.py*. Optionally, the version of the secret to obtain from Azure Key Vault that is used 
+as the encryption passphrase may be specified as an argument with a *-v* flag. If no version for the secret is specified,
+the latest version will be used.
 
 The results will be placed inside of the *encrypted-key-vault* and *decrypted-key-vault* directories.

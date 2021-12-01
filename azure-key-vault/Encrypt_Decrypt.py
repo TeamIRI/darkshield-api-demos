@@ -41,7 +41,8 @@ def process_file(file_name, output_folder, context, media_type, url):
 
 if __name__ == "__main__":
     logging.basicConfig(format='%(levelname)s: %(message)s', level=logging.INFO)
-    parser = argparse.ArgumentParser(description='Demo for encryption/decryption of an HL7 message using an encryption passphrase obtained from Azure Key Vault.')
+    parser = argparse.ArgumentParser(description='Demo for encryption/decryption of an HL7 message using an '
+                                                 'encryption passphrase obtained from Azure Key Vault.')
     parser.add_argument('-v', '--version', type=str, help="The version ID of the secret.",
                         required=False)
     args = parser.parse_args()
