@@ -1,7 +1,7 @@
 import os
 import pathlib
 
-from azure.identity import InteractiveBrowserCredential
+from azure.identity import InteractiveBrowserCredential, DefaultAzureCredential
 from azure.keyvault.secrets import SecretClient
 
 import utils
@@ -17,7 +17,8 @@ decrypt_file_mask_context_name = "decryptFileMaskContext"
 
 def getSecret(keyVaultName, secretName):
     KVUri = f"https://{keyVaultName}.vault.azure.net"
-    credential = InteractiveBrowserCredential()
+    # credential = InteractiveBrowserCredential()
+    credential = DefaultAzureCredential()
     client = SecretClient(vault_url=KVUri, credential=credential)
     retrieved_secret = client.get_secret(secretName)
     return retrieved_secret.value
