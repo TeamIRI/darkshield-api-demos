@@ -15,16 +15,16 @@ decrypt_mask_context_name = "decryptMaskContext"
 decrypt_file_mask_context_name = "decryptFileMaskContext"
 
 
-def getSecret(keyVaultName, secretName):
+def getSecret(keyVaultName, secretName, args):
     KVUri = f"https://{keyVaultName}.vault.azure.net"
     # credential = InteractiveBrowserCredential()
     credential = DefaultAzureCredential()
     client = SecretClient(vault_url=KVUri, credential=credential)
-    retrieved_secret = client.get_secret(secretName)
+    retrieved_secret = client.get_secret(secretName, version=args.version)
     return retrieved_secret.value
 
 
-def setup(session):
+def setup(session, args):
     model_url = utils.download_model('en-ner-person.bin', session)
     sent_url = utils.download_model('en-sent.bin', session)
     token_url = utils.download_model('en-token.bin', session)
@@ -101,7 +101,7 @@ def setup(session):
             {
                 "name": "FpeRule",
                 "type": "cosort",
-                "expression": "enc_fp_aes256_alphanum(${{INPUT}}, \"{}\")".format(getSecret(keyVaultName, secretName))
+                "expression": "enc_fp_aes256_alphanum(${{INPUT}}, \"{}\")".format(getSecret(keyVaultName, secretName, args))
             }
         ],
         "ruleMatchers": [
@@ -119,7 +119,7 @@ def setup(session):
             {
                 "name": "DecryptionRule",
                 "type": "cosort",
-                "expression": "dec_fp_aes256_alphanum(${{INPUT}}, \"{}\")".format(getSecret(keyVaultName, secretName))
+                "expression": "dec_fp_aes256_alphanum(${{INPUT}}, \"{}\")".format(getSecret(keyVaultName, secretName, args))
             }
         ],
         "ruleMatchers": [

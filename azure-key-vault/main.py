@@ -2,6 +2,7 @@ import json
 import logging
 import os
 import sys
+import argparse
 
 import requests
 
@@ -18,9 +19,13 @@ from utils import base_url
 
 if __name__ == "__main__":
     logging.basicConfig(format='%(levelname)s: %(message)s', level=logging.INFO)
+    parser = argparse.ArgumentParser(description='Demo for encryption of JSON and XML files using an encryption passphrase obtained from Azure Key Vault.')
+    parser.add_argument('-v', '--version', type=str, help="The version ID of the secret.",
+                        required=False)
+    args = parser.parse_args()
     session = requests.Session()
     try:
-        setup(session)
+        setup(session, args)
         url = f'{base_url}/files/fileSearchContext.mask'
         context = json.dumps({
             "fileSearchContextName": file_search_context_name,
