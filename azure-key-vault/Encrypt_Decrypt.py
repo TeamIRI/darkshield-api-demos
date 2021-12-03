@@ -58,9 +58,9 @@ if __name__ == "__main__":
             "fileSearchContextName": file_search_context_2_name,
             "fileMaskContextName": decrypt_file_mask_context_name
         })
-        process_files = [('ADT.json', 'application/json', 'encrypted-key-vault')]
+        process_files = [('ADT.json', 'application/json', f'encrypted-key-vault-{args.version if args.version is not None else "latest"}')]
         for file_name, media_type, output_folder in process_files:
             process_file(process_file(file_name, output_folder, encrypt_context, media_type, url),
-                         'decrypted-key-vault', decrypt_context, media_type, url)
+                         f'decrypted-key-vault-{args.version if args.version is not None else "latest"}', decrypt_context, media_type, url)
     finally:
         teardown(session)
