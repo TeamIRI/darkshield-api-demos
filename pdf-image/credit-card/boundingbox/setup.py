@@ -16,9 +16,9 @@ def setup(session):
         "name": search_context_name,
         "matchers": [
             {
-                "name": "CcnMatcher",
+                "name": "noMatcher",
                 "type": "pattern",
-                "pattern": r"\b[\w\? ]{16}\b"
+                "pattern": r"sgosgfnnfsgkjngfdnjkfgdkfgdk"
             }
         ]
     }
@@ -26,16 +26,6 @@ def setup(session):
     mask_context = {
         "name": mask_context_name,
         "rules": [
-            {
-                "name": "HashEmailRule",
-                "type": "cosort",
-                "expression": r"hash_sha2(${EMAIL})"
-            },
-            {
-                "name": "RedactSsnRule",
-                "type": "cosort",
-                "expression": r"replace_chars(${SSN},'*',1,3,'*',5,2)"
-            },
             {
                 "name": "FpeRule",
                 "type": "cosort",
@@ -69,7 +59,14 @@ def setup(session):
                 "name": mask_context_name,
                 "type": "maskContext"
             }
-        ]
+        ],
+ "configs": {
+    "image": {
+      "boundingBoxes": [
+      "0.07666666666666666,0.5238095238095238,0.7,0.6084656084656085"
+      ]
+    }
+  }
     }
 
     utils.create_context("searchContext", search_context, session)

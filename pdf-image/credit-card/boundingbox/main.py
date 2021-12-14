@@ -6,7 +6,7 @@ import sys
 import requests
 
 # Append parent directory to PYTHON_PATH so we can import utils.py
-sys.path.append("../../")
+sys.path.append("../../../")
 
 from requests_toolbelt import MultipartEncoder
 from setup import setup, teardown, file_mask_context_name, file_search_context_name
@@ -25,7 +25,7 @@ if __name__ == "__main__":
             "fileMaskContextName": file_mask_context_name
         })
 
-        process_files = [('cc-sample.png', 'image/png', 'credit-card-masked'),]
+        process_files = [(r'cc-sample.png', 'image/png', 'credit-card-masked'),]
         for file_name, media_type, masked_folder in process_files:
             with open(file_name, 'rb') as f:
                 os.makedirs(masked_folder, exist_ok=True)
