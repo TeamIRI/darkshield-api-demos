@@ -25,7 +25,8 @@ if __name__ == "__main__":
             "fileMaskContextName": file_mask_context_name
         })
 
-        process_files = [(r'samplecheck.gif', 'image/gif', 'check-masked'),]
+        process_files = [(r'samplecheck.gif', 'image/gif', 'check-masked'),
+                         (r'check2.jpg', 'image/jpeg', 'check-masked'),]
         for file_name, media_type, masked_folder in process_files:
             with open(file_name, 'rb') as f:
                 os.makedirs(masked_folder, exist_ok=True)
