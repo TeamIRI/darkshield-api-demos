@@ -18,7 +18,7 @@ def setup(session):
             {
                 "name": "noMatcher",
                 "type": "pattern",
-                "pattern": r"sgosgfnnfsgkjngfdnjkfgdkfgdk"
+                "pattern": r""
             }
         ]
     }
