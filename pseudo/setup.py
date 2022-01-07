@@ -16,7 +16,7 @@ def setup(session, args):
             {
                 "name": "NameMatcher",
                 "type": "set",
-                "url": pathlib.Path('names.set').absolute().as_uri(),
+                "url": pathlib.Path('names_replace.set').absolute().as_uri(),
                 "ignoreCase": True,
                 "matchWholeWords": True
             }
