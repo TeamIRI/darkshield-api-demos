@@ -27,22 +27,23 @@ if __name__ == "__main__":
 
         process_files = [(r'samplecheck.gif', 'image/gif', 'check-gen'),
                          (r'check2.jpg', 'image/jpeg', 'check-gen'),]
-        for file_name, media_type, gen_folder in process_files:
-            with open(file_name, 'rb') as f:
-                os.makedirs(gen_folder, exist_ok=True)
-                encoder = MultipartEncoder(fields={
-                    'context': ('context', context, 'application/json'),
-                    'file': (file_name, f, media_type)
-                })
-                logging.info(f"POST: sending '{file_name}' to {url}")
-                with session.post(url, data=encoder, stream=True,
-                                  headers={'Content-Type': encoder.content_type}) as r:
-                    if r.status_code >= 300:
-                        raise Exception(f"Failed with status {r.status_code}:\n\n{r.json()}")
-                    logging.info(f"Extracting 'gen-{file_name}' and 'results.json' into {gen_folder}.")
-                    parser = StreamingFormDataParser(headers=r.headers)
-                    parser.register('file', FileTarget(f'{gen_folder}/gen-{file_name}'))
-                    for chunk in r.iter_content(4096):
-                        parser.data_received(chunk)
+        for count in range(10):
+            for file_name, media_type, gen_folder in process_files:
+                with open(file_name, 'rb') as f:
+                    os.makedirs(gen_folder, exist_ok=True)
+                    encoder = MultipartEncoder(fields={
+                        'context': ('context', context, 'application/json'),
+                        'file': (file_name, f, media_type)
+                    })
+                    logging.info(f"POST: sending '{file_name}' to {url}")
+                    with session.post(url, data=encoder, stream=True,
+                                      headers={'Content-Type': encoder.content_type}) as r:
+                        if r.status_code >= 300:
+                            raise Exception(f"Failed with status {r.status_code}:\n\n{r.json()}")
+                        logging.info(f"Extracting 'gen-{count}-{file_name}' into {gen_folder}.")
+                        parser = StreamingFormDataParser(headers=r.headers)
+                        parser.register('file', FileTarget(f'{gen_folder}/gen-{count}-{file_name}'))
+                        for chunk in r.iter_content(4096):
+                            parser.data_received(chunk)
     finally:
         teardown(session)
