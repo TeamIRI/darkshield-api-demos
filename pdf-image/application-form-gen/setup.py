@@ -10,6 +10,9 @@ file_mask_context_name = "FileMaskContext"
 
 def setup(session):
 
+    model_url = utils.download_model('en-ner-location.bin', session)
+    sent_url = utils.download_model('en-sent.bin', session)
+    token_url = utils.download_model('en-token.bin', session)
     search_context = {
         "name": search_context_name,
         "matchers": [
@@ -34,7 +37,14 @@ def setup(session):
                 "name": "PhoneMatcher",
                 "type": "pattern",
                 "pattern": r"\b(\+?1?([ .-]?)?)?(\(?([2-9]\d{2})\)?([ .-]?)?)([2-9]\d{2})([ .-]?)(\d{4})(?: #?[eE][xX][tT]\.? \d{2,6})?\b"
-            }
+            },
+            {
+                "name": "NERLocationMatcher",
+                "type": "ner",
+                "modelUrl": model_url,
+                "sentenceDetectorUrl": sent_url,
+                "tokenizerUrl": token_url
+            },
         ]
     }
 
@@ -50,6 +60,11 @@ def setup(session):
                 "name": "RedactSsnRule",
                 "type": "cosort",
                 "expression": r"replace_chars(${SSN},'*',1,3,'*',5,2)"
+            },
+             {
+                "name": "PseudoAddressRule",
+                "type": "cosort",
+                "setPath": str(pathlib.Path('addresses.set').absolute())
             }
         ],
         "ruleMatchers": [
@@ -57,13 +72,19 @@ def setup(session):
                 "name": "FpeRuleMatcher",
                 "type": "name",
                 "rule": "FpeRule",
-                "pattern": "EmailMatcher|NameMatcher|PhoneMatcher"
+                "pattern": "EmailMatcher|PhoneMatcher"
             },
             {
                 "name": "SsnRuleMatcher",
                 "type": "name",
                 "rule": "RedactSsnRule",
                 "pattern": "SsnMatcher"
+            },
+            {
+                "name": "PseudoAddressRuleMatcher",
+                "type": "name",
+                "rule": "PseudoAddressRule",
+                "pattern": "NameMatcher"
             }
         ]
     }
