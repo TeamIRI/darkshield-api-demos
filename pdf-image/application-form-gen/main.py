@@ -38,7 +38,7 @@ if __name__ == "__main__":
                                   headers={'Content-Type': encoder.content_type}) as r:
                     if r.status_code >= 300:
                         raise Exception(f"Failed with status {r.status_code}:\n\n{r.json()}")
-                    logging.info(f"Extracting '{file_name}' and 'results.json' into {masked_folder}.")
+                    logging.info(f"Extracting '{file_name}' into {masked_folder}.")
                     parser = StreamingFormDataParser(headers=r.headers)
                     parser.register('file', FileTarget(f'{masked_folder}/{file_name}'))
                     parser.register('results', FileTarget(f'{masked_folder}/results.json'))

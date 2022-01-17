@@ -51,9 +51,9 @@ def setup(session):
             }
         ],
         "configs": {
-        "image": {
-        "useOCR": False
-        }
+            "image": {
+                "useOCR": False
+            }
         }
     }
 
@@ -65,24 +65,29 @@ def setup(session):
                 "type": "maskContext"
             }
         ],
- "configs": {
-    "image": {
-      "boundingBoxes": [
-      "0.018867924528301886,0.015810276679841896,0.22039451114922812,0.11462450592885376", # name
-      "0.022298456260720412,0.1225296442687747,0.22495711835334476,0.20553359683794467", # address
-      "0.060034305317324184,0.8181818181818182,0.2624356775300172,0.9090909090909091", # routing number
-      "0.30017152658662094,0.8142292490118577,0.5111492281303602,0.8972332015810277" # account number
-      ],
-      "maskingMethod": "replace",
-       "setReplacement": [
-      pathlib.Path('myset.set').absolute().as_uri(), pathlib.Path('address.set').absolute().as_uri(),pathlib.Path('routing-number.set').absolute().as_uri(),pathlib.Path('account-number.set').absolute().as_uri()
-      ],
-      "setReplacementColumns": [
-       0,0,0,0
-      ],
-      "copyBackground": True
-    }
-  }
+        "configs": {
+            "image": {
+                "boundingBoxes": [
+                    "0.018867924528301886,0.015810276679841896,0.22039451114922812,0.11462450592885376",  # name
+                    "0.022298456260720412,0.1225296442687747,0.22495711835334476,0.17053359683794467",  # street address
+                    "0.022298456260720412,0.17253359683794467,0.20553359683794467,0.22495711835334476",
+                    # city, state and zip
+                    "0.060034305317324184,0.8181818181818182,0.2624356775300172,0.9090909090909091",  # routing number
+                    "0.30017152658662094,0.8142292490118577,0.5111492281303602,0.8972332015810277"  # account number
+                ],
+                "maskingMethod": "replace",
+                "setReplacement": [
+                    pathlib.Path('myset.set').absolute().as_uri(), pathlib.Path('myset.set').absolute().as_uri(),
+                    pathlib.Path('city-state-zip.set').absolute().as_uri(),
+                    pathlib.Path('routing-number.set').absolute().as_uri(),
+                    pathlib.Path('account-number.set').absolute().as_uri()
+                ],
+                "setReplacementColumns": [
+                    0, 1, 0, 0, 0
+                ],
+                "copyBackground": True
+            }
+        }
     }
 
     utils.create_context("searchContext", search_context, session)
