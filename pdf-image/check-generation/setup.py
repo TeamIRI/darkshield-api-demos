@@ -79,7 +79,7 @@ def setup(session):
                 "setReplacement": [
                     pathlib.Path('myset.set').absolute().as_uri(), pathlib.Path('myset.set').absolute().as_uri(),
                     pathlib.Path('city-state-zip.set').absolute().as_uri(),
-                    pathlib.Path('myset.set').absolute().as_uri(),
+                    pathlib.Path('routing-number.set').absolute().as_uri(),
                     pathlib.Path('account-number.set').absolute().as_uri()
                 ],
                 "setReplacementColumns": [
