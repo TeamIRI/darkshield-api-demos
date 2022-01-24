@@ -4,6 +4,11 @@ import os
 import sys
 import uuid
 
+# Append parent directory to PYTHON_PATH so we can import utils.py
+current_dir = os.path.dirname(os.path.realpath(__file__))
+parent_dir = os.path.dirname(current_dir)
+sys.path.append(parent_dir)
+
 import requests
 from cassandra.cluster import Cluster
 from cassandra.cqlengine import columns
@@ -13,10 +18,6 @@ from utils import base_url
 
 import cassandra
 
-# Append parent directory to PYTHON_PATH so we can import utils.py
-current_dir = os.path.dirname(os.path.realpath(__file__))
-parent_dir = os.path.dirname(current_dir)
-sys.path.append(parent_dir)
 
 from setup import setup, teardown
 from streaming_form_data import StreamingFormDataParser
