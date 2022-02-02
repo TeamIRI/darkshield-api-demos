@@ -85,7 +85,9 @@ def setup(session):
                 "setReplacementColumns": [
                     0, 1, 0, 0, 0
                 ],
-                "copyBackground": True
+                "copyBackground": True,
+                "customFonts": ["Times New Roman","Times New Roman","Times New Roman","MICR","MICR"],
+                "customFontFiles": [str(pathlib.Path('MICR.ttf').absolute())]
             }
         }
     }
