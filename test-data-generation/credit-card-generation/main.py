@@ -6,7 +6,7 @@ import sys
 import requests
 
 # Append parent directory to PYTHON_PATH so we can import utils.py
-sys.path.append("../../../")
+sys.path.append("../../")
 
 from requests_toolbelt import MultipartEncoder
 from setup import setup, teardown, file_mask_context_name, file_search_context_name
