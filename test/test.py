@@ -109,13 +109,13 @@ class Testing(unittest.TestCase):
         except subprocess.CalledProcessError as e:
             self.fail(f'Application form generation demo failed.\n{e}')
 
-    def test_application_form_generation_demo(self):
+    def test_check_generation_demo(self):
         try:
             test_demos('test-data-generation/check-generation', 'main.py')
         except subprocess.CalledProcessError as e:
             self.fail(f'Check generation demo failed.\n{e}')
 
-    def test_application_form_generation_demo(self):
+    def test_credit_card_generation_demo(self):
         try:
             test_demos('test-data-generation/credit-card-generation', 'main.py')
         except subprocess.CalledProcessError as e:
