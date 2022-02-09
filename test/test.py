@@ -69,9 +69,57 @@ class Testing(unittest.TestCase):
 
     def test_pdf_image_demo(self):
         try:
-            test_demos('pdf-image', 'main.py')
+            test_demos('pdf-image/basic', 'main.py')
         except subprocess.CalledProcessError as e:
-            self.fail(f'pdf-image demo failed.\n{e}')
+            self.fail(f'basic pdf-image demo failed.\n{e}')
+
+    def test_pdf_form(self):
+        try:
+            test_demos('pdf-image/application-form', 'main.py')
+        except subprocess.CalledProcessError as e:
+            self.fail(f'PDF form demo failed.\n{e}')
+
+    def test_check_image_demo(self):
+        try:
+            test_demos('pdf-image/check', 'main.py')
+        except subprocess.CalledProcessError as e:
+            self.fail(f'Check image demo failed.\n{e}')
+
+    def test_credit_card_image_demo(self):
+        try:
+            test_demos('pdf-image/credit-card', 'main.py')
+        except subprocess.CalledProcessError as e:
+            self.fail(f'Credit card image demo failed.\n{e}')
+
+    def test_credit_card_image_bounding_box_demo(self):
+        try:
+            test_demos('pdf-image/credit-card/boundingbox', 'main.py')
+        except subprocess.CalledProcessError as e:
+            self.fail(f'Credit card image bounding box demo failed.\n{e}')
+
+    def test_image_text_replacement_demo(self):
+        try:
+            test_demos('pdf-image/image-text-replacement', 'main.py')
+        except subprocess.CalledProcessError as e:
+            self.fail(f'image-text-replacement demo failed.\n{e}')
+
+    def test_application_form_generation_demo(self):
+        try:
+            test_demos('test-data-generation/application-form-generation', 'main.py')
+        except subprocess.CalledProcessError as e:
+            self.fail(f'Application form generation demo failed.\n{e}')
+
+    def test_application_form_generation_demo(self):
+        try:
+            test_demos('test-data-generation/check-generation', 'main.py')
+        except subprocess.CalledProcessError as e:
+            self.fail(f'Check generation demo failed.\n{e}')
+
+    def test_application_form_generation_demo(self):
+        try:
+            test_demos('test-data-generation/credit-card-generation', 'main.py')
+        except subprocess.CalledProcessError as e:
+            self.fail(f'Credit card generation demo failed.\n{e}')
 
     def test_parquet_demo(self):
         try:
