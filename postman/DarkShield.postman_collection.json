@@ -1,0 +1,366 @@
+{
+	"info": {
+		"_postman_id": "1a91b893-67c8-42ed-86f6-a2bbed1e0f15",
+		"name": "DarkShield",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Create Search Context",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"name\": \"EmailMatcherContext\",\r\n  \"matchers\": [\r\n    {\r\n      \"name\": \"EmailMatcher\",\r\n      \"type\": \"pattern\",\r\n      \"pattern\": \"\\\\b[\\\\w._%+-]+@[\\\\w.-]+\\\\.[\\\\w]{2,4}\\\\b\"\r\n    }\r\n  ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8959/api/darkshield/searchContext.create",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8959",
+					"path": [
+						"api",
+						"darkshield",
+						"searchContext.create"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Mask Context",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"name\": \"HashEmailsContext\",\r\n  \"rules\": [\r\n    {\r\n      \"name\": \"HashEmailRule\",\r\n      \"type\": \"cosort\",\r\n      \"expression\": \"hash_sha2(${EMAIL})\"\r\n    }\r\n  ],\r\n  \"ruleMatchers\": [\r\n    {\r\n      \"name\": \"HashEmailMatcher\",\r\n      \"type\": \"name\",\r\n      \"rule\": \"HashEmailRule\",\r\n      \"pattern\": \"EmailMatcher\"\r\n    }\r\n  ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8959/api/darkshield/maskContext.create",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8959",
+					"path": [
+						"api",
+						"darkshield",
+						"maskContext.create"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Search and mask text",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"accept-encoding": true
+				}
+			},
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept-Encoding",
+						"value": "multipart/form-data",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"searchContextName\": \"EmailMatcherContext\",\r\n  \"maskContextName\": \"HashEmailsContext\",\r\n  \"text\": \"This is a sample text containing the email 'random@gmail.com' which will be matched by a regex pattern.\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8959/api/darkshield/searchContext.mask",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8959",
+					"path": [
+						"api",
+						"darkshield",
+						"searchContext.mask"
+					],
+					"query": [
+						{
+							"key": "context",
+							"value": "{\"fileSearchContextName\": \"HL7SearchContext\",\"fileMaskContextName\": \"HL7MaskContext\"}",
+							"disabled": true
+						},
+						{
+							"key": "file",
+							"value": null,
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Search text",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"name\": \"EmailMatcherContext\",\r\n  \"text\": \"This is a sample text containing the email 'random@gmail.com' which will be matched by a regex pattern.\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8959/api/darkshield/searchContext.search",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8959",
+					"path": [
+						"api",
+						"darkshield",
+						"searchContext.search"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Mask text",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"name\": \"HashEmailsContext\",\r\n  \"text\": \"This is a sample text containing the email 'random@gmail.com' which will be matched by a regex pattern.\",\r\n  \"annotations\": [\r\n    {\r\n      \"end\": 60,\r\n      \"match\": \"random@gmail.com\",\r\n      \"matcher\": \"EmailMatcher\",\r\n      \"start\": 44,\r\n      \"type\": \"pattern\"\r\n    }\r\n  ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8959/api/darkshield/maskContext.mask",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8959",
+					"path": [
+						"api",
+						"darkshield",
+						"maskContext.mask"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create File Search Context",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"FileSearchContext-postman-example\",\r\n    \"matchers\": [\r\n        {\r\n            \"name\": \"EmailMatcherContext\",\r\n            \"type\": \"searchContext\"\r\n        }\r\n    ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8959/api/darkshield/files/fileSearchContext.create",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8959",
+					"path": [
+						"api",
+						"darkshield",
+						"files",
+						"fileSearchContext.create"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create File Mask Context",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"FileMaskContext-postman-example\",\r\n    \"rules\": [\r\n        {\r\n            \"name\": \"HashEmailsContext\",\r\n            \"type\": \"maskContext\"\r\n        }\r\n    ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8959/api/darkshield/files/fileMaskContext.create",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8959",
+					"path": [
+						"api",
+						"darkshield",
+						"files",
+						"fileMaskContext.create"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Search and Mask a file in one pass using existing contexts",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "Context",
+							"value": "{\n  \"fileSearchContextName\": \"FileSearchContext-postman-example\",\n  \"fileMaskContextName\": \"FileMaskContext-postman-example\"\n}",
+							"description": "Contexts to reference",
+							"type": "default"
+						},
+						{
+							"key": "file",
+							"description": "File to mask",
+							"type": "file",
+							"src": "test.json"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:8959/api/darkshield/files/fileSearchContext.mask",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8959",
+					"path": [
+						"api",
+						"darkshield",
+						"files",
+						"fileSearchContext.mask"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Search a file",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "Context",
+							"value": "{\n  \"fileSearchContextName\": \"FileSearchContext-postman-example\",\n  \"fileMaskContextName\": \"FileMaskContext-postman-example\"\n}",
+							"description": "Contexts to reference",
+							"type": "default"
+						},
+						{
+							"key": "file",
+							"description": "File to mask",
+							"type": "file",
+							"src": "test.json"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:8959/api/darkshield/files/fileSearchContext.search",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8959",
+					"path": [
+						"api",
+						"darkshield",
+						"files",
+						"fileSearchContext.search"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Mask a file using annotations from search",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "Context",
+							"value": "{\n  \"fileSearchContextName\": \"FileSearchContext-postman-example\",\n  \"fileMaskContextName\": \"FileMaskContext-postman-example\"\n}",
+							"description": "Contexts to reference",
+							"type": "default"
+						},
+						{
+							"key": "file",
+							"description": "File to mask",
+							"type": "file",
+							"src": "test.json"
+						},
+						{
+							"key": "annotations",
+							"type": "file",
+							"src": "annotations.json"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:8959/api/darkshield/files/fileMaskContext.mask",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8959",
+					"path": [
+						"api",
+						"darkshield",
+						"files",
+						"fileMaskContext.mask"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
