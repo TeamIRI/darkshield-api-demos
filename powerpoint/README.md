@@ -1,5 +1,8 @@
 # DarkShield Files API: Microsoft PowerPoint Document Search/Masking
 
+
+![Hashed Emails in a PowerPoint Presentation](hashedEmails.gif)
+
 This example demonstrates the use of the *darkshield-files* API to search and
 mask PowerPoint (*.ppt* and *.pptx*) documents. To run
 the demo, the *plankton* web services API must be hosted on the location specified in server_config.py (by default *http://localhost:8959*)
