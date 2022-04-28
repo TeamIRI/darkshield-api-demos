@@ -1,0 +1,10 @@
+pyodbc==4.0.32
+certifi==2020.12.5
+chardet==4.0.0
+idna==2.10
+python-multipart==0.0.5
+requests==2.25.1
+requests-toolbelt==0.9.1
+six==1.15.0
+streaming-form-data==1.8.1
+urllib3==1.26.3
