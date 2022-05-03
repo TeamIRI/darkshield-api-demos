@@ -1,11 +1,19 @@
 # DarkShield Files API: JSON and XML Search/Masking
 
-This example demonstrates the use of the *darkshield-files* API to search and mask json
-and xml files. To run, the *plankton* web services API must be hosted on 
-the location specified in server_config.py (by default *http://localhost:8959*) and must have the *darkshield* and *darkshield-files* plugins 
+## Synopsis
+
+This example demonstrates the use of the *darkshield-files* API to search and mask JSON
+and XML files. 
+
+## Requirements
+
+The *plankton* web services API must be hosted at
+the location specified in *server_config.py* (by default *http://localhost:8959*) with both the *darkshield* and *darkshield-files* plugins 
 installed.
 
-The example will find and mask the following:
+## Search Matchers and Masking Rules
+
+The example will find and mask the following, as specified in *setup.py*:
 
 1. Emails (EmailMatcher): Found using a regular expression and masked using a hashing
 function.
@@ -15,7 +23,9 @@ format-preserving encryption.
 format-specific json/xml paths (all names can be found in the 'name' key/tag, regardless
 of nesting).
 
-To execute, run *python main.py*.
+## Execution
+
+To execute, run `python main.py`.
 
 The results will be placed inside of the *json-masked* and *xml-masked* directories.
 
