@@ -2,7 +2,7 @@
 
 ## Synopsis
 
-This example demonstrates the use of the *darkshield* API to search and 
+This example demonstrates the use of the DarkShield API to search and 
 mask cells in Bigtable.
 
 ## Requirements
