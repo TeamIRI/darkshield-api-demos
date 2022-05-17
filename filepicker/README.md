@@ -2,10 +2,22 @@
 
 ![Searching and Masking Files through Interactive File Browser](filepicker-masking.gif)
 
-This example demonstrates the use of the *darkshield-files* API to search and 
-mask files picked through a file browser. To run, the *plankton* web services API must be hosted on 
-the location specified in server_config.py (by default *http://localhost:8959*) and must have the *darkshield* and *darkshield-files* 
+## Synopsis
+
+This example demonstrates the use of the DarkShield API to search and 
+mask files picked through a file browser. 
+
+## Requirements
+
+To run, the *plankton* web services API must be hosted at 
+the location specified in *server_config.py* (by default *http://localhost:8959*) with both the *darkshield* and *darkshield-files* 
 plugins installed.
+
+Python 3 must be installed.
+
+The dependencies specified in the root *requirements.txt* file must be installed with `pip install -r requirements.txt`.
+
+## Search Matchers and Masking Rules
 
 The example will find and mask all of the following common sensitive data types with format-preserving encryption.
 
@@ -24,11 +36,11 @@ The example will find and mask all of the following common sensitive data types 
 11. US Zip Codes (USZipMatcher): Found using a regular expression.
 12. Vehicle Identification Numbers (VINMatcher): Found using a regular expression and validated with a JavaScript validator script.
 
-To install the additional dependencies, execute *pip install -r requirements.txt* 
-(make sure your virtual environment is activated, or your dependencies will 
-be installed globally).
+The specifications for these matchers and masking rules are contained in *setup.py* and can be modified.
 
-To execute, run *python main.py*.
+## Execution
+
+To execute, run `python main.py`.
 
 The results will be placed inside of the *masked* directory.
 
