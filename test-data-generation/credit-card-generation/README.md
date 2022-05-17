@@ -1,13 +1,21 @@
 # DarkShield Files API: Credit Card Number Image Generation
 
-This example demonstrates the use of the *darkshield-files* API to place synthetic credit card numbers on images of credit cards. To run, the *plankton* web services API 
-must be hosted on the location specified in server_config.py (by default *http://localhost:8959*) and must have the *darkshield* and 
-*darkshield-files* plugins installed. It uses the 'OCR-A.ttf' custom font file to use as the font for the synthetic credit card numbers.
+## Synopsis
 
-The synthetic image is placed in the *credit-card-gen* folder.
+This example demonstrates the use of the *darkshield-files* API to place synthetic credit card numbers on images of credit cards.
 
-To install the additional dependencies, execute *pip install -r requirements.txt* 
-(make sure your virtual environment is activated, or your dependencies will 
-be installed globally).
+## Requirements
 
-To execute, run *python main.py*.
+To run, the DarkShield API 
+must be hosted at the location specified in *server_config.py* (by default *http://localhost:8959*) with both the *darkshield* and 
+*darkshield-files* plugins installed. 
+
+Python 3 must be installed along with the common Python dependencies that are shared by all demos in this repository (specified in the root *requirements.txt* file).
+
+This example uses the 'OCR-A.ttf' custom font file as the font for the synthetic credit card numbers.
+
+## Execution
+
+To execute, run `python main.py`.
+
+The synthetic images are placed in the *credit-card-gen* folder.
