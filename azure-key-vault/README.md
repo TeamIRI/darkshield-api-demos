@@ -1,15 +1,22 @@
 # DarkShield Files API: JSON and XML Search/Masking using Passphrase obtained from Azure Key Vault.
 ## Demo 1 (main.py):
-This example demonstrates the use of the *darkshield-files* API to search and mask json
-and xml files, interacting with Azure Key Vault to obtain the encryption passphrase. To run, the *plankton* web services API must be hosted on 
-the location specified in server_config.py (by default *http://localhost:8959*) and must have the *darkshield* and *darkshield-files* plugins 
+
+### Synopsis
+This example demonstrates the use of the *darkshield-files* API to search and mask JSON
+and XML files, interacting with Azure Key Vault to obtain the encryption passphrase.
+
+### Prerequisites
+To run, the *plankton* web services API must be hosted at 
+the location specified in *server_config.py* (by default *http://localhost:8959*) with both the *darkshield* and *darkshield-files* plugins 
 installed.
 
 The environment variables 'KEY_VAULT_NAME' and 'SECRET_NAME' must be set to the name of
 the key vault and secret, respectively, that the encryption passphrase should be obtained from.
 
-The example will find and mask all of the following with format-preserving encryption 
-that utilizes the 'secret' obtained from the Key Vault as the encryption passphrase:
+### Search Matchers and Masking Rules
+
+The example will find and mask all of the following with format-preserving encryption, utilizing
+the 'secret' obtained from the Key Vault as the encryption passphrase:
 
 1. Credit Cards (CcnMatcher): Found using a regular expression and validated with JavaScript validator script.
 2. Dates (DateMatcher): American date format; found using a regular expression.
@@ -22,8 +29,11 @@ that utilizes the 'secret' obtained from the Key Vault as the encryption passphr
 9. US Zip Codes (USZipMatcher): Found using a regular expression.
 10. Vehicle Identification Numbers (VINMatcher): Found using a regular expression and validated with a JavaScript validator script.
 
+### Execution
 
-To execute, run *python main.py*. Optionally, the version of the secret to obtain from Azure Key Vault that is used 
+To execute, run `python main.py`. 
+
+Optionally, the version of the secret to obtain from Azure Key Vault that is used 
 as the encryption passphrase may be specified as an argument with a *-v* flag. If no version for the secret is specified,
 the latest version will be used.
 
@@ -35,6 +45,9 @@ directory. If you are having trouble downloading the models, place the *en-ner-p
 and *en-sent.bin* files into this directory.
 
 ## Demo 2 (Encrypt_Decrypt.py):
+
+### Synopsis
+
 This example demonstrates the use of the *darkshield-files* API to encrypt all values in a JSON file converted from an HL7 message that have a key 
 of 'firstName' or 'lastName' using an encryption passphrase obtained from Azure Key Vault.
 
@@ -45,10 +58,14 @@ The passphrase for decryption is obtained from Azure Key Vault as well. The pass
 encryption in order to get the correct decrypted result. The passphrase is obtained from Azure Key Vault using the key vault name 
 and the secret name. 
 
-In this demo, no argument for version of the secret is specified, so the secret obtained is the latest.
+### Execution
 
-To execute, run *python Encrypt_Decrypt.py*. Optionally, the version of the secret to obtain from Azure Key Vault that is used 
-as the encryption passphrase may be specified as an argument with a *-v* flag. If no version for the secret is specified,
+To execute, run `python Encrypt_Decrypt.py`. 
+
+Optionally, the version of the secret to obtain from Azure Key Vault that is used 
+as the encryption passphrase may be specified as an argument with a *-v* flag. 
+
+If no version for the secret is specified,
 the latest version will be used.
 
 The results will be placed inside of the *encrypted-key-vault* and *decrypted-key-vault* directories.
