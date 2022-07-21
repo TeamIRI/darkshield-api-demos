@@ -26,7 +26,6 @@ maskedFolder = "masked"
 def send_file_to_darkshield_api(file_name, contexts, the_URL, theSession):
     base_name = os.path.basename(file_name)
     with open(file_name, 'rb') as f:
-        logging.info(f"POST: sending '{base_name}' to {the_URL}")
         media_type = mimetypes.guess_type(file_name)[0]
         encoder = MultipartEncoder(fields={
             'context': ('context', contexts, 'application/json'),
