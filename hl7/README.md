@@ -6,9 +6,10 @@ the location specified in server_config.py (by default *http://localhost:8959*) 
 plugins installed.
 
 The example will find and mask the following:
-Names (NamesMatcher): Use the Named Entity Recognition (NER) matcher to search through the fields.
-Columns (ColumnMatcher): Use a column matcher with the segment ID and column specified (e.g. PID|3) to search through HL7 message.
-Emails (EmailMatcher): Use a regular expression matcher to search through the fields for emails.
+
+1. Names (NamesMatcher): Use the Named Entity Recognition (NER) matcher to search through the fields.
+2. Columns (ColumnMatcher): Use a column matcher with the segment ID and column specified (e.g. PID|3) to search through HL7 message.
+3. Emails (EmailMatcher): Use a regular expression matcher to search through the fields for emails.
 
 The masking rule applied to PII in this example will be using Format Preserving encryption.
 
