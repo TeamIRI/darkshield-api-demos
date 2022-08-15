@@ -16,6 +16,6 @@ To use the NER matcher user must install NER model once after initial download o
 To install NER model traverse through Plankton root directory to ./utils and execute python model_util.py
 to begin download of English pytorch NER model.
 
-To execute, run *python main.py*.
+To execute DarkShield demo, run *python main.py*.
 
 The results will be placed inside of the *hl7-masked* directory.
