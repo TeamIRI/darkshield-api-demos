@@ -7,18 +7,29 @@ file_mask_context_name = "FileMaskContext"
 
 
 def setup(session):
+    model_url = utils.download_model('en-ner-person.bin', session)
+    sent_url = utils.download_model('en-sent.bin', session)
+    token_url = utils.download_model('en-token.bin', session)
+
     search_context = {
         "name": search_context_name,
         "matchers": [
             {
-                "name": "NameMatcher",
-                "type": "transformer",
-                "entityLabels": ["PER"]
-            },
-            {
                 "name": "EmailMatcher",
                 "type": "pattern",
                 "pattern": r"\b[\w._%+-]+@[\w.-]+\.[A-Za-z]{2,4}\b"
+            },
+            {
+                "name": "PhoneMatcher",
+                "type": "pattern",
+                "pattern": r"\b(\+?1?([ .-]?)?)?(\(?([2-9]\d{2})\)?([ .-]?)?)([2-9]\d{2})([ .-]?)(\d{4})(?: #?[eE][xX][tT]\.? \d{2,6})?\b"
+            },
+            {
+                "name": "NameMatcher",
+                "type": "ner",
+                "modelUrl": model_url,
+                "sentenceDetectorUrl": sent_url,
+                "tokenizerUrl": token_url
             }
         ]
     }
@@ -26,6 +37,11 @@ def setup(session):
     mask_context = {
         "name": mask_context_name,
         "rules": [
+            {
+                "name": "HashRule",
+                "type": "cosort",
+                "expression": "hash_sha2($\{INPUT\})"
+            },
             {
                 "name": "FpeRule",
                 "type": "cosort",
@@ -37,7 +53,13 @@ def setup(session):
                 "name": "FpeRuleMatcher",
                 "type": "name",
                 "rule": "FpeRule",
-                "pattern": "NameMatcher|EmailMatcher|ColumnMatcher"
+                "pattern": "PhoneMatcher|NameMatcher"
+            },
+            {
+                "name": "HashRuleMatcher",
+                "type": "name",
+                "rule": "HashRule",
+                "pattern": "EmailMatcher"
             }
         ]
     }
@@ -48,24 +70,16 @@ def setup(session):
             {
                 "name": search_context_name,
                 "type": "searchContext"
-            }
-            ,
+            },
             {
-                "name": "ColumnMatcher",
-                "type": "column",
-                "pattern": "NK1|4"
-            }
-             ,
+                "name": "NameMatcher",
+                "type": "xmlPath",
+                "xmlPath": "//*[local-name()= 'family']"
+            },
             {
-                "name": "ColumnMatcher",
-                "type": "column",
-                "pattern": "OBX|2"
-            }
-             ,
-            {
-                "name": "ColumnMatcher",
-                "type": "column",
-                "pattern": "OBX|3"
+                "name": "NameMatcher",
+                "type": "xmlPath",
+                "xmlPath": "//*[local-name()= 'given']"
             }
         ]
     }
@@ -77,7 +91,12 @@ def setup(session):
                 "name": mask_context_name,
                 "type": "maskContext"
             }
-        ]
+        ],
+        "configs": {
+            "json": {
+                "prettyPrint": True
+            }
+        }
     }
 
     utils.create_context("searchContext", search_context, session)

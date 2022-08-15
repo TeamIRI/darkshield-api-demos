@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<POLB_IN224200UV01 xmlns:hl7="urn:hl7-org:v3" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ITSVersion="XML_1.0">
+    <templateId extension="VS_RM200901CO01" assigningAuthorityName="HospitalJorgeHUribe"/>
+    <id extension="MSG0000001"/>
+    <creationTime value="20100511220525"/>
+    <interactionId root="2.16.840.1.113883.1.6" extension="POLB_IN224202UV01"/>
+    <processingCode code="P"/>
+    <processingModeCode code="T"/>
+    <acceptAckCode code="NE"/>
+    <receiver typeCode="RCV">
+        <device classCode="DEV" determinerCode="INSTANCE">
+            <id extension="HIS001"/>
+        </device>
+    </receiver>
+    <sender typeCode="SND">
+        <device classCode="DEV" determinerCode="INSTANCE">
+            <id extension="VSM001"/>
+        </device>
+    </sender>
+    <controlActProcess classCode="CACT" moodCode="EVN">
+        <code code="POLB_TE004202UV01" codeSystem="2.16.840.1.113883.1.11.20299" codeSystemName="LaboratoryTriggerEventType" displayName="Result Complete"/>
+        <languageCode code="es-co" codeSystem="2.16.840.1.113883.1.11.11526" codeSystemName="HumanLanguage" displayName="Espanol Colombia"/>
+        <subject typeCode="SUBJ" contextConductionInd="false">
+            <observationBattery classCode="BATTERY" moodCode="EVN">
+                <id extension="VS12340000"/>
+                <code code="28562-7" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" displayName="Vital Signs"/>
+                <statusCode code="complete"/>
+                <recordTarget typeCode="RCT" contextControlCode="OP">
+                    <patient classCode="PAT">
+                        <id extension="6537077"/>
+                        <patientPerson classCode="PSN" determinerCode="INSTANCE">
+                            <name>
+                                <given>ANDRES FELIPE</given>
+                                <family>FERNANDEZ CORTES</family>
+                            </name>
+                            <administrativeGenderCode code="M" codeSystem="2.16.840.1.113883.5.1" codeSystemName="AdministrativeGender"/>
+                            <birthTime value="19860705"/>
+                        </patientPerson>
+                    </patient>
+                </recordTarget>
+                <author typeCode="AUT">
+                    <time value="20100511220525"/>
+                    <assignedEntity classCode="ASSIGNED">
+                        <assignedDevice classCode="DEV" determinerCode="INSTANCE">
+                            <id extension="VSM001"/>
+                            <manufacturerModelName code="VSM" codeSystem="BiomedicalDevice" displayName="Vital Signs Monitor"/>
+                        </assignedDevice>
+                    </assignedEntity>
+                </author>
+            </observationBattery>
+        </subject>
+    </controlActProcess>
+</POLB_IN224200UV01>

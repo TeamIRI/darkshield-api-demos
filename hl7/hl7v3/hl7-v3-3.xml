@@ -1,0 +1,18 @@
+<recordTarget>
+    <patientClinical>
+    <id root="2.16.840.1.113883.19.1122.5" extension="444-22-2222"
+        assigningAuthorityName="GHH Lab Patient IDs"/>
+    <statusCode code="active"/>
+        <patientPerson>
+            <name use="L">
+            <given>Eve</given>
+            <given>E</given>
+            <family>Everywoman</family>
+            </name>
+            <asOtherIDs>
+            <id extension="AC555444444" assigningAuthorityName="SSN"
+                root="2.16.840.1.113883.4.1"/>
+            </asOtherIDs>
+        </patientPerson>
+    </patientClinical>
+</recordTarget>
