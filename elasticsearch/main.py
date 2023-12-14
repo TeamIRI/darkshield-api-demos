@@ -2,15 +2,17 @@ import json
 import logging
 import os
 import sys
-
 import requests
 
-from elasticsearch import Elasticsearch
-
+# Append parent directory to PYTHON_PATH so we can import utils.py
 current_dir = os.path.dirname(os.path.realpath(__file__))
 parent_dir = os.path.dirname(current_dir)
 sys.path.append(parent_dir)
-from setup import setup, teardown
+
+from bson import json_util
+from setup2 import setup, teardown
+from requests_toolbelt import MultipartEncoder
+from requests_toolbelt.multipart import decoder
 from streaming_form_data import StreamingFormDataParser
 from streaming_form_data.targets import ValueTarget, FileTarget
 from utils import base_url
@@ -18,52 +20,31 @@ from utils import base_url
 if __name__ == "__main__":
     logging.basicConfig(format='%(levelname)s: %(message)s', level=logging.INFO)
     session = requests.Session()
-    url = f'{base_url}/files/fileSearchContext.mask'
-    context = json.dumps({
-        "fileSearchContextName": "FileSearchContext",
-        "fileMaskContextName": "FileMaskContext"
-    })
-    setup(session)
     try:
-        es = Elasticsearch()
-        logging.info('Connected to Elasticsearch.\nLoading two JSON documents into test-index.')
-        with open('data.json') as f:
-            doc = json.loads(f.read())
-        res = es.index(index="test-index", id=0, document=doc)
-        with open('data_2.json') as f:
-            doc = json.loads(f.read())
-        res = es.index(index="test-index", id=1, document=doc)
-        if res['result'] == 'created':
-            logging.info('Successfully inserted two JSON documents into test-index with ids of 0 and 1.')
-        es.indices.refresh(index="test-index")
-        res = es.search(index="test-index", query={"match_all": {}})
-        logging.info('Searching test-index...')
-        logging.info("Got %d Hits:" % res['hits']['total']['value'])
-        os.makedirs('results', exist_ok=True)
-        logging.info('Processing data in test-index...')
-        for count, hit in enumerate(res['hits']['hits']):
-            files = {'file': ('document.json', json.dumps(hit["_source"]), 'application/json'),
-                     'context': context}
-            logging.info(f"POST: sending document with id {hit['_id']} to {url}")
-            with session.post(url, files=files, stream=True) as r:
-                if r.status_code >= 300:
-                    raise Exception(f"Failed with status {r.status_code}:\n\n{r.json()}")
-                logging.info(f"Placing results into 'results/results{count}.json'.")
-                parser = StreamingFormDataParser(headers=r.headers)
-                output = ValueTarget()
-                parser.register('file', output)
-                parser.register('results', FileTarget(f'results/results{count}.json'))
-                for chunk in r.iter_content(4096):
-                    parser.data_received(chunk)
-            logging.info('Sending masked result to test-index-masked.')
-            res = es.index(index="test-index-masked", id=count + 1, document=json.loads(output.value))
-        es.indices.refresh(index="test-index-masked")
-        logging.info('Searching test-index-masked to display masked results...')
-        res = es.search(index="test-index-masked", query={"match_all": {}})
-        logging.info("Got %d masked Hits:" % res['hits']['total']['value'])
-        for count, hit in enumerate(res['hits']['hits']):
-            logging.info(f'The masked result in test-index-masked at id {hit["_id"]} is:\n{hit["_source"]}')
-        logging.info("Completed Elasticsearch demo.")
+        setup(session)
+        url = f'{base_url}/nosql/nosqlSearchContext.mask'
+
+        headers_content = {
+            'accept': 'multipart/form-data',
+            'Content-Type': 'multipart/form-data'
+            }
+        data = 'context={\"nosqlSearchContextName\": \"NoSqlSearchContext\", \"nosqlMaskContextName\": \"NoSqlMaskContext\"}'
+        
+        context = json.dumps({
+            "nosqlSearchContextName": "NoSqlSearchContext", 
+            "nosqlMaskContextName": "NoSqlMaskContext"
+        })
+        encoder = MultipartEncoder(fields={
+            'context': ('context', context, 'application/json'),
+        })
+
+        with session.post(url, data=encoder, headers={'Content-Type': encoder.content_type}) as r:
+            if r.status_code >= 300:
+                raise Exception(f"Failed with status {r.status_code}:\n\n{r.json()}")
+            for line in r.iter_lines():
+                print(str(line, encoding='utf-8'))
+
+
     finally:
-        logging.info('Destroying search and mask contexts...')
-        teardown(session)
+        teardown(session=session)
+    

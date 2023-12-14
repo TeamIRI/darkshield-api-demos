@@ -1,20 +1,15 @@
 # DarkShield Files API: Elasticsearch Search/Masking
 
-This example demonstrates the use of the *darkshield-files* API to search and mask JSON
+This example demonstrates the use of the *darkshield-nosql* API to search and mask JSON
 documents from a local Elasticsearch instance. To run, the *plankton* web services API must be hosted on 
-the location specified in server_config.py (by default *http://localhost:8959*) and must have the *darkshield* and *darkshield-files* plugins 
-installed.
+the location specified in server_config.py (by default *http://localhost:8959*) and must have the *darkshield*,  *darkshield-files*, and *darkshield-nosql* 
+plugins installed.
 
-You must have Elasticsearch installed and hosted locally at the default port.
+Additionally, an accessible instance of Elasticsearch must be running. Credentials to access Elasticsearch can be configured in the credentials.json file.
 
 To install the additional dependencies, execute *pip install -r requirements.txt* 
 (make sure your virtual environment is activated, or your dependencies will 
 be installed globally).
-
-The example will load two JSON documents into an index called *test-index*.
-The index will have its contents searched and masked by the DarkShield API and sent to a new index
-called *test-index-masked*.
-The masked contents in *test-index-masked* will be searched for and displayed by the program.
 
 DarkShield will find and mask the following:
 
