@@ -10,7 +10,7 @@ This repository contains a collection of demo projects for the *DarkShield* and 
 
 The DarkShield API must be running and accessible through the network from the machine that is running any of these demos.
 
-Python 3 must be installed on your system in order to execute any of the demos that use Python.
+Python 3 must be installed on your system in order to execute any of the demos that use Python. The *streaming-form-data* module requires [Visual Studio](https://visualstudio.microsoft.com/) to be installed on Windows operating systems.
 
 To start, it's recommended that you create an isolated Python 
 [virtual environment](https://virtualenv.pypa.io/en/stable/) to avoid dependency 
